@@ -35,7 +35,12 @@ class BaseDataset(Dataset):
 
   # Override in case tensors have to be normalised
   def normalise(self, tensors):
-    tensors['images'] = tensors['images'].astype(np.float32) / 255.0
+    keys = ['images', 'fg', 'bg']
+
+    for key in keys:
+      if key not in tensors.keys():
+        continue
+      tensors[key] = tensors[key].astype(np.float32) / 255.0 # TODO -0.5?
     return tensors
 
   def is_train(self):
@@ -86,7 +91,7 @@ class BaseDataset(Dataset):
         data[key] = [val]
     return data
 
-  def read_target(self, sample):
+  def read_target(self, sample): #TODO
     return map(lambda x: np.array(Image.open(x).convert('P'), dtype=np.uint8), sample['targets'])
 
   def read_image(self, sample):
@@ -148,9 +153,11 @@ class VideoDataset(BaseDataset):
     lh, uh, lw, uw = int(lh), int(uh), int(lw), int(uw)
 
     padded_tensors = tensors_resized.copy()
-    keys = ['images', 'targets']
+    keys = ['images', 'targets', 'fg', 'bg']
 
     for key in keys:
+      if key not in tensors_resized.keys():
+        continue
       pt = []
       t = tensors_resized[key]
       if t.ndim == 3:

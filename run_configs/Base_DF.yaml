@@ -1,16 +1,21 @@
 VERSION: 2
 MODEL:
-  NETWORK: "SaliencyNetwork"
-  PRETRAINED: True
-  WEIGHTS: "saved_models/csn/irCSN_152_ft_kinetics_from_ig65m_f126851907.pth"
+  NETWORK: "FusionUNet"
+  PRETRAINED: False
+  WEIGHTS: ""
   N_CLASSES: 2
   FREEZE_BN: True
   PIXEL_MEAN: [114.7748, 107.7354, 99.4750]
   PIXEL_STD: [1.0, 1.0, 1.0]
   BACKBONE:
-    NAME: "resnet152_csn_ir"
-    PRETRAINED_WTS: "saved_models/csn/irCSN_152_ft_kinetics_from_ig65m_f126851907.pth"
+    NAME: "Default"
+    # PRETRAINED_WTS: ""
     FREEZE_BN: True
+    UP_CONV1_INPLANES: [384, 768, 1280, 1280, 1024]
+    UP_CONV1_OUTPLANES: [64, 256, 512, 512, 512]
+    INPUT_C: 3
+    OUTPUT_C: 3
+    DEEPBLENDER: True
   DECODER:
     INTER_BLOCK: "GC3d"
     REFINE_BLOCK: "Refine3d"
@@ -23,7 +28,7 @@ TRAINING:
   MAX_ITER: 90000
   NUM_EPOCHS: 100
   LOSSES:
-    NAME: ["ce"]
+    NAME: ["l1","gan"]
     USE_IGNORE_MASK: False
   PRECISION: "fp32"
   EVAL_EPOCH: 1
@@ -45,5 +50,5 @@ DATASETS:
   MAX_TEMPORAL_GAP: 8
 DATALOADER:
   NUM_SAMPLES: -1
-  NUM_WORKERS: 4
+  NUM_WORKERS: 8
 

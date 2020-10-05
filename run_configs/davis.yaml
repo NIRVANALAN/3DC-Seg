@@ -1,0 +1,34 @@
+_BASE_: "Base_DF.yaml"
+NAME: "deepblender_gan"
+MODEL:
+  BACKBONE:
+    NAME: "FusionUNet"
+    PRETRAINED_WTS: ""
+    UP_CONV1_INPLANES: [384, 768, 1280, 1280, 1024]
+    UP_CONV1_OUTPLANES: [64, 256, 512, 512, 512]
+    INPUT_C: 3
+    OUTPUT_C: 3
+    DEEPBLENDER: True
+    # FREEZE_BN: True
+TRAINING:
+  BATCH_SIZE: 8
+  # PRECISION: "mixed"
+  BASE_LR: 0.00005
+INPUT:
+  RESIZE_MODE_TRAIN: "resize_short_edge_and_crop"
+  RESIZE_SHAPE_TRAIN: (480, 854)
+  RESIZE_MODE_TEST: "resize_short_edge"
+  RESIZE_SHAPE_TEST: (480,)
+  TW: 1 # image segmentation
+INFERENCE:
+  ENGINE: "SaliencyInferenceEngine"
+  EXHAUSTIVE: False
+SOLVER:
+  LR_SCHEDULERS: ["exponential", "step"]
+DATASETS:
+  MAX_TEMPORAL_GAP: 12
+  IMSET: "2016/val.txt"
+DATALOADER:
+  NUM_SAMPLES: -1
+  NUM_WORKERS: 16
+

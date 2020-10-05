@@ -4,16 +4,21 @@ from torch.nn import functional as F
 
 from utils.Constants import PRED_LOGITS
 from utils.util import iou_fixed_torch
+from network import networks
 
 
 def bootstrapped_ce_loss(raw_ce, n_valid_pixels_per_im=None, fraction=0.25):
-  n_valid_pixels_per_im = raw_ce.shape[-1]*raw_ce.shape[-2] if n_valid_pixels_per_im is None else n_valid_pixels_per_im
-  ks = torch.max(torch.tensor(n_valid_pixels_per_im * fraction).cuda().int(), torch.tensor(1).cuda().int())
-  if len(raw_ce.shape) > 3:
-    bootstrapped_loss = raw_ce.reshape(raw_ce.shape[0], raw_ce.shape[1], -1).topk(ks, dim=-1)[0].mean(dim=-1).mean()
-  else:
-    bootstrapped_loss = raw_ce.reshape(raw_ce.shape[0], -1).topk(ks, dim=-1)[0].mean(dim=-1).mean()
-  return bootstrapped_loss
+    n_valid_pixels_per_im = raw_ce.shape[-1] * \
+        raw_ce.shape[-2] if n_valid_pixels_per_im is None else n_valid_pixels_per_im
+    ks = torch.max(torch.tensor(n_valid_pixels_per_im *
+                                fraction).cuda().int(), torch.tensor(1).cuda().int())
+    if len(raw_ce.shape) > 3:
+        bootstrapped_loss = raw_ce.reshape(
+            raw_ce.shape[0], raw_ce.shape[1], -1).topk(ks, dim=-1)[0].mean(dim=-1).mean()
+    else:
+        bootstrapped_loss = raw_ce.reshape(
+            raw_ce.shape[0], -1).topk(ks, dim=-1)[0].mean(dim=-1).mean()
+    return bootstrapped_loss
 
 
 def compute_loss(input_dict, pred_dict, target_dict, cfg):
@@ -25,6 +30,14 @@ def compute_loss(input_dict, pred_dict, target_dict, cfg):
   """
 
   result = {'total_loss': torch.tensor(0).float().cuda()}
+  if 'l1' in cfg.TRAINING.LOSSES.NAME:
+      assert pred_dict[PRED_LOGITS] is not None
+      assert target_dict['mask'] is not None
+      raw_pred = pred_dict[PRED_LOGITS]
+      target = target_dict['mask']
+      criterion = torch.nn.L1Loss(reduction='mean')
+      loss_image = criterion(pred, target)
+      # TODO
   if 'ce' in cfg.TRAINING.LOSSES.NAME:
     assert pred_dict[PRED_LOGITS] is not None
     assert target_dict['mask'] is not None
@@ -68,39 +81,39 @@ def compute_loss(input_dict, pred_dict, target_dict, cfg):
 
 
 def calc_iou(pred, gt, info=None):
-  pred = torch.argmax(pred, dim=1)
-  pred = pred.cpu().data.numpy()
-  gt = gt.cpu().data.numpy()
-  # if len(gt.shape) > 3:
-  #   gt = np.sum(gt, axis=1)
+    pred = torch.argmax(pred, dim=1)
+    pred = pred.cpu().data.numpy()
+    gt = gt.cpu().data.numpy()
+    # if len(gt.shape) > 3:
+    #   gt = np.sum(gt, axis=1)
 
-  ious = []
-  num_frames = pred.shape[0]
-  end = num_frames
-  for t in range(0, end):
-    ious_per_im = []
-    objs_gt = np.unique(gt[t])[np.unique(gt[t]) != 0]
-    objs_p = np.unique(pred[t])[np.unique(pred[t]) != 0]
-    # false positives in prediction
-    fp = np.setdiff1d(objs_p, objs_gt)
-    merged_objs = np.append(objs_gt, fp)
-    for o in merged_objs:
-      p = (pred[t] == o).astype(np.uint8)
-      g = (gt[t] == o).astype(np.uint8)
-      i = np.logical_and(p > 0, g > 0).sum()
-      u = np.logical_or(p > 0, g > 0).sum()
-      if u == 0:
-          iou = 1.0
-      else:
-          iou = i / u
-      ious_per_im += [iou]
-    if len(ious_per_im) > 0:
-      ious.append(np.mean(ious_per_im))
+    ious = []
+    num_frames = pred.shape[0]
+    end = num_frames
+    for t in range(0, end):
+        ious_per_im = []
+        objs_gt = np.unique(gt[t])[np.unique(gt[t]) != 0]
+        objs_p = np.unique(pred[t])[np.unique(pred[t]) != 0]
+        # false positives in prediction
+        fp = np.setdiff1d(objs_p, objs_gt)
+        merged_objs = np.append(objs_gt, fp)
+        for o in merged_objs:
+            p = (pred[t] == o).astype(np.uint8)
+            g = (gt[t] == o).astype(np.uint8)
+            i = np.logical_and(p > 0, g > 0).sum()
+            u = np.logical_or(p > 0, g > 0).sum()
+            if u == 0:
+                iou = 1.0
+            else:
+                iou = i / u
+            ious_per_im += [iou]
+        if len(ious_per_im) > 0:
+            ious.append(np.mean(ious_per_im))
+        else:
+            ious.append(1.0)
+
+    if len(ious) > 0:
+        miou = np.mean(ious)
     else:
-      ious.append(1.0)
-
-  if len(ious) > 0:
-    miou = np.mean(ious)
-  else:
-    miou = 1.0
-  return torch.tensor(miou)
+        miou = 1.0
+    return torch.tensor(miou)
