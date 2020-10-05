@@ -2,107 +2,38 @@ Dataset parameters ['self', 'num_classes', 'transform'] are missing in the confi
 Dataset parameters ['self', 'num_classes', 'transform'] are missing in the config file.
 Using model: <class 'network.FUnet.FusionUNet'>
 initialize network with normal
-Arguments used: CUDNN_BENCHMARK: False
-DATALOADER:
-  ASPECT_RATIO_GROUPING: True
-  FILTER_EMPTY_ANNOTATIONS: True
-  NUM_SAMPLES: -1
-  NUM_WORKERS: 16
-  REPEAT_THRESHOLD: 0.0
-  SAMPLER_TRAIN: TrainingSampler
-DATASETS:
-  IMSET: 2016/val.txt
-  MAX_TEMPORAL_GAP: 12
-  PRECOMPUTED_PROPOSAL_TOPK_TRAIN: 2000
-  PROPOSAL_FILES_TRAIN: ()
-  RANDOM_INSTANCE: False
-  TEST: Davis
-  TEST_ROOT: /mnt/lustre/yslan/Dataset/davis-2017/DAVIS
-  TRAIN: Davis
-  TRAIN_ROOT: /mnt/lustre/yslan/Dataset/davis-2017/DAVIS
-GLOBAL:
-  HACK: 1.0
-INFERENCE:
-  CLIP_OVERLAP: 3
-  ENGINE: SaliencyInferenceEngine
-  EXHAUSTIVE: False
-  SAVE_LOGITS: False
-INPUT:
-  FORMAT: RGB
-  MASK_FORMAT: polygon
-  RESIZE_MODE_TEST: resize_short_edge
-  RESIZE_MODE_TRAIN: resize_short_edge_and_crop
-  RESIZE_SHAPE_TEST: (480,)
-  RESIZE_SHAPE_TRAIN: (480, 854)
-  TW: 1
-MODEL:
-  BACKBONE:
-    DEEPBLENDER: True
-    FREEZE_AT: 2
-    FREEZE_BN: True
-    INPUT_C: 3
-    NAME: FusionUNet
-    OUTPUT_C: 3
-    PRETRAINED_WTS: 
-    UP_CONV1_INPLANES: [384, 768, 1280, 1280, 1024]
-    UP_CONV1_OUTPLANES: [64, 256, 512, 512, 512]
-  DECODER:
-    INTER_BLOCK: GC3d
-    REFINE_BLOCK: Refine3d
-  FREEZE_BN: True
-  MASK_ON: False
-  NETWORK: FusionUNet
-  N_CLASSES: 2
-  PIXEL_MEAN: [114.7748, 107.7354, 99.475]
-  PIXEL_STD: [1.0, 1.0, 1.0]
-  PRETRAINED: False
-  WEIGHTS: 
-NAME: deepblender
-OUTPUT_DIR: ./output
-SEED: -1
-SOLVER:
-  BASE_LR: 0.001
-  BIAS_LR_FACTOR: 1.0
-  CHECKPOINT_PERIOD: 5000
-  CLIP_GRADIENTS:
-    CLIP_TYPE: value
-    CLIP_VALUE: 1.0
-    ENABLED: False
-    NORM_TYPE: 2.0
-  GAMMA: 0.1
-  IMS_PER_BATCH: 16
-  LR_SCHEDULERS: ['exponential', 'step']
-  MAX_ITER: 40000
-  MOMENTUM: 0.9
-  NESTEROV: False
-  STEPS: [10]
-  WARMUP_FACTOR: 0.001
-  WARMUP_ITERS: 1000
-  WARMUP_METHOD: linear
-  WEIGHT_DECAY: 0.0001
-  WEIGHT_DECAY_BIAS: 0.0001
-  WEIGHT_DECAY_NORM: 0.0
-TRAINING:
-  BASE_LR: 5e-05
-  BATCH_SIZE: 8
-  EVAL_EPOCH: 1
-  LOSSES:
-    BOOTSTRAP: False
-    CRITERION: 
-    MASK_CONSISTENCY: False
-    MULTI_CLASS: False
-    NAME: ['l1', 'gan']
-    SCALE: []
-    USE_IGNORE_MASK: False
-  LR_SCHEDULERS: ['exponential', 'step']
-  MAX_ITER: 90000
-  NUM_EPOCHS: 100
-  OPTIMISER: Adam
-  PRECISION: mixed
-  STEPS: (60000, 80000)
-VERSION: 2
-VIS_PERIOD: 0
-----------------------------------------------------------------
+> /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(21)load_weightsV3()
+-> if wts_file is None:
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(37)load_weightsV3()
+-> checkpoint = torch.load(wts_file)
+(Pdb) 'saved_models/deepblender_gan/model_best_train.pth'
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(38)load_weightsV3()
+-> start_epoch = checkpoint['epoch'] + 1 if 'epoch' in checkpoint else 0
+(Pdb) dict_keys(['epoch', 'net_G', 'net_D', 'optim_G', 'optim_D', 'iter'])
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(39)load_weightsV3()
+-> start_iter = checkpoint['iter'] + 1 if 'iter' in checkpoint else 0
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(40)load_weightsV3()
+-> load_name = wts_file
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(42)load_weightsV3()
+-> if checkpoint is not None:
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(57)load_weightsV3()
+-> net_G.load_state_dict(checkpoint['net_G'])
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(58)load_weightsV3()
+-> net_D.load_state_dict(checkpoint['net_D'])
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(59)load_weightsV3()
+-> optim_G.load_state_dict(checkpoint['optim_G'])
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(60)load_weightsV3()
+-> optim_D.load_state_dict(checkpoint['optim_D'])
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(62)load_weightsV3()
+-> del checkpoint
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(63)load_weightsV3()
+-> torch.cuda.empty_cache()
+(Pdb) > /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(64)load_weightsV3()
+-> print('Loaded weights from {}'.format(load_name))
+(Pdb) Loaded weights from saved_models/deepblender_gan/model_best_train.pth
+> /mnt/lustre/yslan/Repo/Segmentation/3DC-Seg/utils/Saver.py(66)load_weightsV3()
+-> return net_G, net_D, optim_G, optim_D, start_epoch, start_iter
+(Pdb) ----------------------------------------------------------------
         Layer (type)               Output Shape         Param #
 ================================================================
             Conv2d-1          [1, 64, 512, 512]           1,792
@@ -229,695 +160,113 @@ Params size (MB): 168.66
 Estimated Total Size (MB): 2364241.66
 ----------------------------------------------------------------
 None
-[Iter: 1]Epoch: [0][0/4216]	Time 17.750 (17.750)	Data Time 7.013 (7.013)	LOSSES - loss_D:0.000929(0.000929) loss_G_GAN:0.000562(0.000562) loss_G_L1:2.121066(2.121066) total_loss:2.122557(2.122557))	
-[Iter: 2]Epoch: [0][8/4216]	Time 1.504 (9.627)	Data Time 0.075 (3.544)	LOSSES - loss_D:0.000890(0.000909) loss_G_GAN:0.000620(0.000591) loss_G_L1:1.704778(1.912922) total_loss:1.706289(1.914423))	
-[Iter: 3]Epoch: [0][16/4216]	Time 1.500 (6.918)	Data Time 0.074 (2.387)	LOSSES - loss_D:0.000812(0.000877) loss_G_GAN:0.000643(0.000609) loss_G_L1:1.388676(1.738173) total_loss:1.390130(1.739659))	
-[Iter: 4]Epoch: [0][24/4216]	Time 1.505 (5.565)	Data Time 0.082 (1.811)	LOSSES - loss_D:0.000790(0.000855) loss_G_GAN:0.000692(0.000629) loss_G_L1:1.159107(1.593407) total_loss:1.160590(1.594891))	
-[Iter: 5]Epoch: [0][32/4216]	Time 1.508 (4.753)	Data Time 0.081 (1.465)	LOSSES - loss_D:0.000767(0.000838) loss_G_GAN:0.000726(0.000649) loss_G_L1:0.956230(1.465971) total_loss:0.957722(1.467458))	
-[Iter: 6]Epoch: [0][40/4216]	Time 1.503 (4.211)	Data Time 0.078 (1.234)	LOSSES - loss_D:0.000738(0.000821) loss_G_GAN:0.000757(0.000667) loss_G_L1:0.784197(1.352342) total_loss:0.785692(1.353830))	
-[Iter: 7]Epoch: [0][48/4216]	Time 1.506 (3.825)	Data Time 0.078 (1.069)	LOSSES - loss_D:0.000728(0.000808) loss_G_GAN:0.000777(0.000682) loss_G_L1:0.708216(1.260324) total_loss:0.709721(1.261814))	
-[Iter: 8]Epoch: [0][56/4216]	Time 1.508 (3.535)	Data Time 0.078 (0.945)	LOSSES - loss_D:0.000727(0.000798) loss_G_GAN:0.000806(0.000698) loss_G_L1:0.612281(1.179319) total_loss:0.613814(1.180814))	
-[Iter: 9]Epoch: [0][64/4216]	Time 1.515 (3.311)	Data Time 0.085 (0.849)	LOSSES - loss_D:0.000717(0.000789) loss_G_GAN:0.000823(0.000712) loss_G_L1:0.605104(1.115517) total_loss:0.606643(1.117018))	
-[Iter: 10]Epoch: [0][72/4216]	Time 1.517 (3.132)	Data Time 0.088 (0.773)	LOSSES - loss_D:0.000700(0.000780) loss_G_GAN:0.000867(0.000727) loss_G_L1:0.541298(1.058095) total_loss:0.542865(1.059602))	
-[Iter: 11]Epoch: [0][80/4216]	Time 1.506 (2.984)	Data Time 0.075 (0.710)	LOSSES - loss_D:0.000699(0.000772) loss_G_GAN:0.000842(0.000738) loss_G_L1:0.520498(1.009223) total_loss:0.522038(1.010733))	
-[Iter: 12]Epoch: [0][88/4216]	Time 1.502 (2.860)	Data Time 0.077 (0.657)	LOSSES - loss_D:0.000679(0.000765) loss_G_GAN:0.000860(0.000748) loss_G_L1:0.447639(0.962424) total_loss:0.449179(0.963937))	
-[Iter: 13]Epoch: [0][96/4216]	Time 1.509 (2.756)	Data Time 0.078 (0.612)	LOSSES - loss_D:0.000683(0.000758) loss_G_GAN:0.000873(0.000757) loss_G_L1:0.448733(0.922909) total_loss:0.450289(0.924425))	
-[Iter: 14]Epoch: [0][104/4216]	Time 1.509 (2.667)	Data Time 0.077 (0.574)	LOSSES - loss_D:0.000668(0.000752) loss_G_GAN:0.000903(0.000768) loss_G_L1:0.443309(0.888652) total_loss:0.444880(0.890172))	
-[Iter: 15]Epoch: [0][112/4216]	Time 1.511 (2.590)	Data Time 0.075 (0.541)	LOSSES - loss_D:0.000662(0.000746) loss_G_GAN:0.000894(0.000776) loss_G_L1:0.443189(0.858955) total_loss:0.444745(0.860477))	
-[Iter: 16]Epoch: [0][120/4216]	Time 1.511 (2.523)	Data Time 0.075 (0.512)	LOSSES - loss_D:0.000650(0.000740) loss_G_GAN:0.000902(0.000784) loss_G_L1:0.432267(0.832287) total_loss:0.433819(0.833811))	
-[Iter: 17]Epoch: [0][128/4216]	Time 1.548 (2.465)	Data Time 0.112 (0.488)	LOSSES - loss_D:0.000646(0.000734) loss_G_GAN:0.000916(0.000792) loss_G_L1:0.388663(0.806191) total_loss:0.390225(0.807718))	
-[Iter: 18]Epoch: [0][136/4216]	Time 1.512 (2.412)	Data Time 0.077 (0.465)	LOSSES - loss_D:0.000647(0.000730) loss_G_GAN:0.000920(0.000799) loss_G_L1:0.365859(0.781728) total_loss:0.367427(0.783257))	
-[Iter: 19]Epoch: [0][144/4216]	Time 1.505 (2.365)	Data Time 0.075 (0.445)	LOSSES - loss_D:0.000640(0.000725) loss_G_GAN:0.000955(0.000807) loss_G_L1:0.356364(0.759341) total_loss:0.357960(0.760873))	
-[Iter: 20]Epoch: [0][152/4216]	Time 1.518 (2.322)	Data Time 0.087 (0.427)	LOSSES - loss_D:0.000670(0.000722) loss_G_GAN:0.000941(0.000814) loss_G_L1:0.362411(0.739494) total_loss:0.364021(0.741030))	
-[Iter: 21]Epoch: [0][160/4216]	Time 1.515 (2.284)	Data Time 0.083 (0.410)	LOSSES - loss_D:0.000594(0.000716) loss_G_GAN:0.000958(0.000821) loss_G_L1:0.360790(0.721461) total_loss:0.362341(0.722997))	
-[Iter: 22]Epoch: [0][168/4216]	Time 1.508 (2.249)	Data Time 0.074 (0.395)	LOSSES - loss_D:0.000682(0.000714) loss_G_GAN:0.000959(0.000827) loss_G_L1:0.329575(0.703648) total_loss:0.331215(0.705189))	
-[Iter: 23]Epoch: [0][176/4216]	Time 1.503 (2.216)	Data Time 0.075 (0.381)	LOSSES - loss_D:0.000637(0.000711) loss_G_GAN:0.000943(0.000832) loss_G_L1:0.360383(0.688723) total_loss:0.361963(0.690266))	
-[Iter: 24]Epoch: [0][184/4216]	Time 1.509 (2.187)	Data Time 0.077 (0.369)	LOSSES - loss_D:0.000611(0.000707) loss_G_GAN:0.000942(0.000837) loss_G_L1:0.331185(0.673826) total_loss:0.332738(0.675369))	
-[Iter: 25]Epoch: [0][192/4216]	Time 1.508 (2.160)	Data Time 0.074 (0.357)	LOSSES - loss_D:0.000644(0.000704) loss_G_GAN:0.000953(0.000841) loss_G_L1:0.323762(0.659823) total_loss:0.325359(0.661369))	
-[Iter: 26]Epoch: [0][200/4216]	Time 1.508 (2.135)	Data Time 0.073 (0.346)	LOSSES - loss_D:0.000602(0.000700) loss_G_GAN:0.000950(0.000846) loss_G_L1:0.302399(0.646076) total_loss:0.303951(0.647622))	
-[Iter: 27]Epoch: [0][208/4216]	Time 1.509 (2.111)	Data Time 0.075 (0.336)	LOSSES - loss_D:0.000598(0.000697) loss_G_GAN:0.000952(0.000849) loss_G_L1:0.333584(0.634502) total_loss:0.335133(0.636048))	
-[Iter: 28]Epoch: [0][216/4216]	Time 1.507 (2.090)	Data Time 0.076 (0.327)	LOSSES - loss_D:0.000589(0.000693) loss_G_GAN:0.000970(0.000854) loss_G_L1:0.301619(0.622614) total_loss:0.303178(0.624160))	
-[Iter: 29]Epoch: [0][224/4216]	Time 1.511 (2.070)	Data Time 0.076 (0.318)	LOSSES - loss_D:0.000579(0.000689) loss_G_GAN:0.000993(0.000859) loss_G_L1:0.294491(0.611299) total_loss:0.296063(0.612846))	
-[Iter: 30]Epoch: [0][232/4216]	Time 1.510 (2.051)	Data Time 0.078 (0.310)	LOSSES - loss_D:0.000612(0.000686) loss_G_GAN:0.000969(0.000862) loss_G_L1:0.326491(0.601805) total_loss:0.328072(0.603354))	
-[Iter: 31]Epoch: [0][240/4216]	Time 1.508 (2.034)	Data Time 0.075 (0.302)	LOSSES - loss_D:0.000571(0.000683) loss_G_GAN:0.001001(0.000867) loss_G_L1:0.276273(0.591304) total_loss:0.277845(0.592854))	
-[Iter: 32]Epoch: [0][248/4216]	Time 1.512 (2.017)	Data Time 0.074 (0.295)	LOSSES - loss_D:0.000560(0.000679) loss_G_GAN:0.001002(0.000871) loss_G_L1:0.334370(0.583275) total_loss:0.335932(0.584825))	
-[Iter: 33]Epoch: [0][256/4216]	Time 1.517 (2.002)	Data Time 0.082 (0.289)	LOSSES - loss_D:0.000531(0.000674) loss_G_GAN:0.001042(0.000876) loss_G_L1:0.273658(0.573893) total_loss:0.275230(0.575443))	
-[Iter: 34]Epoch: [0][264/4216]	Time 1.511 (1.988)	Data Time 0.081 (0.283)	LOSSES - loss_D:0.000573(0.000671) loss_G_GAN:0.001056(0.000881) loss_G_L1:0.290956(0.565571) total_loss:0.292585(0.567124))	
-[Iter: 35]Epoch: [0][272/4216]	Time 1.509 (1.974)	Data Time 0.078 (0.277)	LOSSES - loss_D:0.000566(0.000668) loss_G_GAN:0.001054(0.000886) loss_G_L1:0.293897(0.557809) total_loss:0.295518(0.559364))	
-[Iter: 36]Epoch: [0][280/4216]	Time 1.507 (1.961)	Data Time 0.078 (0.271)	LOSSES - loss_D:0.000573(0.000666) loss_G_GAN:0.001041(0.000891) loss_G_L1:0.309414(0.550909) total_loss:0.311028(0.552465))	
-[Iter: 37]Epoch: [0][288/4216]	Time 1.517 (1.949)	Data Time 0.081 (0.266)	LOSSES - loss_D:0.000594(0.000664) loss_G_GAN:0.001044(0.000895) loss_G_L1:0.274206(0.543431) total_loss:0.275845(0.544989))	
-[Iter: 38]Epoch: [0][296/4216]	Time 1.514 (1.938)	Data Time 0.083 (0.261)	LOSSES - loss_D:0.000557(0.000661) loss_G_GAN:0.000990(0.000897) loss_G_L1:0.310695(0.537306) total_loss:0.312243(0.538864))	
-[Iter: 39]Epoch: [0][304/4216]	Time 1.515 (1.927)	Data Time 0.081 (0.257)	LOSSES - loss_D:0.000561(0.000658) loss_G_GAN:0.001043(0.000901) loss_G_L1:0.253977(0.530041) total_loss:0.255580(0.531601))	
-[Iter: 40]Epoch: [0][312/4216]	Time 1.516 (1.917)	Data Time 0.080 (0.252)	LOSSES - loss_D:0.000532(0.000655) loss_G_GAN:0.001037(0.000904) loss_G_L1:0.239698(0.522783) total_loss:0.241267(0.524342))	
-[Iter: 41]Epoch: [0][320/4216]	Time 1.514 (1.907)	Data Time 0.079 (0.248)	LOSSES - loss_D:0.000579(0.000653) loss_G_GAN:0.001119(0.000910) loss_G_L1:0.314703(0.517708) total_loss:0.316401(0.519271))	
-[Iter: 42]Epoch: [0][328/4216]	Time 1.514 (1.897)	Data Time 0.078 (0.244)	LOSSES - loss_D:0.000632(0.000653) loss_G_GAN:0.001078(0.000914) loss_G_L1:0.248148(0.511289) total_loss:0.249857(0.512856))	
-[Iter: 43]Epoch: [0][336/4216]	Time 1.508 (1.888)	Data Time 0.078 (0.240)	LOSSES - loss_D:0.000595(0.000651) loss_G_GAN:0.001037(0.000917) loss_G_L1:0.275994(0.505817) total_loss:0.277627(0.507386))	
-[Iter: 44]Epoch: [0][344/4216]	Time 1.515 (1.880)	Data Time 0.081 (0.237)	LOSSES - loss_D:0.000538(0.000649) loss_G_GAN:0.001088(0.000920) loss_G_L1:0.269633(0.500450) total_loss:0.271259(0.502019))	
-[Iter: 45]Epoch: [0][352/4216]	Time 1.511 (1.872)	Data Time 0.081 (0.233)	LOSSES - loss_D:0.000498(0.000646) loss_G_GAN:0.001140(0.000925) loss_G_L1:0.243051(0.494730) total_loss:0.244690(0.496301))	
-[Iter: 46]Epoch: [0][360/4216]	Time 1.519 (1.864)	Data Time 0.080 (0.230)	LOSSES - loss_D:0.000527(0.000643) loss_G_GAN:0.001073(0.000929) loss_G_L1:0.298175(0.490457) total_loss:0.299775(0.492028))	
-[Iter: 47]Epoch: [0][368/4216]	Time 1.513 (1.856)	Data Time 0.078 (0.227)	LOSSES - loss_D:0.000520(0.000640) loss_G_GAN:0.001100(0.000932) loss_G_L1:0.248274(0.485304) total_loss:0.249894(0.486876))	
-[Iter: 48]Epoch: [0][376/4216]	Time 1.512 (1.849)	Data Time 0.080 (0.224)	LOSSES - loss_D:0.000490(0.000637) loss_G_GAN:0.001161(0.000937) loss_G_L1:0.247663(0.480353) total_loss:0.249313(0.481927))	
-[Iter: 49]Epoch: [0][384/4216]	Time 1.509 (1.842)	Data Time 0.082 (0.221)	LOSSES - loss_D:0.000519(0.000635) loss_G_GAN:0.001133(0.000941) loss_G_L1:0.276314(0.476189) total_loss:0.277967(0.477765))	
-[Iter: 50]Epoch: [0][392/4216]	Time 1.515 (1.836)	Data Time 0.081 (0.218)	LOSSES - loss_D:0.000470(0.000632) loss_G_GAN:0.001187(0.000946) loss_G_L1:0.244428(0.471554) total_loss:0.246085(0.473131))	
-[Iter: 51]Epoch: [0][400/4216]	Time 1.512 (1.829)	Data Time 0.077 (0.215)	LOSSES - loss_D:0.000489(0.000629) loss_G_GAN:0.001144(0.000950) loss_G_L1:0.237203(0.466959) total_loss:0.238835(0.468537))	
-[Iter: 52]Epoch: [0][408/4216]	Time 1.512 (1.823)	Data Time 0.079 (0.212)	LOSSES - loss_D:0.000453(0.000625) loss_G_GAN:0.001183(0.000954) loss_G_L1:0.229475(0.462392) total_loss:0.231111(0.463971))	
-[Iter: 53]Epoch: [0][416/4216]	Time 1.511 (1.817)	Data Time 0.080 (0.210)	LOSSES - loss_D:0.000488(0.000623) loss_G_GAN:0.001156(0.000958) loss_G_L1:0.244378(0.458278) total_loss:0.246022(0.459859))	
-[Iter: 54]Epoch: [0][424/4216]	Time 1.517 (1.812)	Data Time 0.080 (0.208)	LOSSES - loss_D:0.000479(0.000620) loss_G_GAN:0.001184(0.000962) loss_G_L1:0.241843(0.454270) total_loss:0.243505(0.455852))	
-[Iter: 55]Epoch: [0][432/4216]	Time 1.514 (1.806)	Data Time 0.080 (0.205)	LOSSES - loss_D:0.000444(0.000617) loss_G_GAN:0.001160(0.000966) loss_G_L1:0.271543(0.450948) total_loss:0.273147(0.452531))	
-[Iter: 56]Epoch: [0][440/4216]	Time 1.512 (1.801)	Data Time 0.078 (0.203)	LOSSES - loss_D:0.000469(0.000614) loss_G_GAN:0.001176(0.000970) loss_G_L1:0.289688(0.448068) total_loss:0.291332(0.449652))	
-[Iter: 57]Epoch: [0][448/4216]	Time 1.509 (1.796)	Data Time 0.077 (0.201)	LOSSES - loss_D:0.000415(0.000611) loss_G_GAN:0.001286(0.000975) loss_G_L1:0.193923(0.443610) total_loss:0.195625(0.445195))	
-[Iter: 58]Epoch: [0][456/4216]	Time 1.512 (1.791)	Data Time 0.077 (0.199)	LOSSES - loss_D:0.000439(0.000608) loss_G_GAN:0.001251(0.000980) loss_G_L1:0.233803(0.439992) total_loss:0.235492(0.441580))	
-[Iter: 59]Epoch: [0][464/4216]	Time 1.514 (1.786)	Data Time 0.079 (0.197)	LOSSES - loss_D:0.000464(0.000605) loss_G_GAN:0.001233(0.000984) loss_G_L1:0.253619(0.436833) total_loss:0.255316(0.438423))	
-[Iter: 60]Epoch: [0][472/4216]	Time 1.508 (1.782)	Data Time 0.077 (0.195)	LOSSES - loss_D:0.000437(0.000603) loss_G_GAN:0.001261(0.000989) loss_G_L1:0.234589(0.433463) total_loss:0.236287(0.435054))	
-[Iter: 61]Epoch: [0][480/4216]	Time 1.517 (1.777)	Data Time 0.082 (0.193)	LOSSES - loss_D:0.000455(0.000600) loss_G_GAN:0.001315(0.000994) loss_G_L1:0.211252(0.429820) total_loss:0.213022(0.431414))	
-[Iter: 62]Epoch: [0][488/4216]	Time 1.515 (1.773)	Data Time 0.077 (0.191)	LOSSES - loss_D:0.000424(0.000597) loss_G_GAN:0.001320(0.000999) loss_G_L1:0.232443(0.426636) total_loss:0.234187(0.428233))	
-[Iter: 63]Epoch: [0][496/4216]	Time 1.515 (1.769)	Data Time 0.079 (0.189)	LOSSES - loss_D:0.000458(0.000595) loss_G_GAN:0.001289(0.001004) loss_G_L1:0.228639(0.423493) total_loss:0.230387(0.425092))	
-[Iter: 64]Epoch: [0][504/4216]	Time 1.514 (1.765)	Data Time 0.077 (0.187)	LOSSES - loss_D:0.000395(0.000592) loss_G_GAN:0.001266(0.001008) loss_G_L1:0.244550(0.420697) total_loss:0.246211(0.422297))	
-[Iter: 65]Epoch: [0][512/4216]	Time 1.518 (1.761)	Data Time 0.084 (0.186)	LOSSES - loss_D:0.000421(0.000589) loss_G_GAN:0.001262(0.001012) loss_G_L1:0.248570(0.418049) total_loss:0.250253(0.419651))	
-[Iter: 66]Epoch: [0][520/4216]	Time 1.515 (1.758)	Data Time 0.082 (0.184)	LOSSES - loss_D:0.000384(0.000586) loss_G_GAN:0.001374(0.001017) loss_G_L1:0.186981(0.414548) total_loss:0.188740(0.416152))	
-[Iter: 67]Epoch: [0][528/4216]	Time 1.512 (1.754)	Data Time 0.077 (0.183)	LOSSES - loss_D:0.000391(0.000583) loss_G_GAN:0.001351(0.001022) loss_G_L1:0.243400(0.411994) total_loss:0.245142(0.413600))	
-[Iter: 68]Epoch: [0][536/4216]	Time 1.512 (1.750)	Data Time 0.077 (0.181)	LOSSES - loss_D:0.000399(0.000581) loss_G_GAN:0.001379(0.001028) loss_G_L1:0.219579(0.409164) total_loss:0.221357(0.410772))	
-[Iter: 69]Epoch: [0][544/4216]	Time 1.516 (1.747)	Data Time 0.082 (0.180)	LOSSES - loss_D:0.000374(0.000578) loss_G_GAN:0.001369(0.001033) loss_G_L1:0.233660(0.406621) total_loss:0.235402(0.408231))	
-[Iter: 70]Epoch: [0][552/4216]	Time 1.533 (1.744)	Data Time 0.097 (0.178)	LOSSES - loss_D:0.000394(0.000575) loss_G_GAN:0.001398(0.001038) loss_G_L1:0.215543(0.403891) total_loss:0.217336(0.405504))	
-[Iter: 71]Epoch: [0][560/4216]	Time 1.514 (1.741)	Data Time 0.084 (0.177)	LOSSES - loss_D:0.000372(0.000572) loss_G_GAN:0.001395(0.001043) loss_G_L1:0.238415(0.401560) total_loss:0.240182(0.403175))	
-[Iter: 72]Epoch: [0][568/4216]	Time 1.512 (1.738)	Data Time 0.083 (0.176)	LOSSES - loss_D:0.000372(0.000569) loss_G_GAN:0.001473(0.001049) loss_G_L1:0.210561(0.398908) total_loss:0.212405(0.400526))	
-[Iter: 73]Epoch: [0][576/4216]	Time 1.511 (1.734)	Data Time 0.079 (0.174)	LOSSES - loss_D:0.000376(0.000567) loss_G_GAN:0.001438(0.001054) loss_G_L1:0.275188(0.397213) total_loss:0.277002(0.398834))	
-[Iter: 74]Epoch: [0][584/4216]	Time 1.508 (1.731)	Data Time 0.077 (0.173)	LOSSES - loss_D:0.000367(0.000564) loss_G_GAN:0.001486(0.001060) loss_G_L1:0.199306(0.394538) total_loss:0.201159(0.396162))	
-[Iter: 75]Epoch: [0][592/4216]	Time 1.512 (1.728)	Data Time 0.081 (0.172)	LOSSES - loss_D:0.000343(0.000561) loss_G_GAN:0.001511(0.001066) loss_G_L1:0.222155(0.392240) total_loss:0.224010(0.393867))	
-[Iter: 76]Epoch: [0][600/4216]	Time 1.515 (1.726)	Data Time 0.082 (0.171)	LOSSES - loss_D:0.000370(0.000559) loss_G_GAN:0.001466(0.001071) loss_G_L1:0.213933(0.389894) total_loss:0.215769(0.391524))	
-[Iter: 77]Epoch: [0][608/4216]	Time 1.513 (1.723)	Data Time 0.082 (0.170)	LOSSES - loss_D:0.000363(0.000556) loss_G_GAN:0.001351(0.001075) loss_G_L1:0.279990(0.388466) total_loss:0.281704(0.390097))	
-[Iter: 78]Epoch: [0][616/4216]	Time 1.511 (1.720)	Data Time 0.080 (0.168)	LOSSES - loss_D:0.000374(0.000554) loss_G_GAN:0.001473(0.001080) loss_G_L1:0.212739(0.386214) total_loss:0.214587(0.387847))	
-[Iter: 79]Epoch: [0][624/4216]	Time 1.512 (1.718)	Data Time 0.078 (0.167)	LOSSES - loss_D:0.000336(0.000551) loss_G_GAN:0.001495(0.001085) loss_G_L1:0.192324(0.383759) total_loss:0.194155(0.385395))	
-[Iter: 80]Epoch: [0][632/4216]	Time 1.506 (1.715)	Data Time 0.078 (0.166)	LOSSES - loss_D:0.000277(0.000547) loss_G_GAN:0.001572(0.001091) loss_G_L1:0.181217(0.381227) total_loss:0.183066(0.382866))	
-[Iter: 81]Epoch: [0][640/4216]	Time 1.511 (1.712)	Data Time 0.081 (0.165)	LOSSES - loss_D:0.000299(0.000544) loss_G_GAN:0.001548(0.001097) loss_G_L1:0.254717(0.379666) total_loss:0.256564(0.381307))	
-[Iter: 82]Epoch: [0][648/4216]	Time 1.511 (1.710)	Data Time 0.080 (0.164)	LOSSES - loss_D:0.000330(0.000542) loss_G_GAN:0.001492(0.001102) loss_G_L1:0.255362(0.378150) total_loss:0.257184(0.379793))	
-[Iter: 83]Epoch: [0][656/4216]	Time 1.505 (1.707)	Data Time 0.078 (0.163)	LOSSES - loss_D:0.000268(0.000538) loss_G_GAN:0.001679(0.001109) loss_G_L1:0.215791(0.376194) total_loss:0.217737(0.377841))	
-[Iter: 84]Epoch: [0][664/4216]	Time 1.509 (1.705)	Data Time 0.079 (0.162)	LOSSES - loss_D:0.000303(0.000536) loss_G_GAN:0.001710(0.001116) loss_G_L1:0.177699(0.373831) total_loss:0.179712(0.375482))	
-[Iter: 85]Epoch: [0][672/4216]	Time 1.508 (1.703)	Data Time 0.080 (0.161)	LOSSES - loss_D:0.000310(0.000533) loss_G_GAN:0.001758(0.001124) loss_G_L1:0.207078(0.371869) total_loss:0.209145(0.373525))	
-[Iter: 86]Epoch: [0][680/4216]	Time 1.507 (1.700)	Data Time 0.079 (0.160)	LOSSES - loss_D:0.000370(0.000531) loss_G_GAN:0.001510(0.001128) loss_G_L1:0.230051(0.370220) total_loss:0.231932(0.371879))	
-[Iter: 87]Epoch: [0][688/4216]	Time 1.513 (1.698)	Data Time 0.080 (0.159)	LOSSES - loss_D:0.000309(0.000529) loss_G_GAN:0.001600(0.001133) loss_G_L1:0.195900(0.368216) total_loss:0.197809(0.369878))	
-[Iter: 88]Epoch: [0][696/4216]	Time 1.510 (1.696)	Data Time 0.079 (0.158)	LOSSES - loss_D:0.000302(0.000526) loss_G_GAN:0.001545(0.001138) loss_G_L1:0.202603(0.366334) total_loss:0.204450(0.367998))	
-[Iter: 89]Epoch: [0][704/4216]	Time 1.509 (1.694)	Data Time 0.078 (0.157)	LOSSES - loss_D:0.000238(0.000523) loss_G_GAN:0.001711(0.001145) loss_G_L1:0.213934(0.364622) total_loss:0.215883(0.366289))	
-[Iter: 90]Epoch: [0][712/4216]	Time 1.511 (1.692)	Data Time 0.078 (0.156)	LOSSES - loss_D:0.000348(0.000521) loss_G_GAN:0.001691(0.001151) loss_G_L1:0.202625(0.362822) total_loss:0.204663(0.364493))	
-[Iter: 91]Epoch: [0][720/4216]	Time 1.509 (1.690)	Data Time 0.078 (0.156)	LOSSES - loss_D:0.000389(0.000519) loss_G_GAN:0.001652(0.001156) loss_G_L1:0.245849(0.361536) total_loss:0.247890(0.363212))	
-[Iter: 92]Epoch: [0][728/4216]	Time 1.518 (1.688)	Data Time 0.082 (0.155)	LOSSES - loss_D:0.000309(0.000517) loss_G_GAN:0.001741(0.001163) loss_G_L1:0.189644(0.359668) total_loss:0.191694(0.361348))	
-[Iter: 93]Epoch: [0][736/4216]	Time 1.517 (1.686)	Data Time 0.083 (0.154)	LOSSES - loss_D:0.000339(0.000515) loss_G_GAN:0.001567(0.001167) loss_G_L1:0.208032(0.358037) total_loss:0.209939(0.359719))	
-[Iter: 94]Epoch: [0][744/4216]	Time 1.510 (1.684)	Data Time 0.080 (0.153)	LOSSES - loss_D:0.000222(0.000512) loss_G_GAN:0.001846(0.001174) loss_G_L1:0.161068(0.355942) total_loss:0.163137(0.357628))	
-[Iter: 95]Epoch: [0][752/4216]	Time 1.508 (1.683)	Data Time 0.077 (0.152)	LOSSES - loss_D:0.000267(0.000509) loss_G_GAN:0.001735(0.001180) loss_G_L1:0.210280(0.354409) total_loss:0.212283(0.356098))	
-[Iter: 96]Epoch: [0][760/4216]	Time 1.512 (1.681)	Data Time 0.078 (0.152)	LOSSES - loss_D:0.000289(0.000507) loss_G_GAN:0.001750(0.001186) loss_G_L1:0.227500(0.353087) total_loss:0.229538(0.354780))	
-[Iter: 97]Epoch: [0][768/4216]	Time 1.514 (1.679)	Data Time 0.081 (0.151)	LOSSES - loss_D:0.000202(0.000504) loss_G_GAN:0.001897(0.001193) loss_G_L1:0.166664(0.351165) total_loss:0.168764(0.352862))	
-[Iter: 98]Epoch: [0][776/4216]	Time 1.523 (1.678)	Data Time 0.089 (0.150)	LOSSES - loss_D:0.000252(0.000501) loss_G_GAN:0.001793(0.001199) loss_G_L1:0.201320(0.349636) total_loss:0.203365(0.351337))	
-[Iter: 99]Epoch: [0][784/4216]	Time 1.511 (1.676)	Data Time 0.078 (0.150)	LOSSES - loss_D:0.000262(0.000499) loss_G_GAN:0.001788(0.001205) loss_G_L1:0.207083(0.348196) total_loss:0.209133(0.349900))	
-[Iter: 100]Epoch: [0][792/4216]	Time 1.507 (1.674)	Data Time 0.077 (0.149)	LOSSES - loss_D:0.000265(0.000497) loss_G_GAN:0.001871(0.001212) loss_G_L1:0.187773(0.346592) total_loss:0.189909(0.348300))	
-[Iter: 101]Epoch: [0][800/4216]	Time 1.514 (1.673)	Data Time 0.081 (0.148)	LOSSES - loss_D:0.000251(0.000494) loss_G_GAN:0.001813(0.001218) loss_G_L1:0.183860(0.344981) total_loss:0.185924(0.346693))	
-[Iter: 102]Epoch: [0][808/4216]	Time 1.510 (1.671)	Data Time 0.080 (0.148)	LOSSES - loss_D:0.000234(0.000492) loss_G_GAN:0.001903(0.001225) loss_G_L1:0.174272(0.343307) total_loss:0.176408(0.345023))	
-[Iter: 103]Epoch: [0][816/4216]	Time 1.509 (1.669)	Data Time 0.081 (0.147)	LOSSES - loss_D:0.000246(0.000489) loss_G_GAN:0.001639(0.001229) loss_G_L1:0.315077(0.343033) total_loss:0.316962(0.344751))	
-[Iter: 104]Epoch: [0][824/4216]	Time 1.515 (1.668)	Data Time 0.082 (0.146)	LOSSES - loss_D:0.000220(0.000487) loss_G_GAN:0.001954(0.001236) loss_G_L1:0.192493(0.341585) total_loss:0.194667(0.343308))	
-[Iter: 105]Epoch: [0][832/4216]	Time 1.513 (1.666)	Data Time 0.081 (0.146)	LOSSES - loss_D:0.000213(0.000484) loss_G_GAN:0.002001(0.001243) loss_G_L1:0.160449(0.339860) total_loss:0.162664(0.341587))	
-[Iter: 106]Epoch: [0][840/4216]	Time 1.512 (1.665)	Data Time 0.079 (0.145)	LOSSES - loss_D:0.000211(0.000482) loss_G_GAN:0.002013(0.001250) loss_G_L1:0.201141(0.338552) total_loss:0.203364(0.340283))	
-[Iter: 107]Epoch: [0][848/4216]	Time 1.528 (1.664)	Data Time 0.096 (0.145)	LOSSES - loss_D:0.000218(0.000479) loss_G_GAN:0.001859(0.001256) loss_G_L1:0.246744(0.337694) total_loss:0.248821(0.339428))	
-[Iter: 108]Epoch: [0][856/4216]	Time 1.519 (1.662)	Data Time 0.083 (0.144)	LOSSES - loss_D:0.000185(0.000476) loss_G_GAN:0.001925(0.001262) loss_G_L1:0.259740(0.336972) total_loss:0.261850(0.338710))	
-[Iter: 109]Epoch: [0][864/4216]	Time 1.514 (1.661)	Data Time 0.080 (0.143)	LOSSES - loss_D:0.000171(0.000474) loss_G_GAN:0.002280(0.001271) loss_G_L1:0.182100(0.335551) total_loss:0.184551(0.337296))	
-[Iter: 110]Epoch: [0][872/4216]	Time 1.520 (1.660)	Data Time 0.083 (0.143)	LOSSES - loss_D:0.000192(0.000471) loss_G_GAN:0.002064(0.001279) loss_G_L1:0.241552(0.334696) total_loss:0.243808(0.336446))	
-[Iter: 111]Epoch: [0][880/4216]	Time 1.517 (1.658)	Data Time 0.079 (0.142)	LOSSES - loss_D:0.000159(0.000468) loss_G_GAN:0.002377(0.001289) loss_G_L1:0.165777(0.333175) total_loss:0.168313(0.334931))	
-[Iter: 112]Epoch: [0][888/4216]	Time 1.513 (1.657)	Data Time 0.077 (0.142)	LOSSES - loss_D:0.000157(0.000465) loss_G_GAN:0.002242(0.001297) loss_G_L1:0.177622(0.331786) total_loss:0.180021(0.333548))	
-[Iter: 113]Epoch: [0][896/4216]	Time 1.515 (1.656)	Data Time 0.078 (0.141)	LOSSES - loss_D:0.000222(0.000463) loss_G_GAN:0.002043(0.001304) loss_G_L1:0.241780(0.330989) total_loss:0.244046(0.332756))	
-[Iter: 114]Epoch: [0][904/4216]	Time 1.509 (1.655)	Data Time 0.077 (0.141)	LOSSES - loss_D:0.000182(0.000461) loss_G_GAN:0.002131(0.001311) loss_G_L1:0.179637(0.329662) total_loss:0.181949(0.331433))	
-[Iter: 115]Epoch: [0][912/4216]	Time 1.512 (1.653)	Data Time 0.077 (0.140)	LOSSES - loss_D:0.000233(0.000459) loss_G_GAN:0.002004(0.001317) loss_G_L1:0.216681(0.328679) total_loss:0.218918(0.330455))	
-[Iter: 116]Epoch: [0][920/4216]	Time 1.512 (1.652)	Data Time 0.077 (0.139)	LOSSES - loss_D:0.000183(0.000456) loss_G_GAN:0.002095(0.001324) loss_G_L1:0.183553(0.327428) total_loss:0.185831(0.329208))	
-[Iter: 117]Epoch: [0][928/4216]	Time 1.517 (1.651)	Data Time 0.080 (0.139)	LOSSES - loss_D:0.000167(0.000454) loss_G_GAN:0.002070(0.001330) loss_G_L1:0.178068(0.326151) total_loss:0.180306(0.327935))	
-[Iter: 118]Epoch: [0][936/4216]	Time 1.516 (1.650)	Data Time 0.081 (0.138)	LOSSES - loss_D:0.000172(0.000452) loss_G_GAN:0.002092(0.001336) loss_G_L1:0.226972(0.325311) total_loss:0.229236(0.327099))	
-[Iter: 119]Epoch: [0][944/4216]	Time 1.515 (1.649)	Data Time 0.079 (0.138)	LOSSES - loss_D:0.000167(0.000449) loss_G_GAN:0.002275(0.001344) loss_G_L1:0.159489(0.323917) total_loss:0.161931(0.325711))	
-[Iter: 120]Epoch: [0][952/4216]	Time 1.509 (1.648)	Data Time 0.080 (0.137)	LOSSES - loss_D:0.000143(0.000447) loss_G_GAN:0.002368(0.001353) loss_G_L1:0.174913(0.322676) total_loss:0.177424(0.324475))	
-[Iter: 121]Epoch: [0][960/4216]	Time 1.514 (1.646)	Data Time 0.078 (0.137)	LOSSES - loss_D:0.000202(0.000445) loss_G_GAN:0.001829(0.001357) loss_G_L1:0.319280(0.322648) total_loss:0.321311(0.324449))	
-[Iter: 122]Epoch: [0][968/4216]	Time 1.511 (1.645)	Data Time 0.078 (0.136)	LOSSES - loss_D:0.000160(0.000442) loss_G_GAN:0.002249(0.001364) loss_G_L1:0.204885(0.321682) total_loss:0.207293(0.323489))	
-[Iter: 123]Epoch: [0][976/4216]	Time 1.509 (1.644)	Data Time 0.076 (0.136)	LOSSES - loss_D:0.000142(0.000440) loss_G_GAN:0.002361(0.001372) loss_G_L1:0.202948(0.320717) total_loss:0.205451(0.322529))	
-[Iter: 124]Epoch: [0][984/4216]	Time 1.516 (1.643)	Data Time 0.082 (0.136)	LOSSES - loss_D:0.000138(0.000437) loss_G_GAN:0.002361(0.001380) loss_G_L1:0.182906(0.319606) total_loss:0.185405(0.321423))	
-[Iter: 125]Epoch: [0][992/4216]	Time 1.518 (1.642)	Data Time 0.081 (0.135)	LOSSES - loss_D:0.000118(0.000435) loss_G_GAN:0.002456(0.001389) loss_G_L1:0.207227(0.318707) total_loss:0.209801(0.320530))	
-[Iter: 126]Epoch: [0][1000/4216]	Time 1.509 (1.641)	Data Time 0.079 (0.135)	LOSSES - loss_D:0.000136(0.000432) loss_G_GAN:0.002405(0.001397) loss_G_L1:0.180600(0.317611) total_loss:0.183141(0.319440))	
-[Iter: 127]Epoch: [0][1008/4216]	Time 1.510 (1.640)	Data Time 0.080 (0.134)	LOSSES - loss_D:0.000105(0.000430) loss_G_GAN:0.002487(0.001405) loss_G_L1:0.189802(0.316604) total_loss:0.192394(0.318440))	
-[Iter: 128]Epoch: [0][1016/4216]	Time 1.507 (1.639)	Data Time 0.079 (0.134)	LOSSES - loss_D:0.000140(0.000428) loss_G_GAN:0.002524(0.001414) loss_G_L1:0.162782(0.315403) total_loss:0.165446(0.317244))	
-[Iter: 129]Epoch: [0][1024/4216]	Time 1.508 (1.638)	Data Time 0.083 (0.133)	LOSSES - loss_D:0.000122(0.000425) loss_G_GAN:0.002478(0.001422) loss_G_L1:0.187267(0.314409) total_loss:0.189867(0.316257))	
-[Iter: 130]Epoch: [0][1032/4216]	Time 1.514 (1.637)	Data Time 0.081 (0.133)	LOSSES - loss_D:0.000139(0.000423) loss_G_GAN:0.002562(0.001431) loss_G_L1:0.155791(0.313189) total_loss:0.158492(0.315043))	
-[Iter: 131]Epoch: [0][1040/4216]	Time 1.507 (1.636)	Data Time 0.077 (0.133)	LOSSES - loss_D:0.000141(0.000421) loss_G_GAN:0.002469(0.001439) loss_G_L1:0.180049(0.312173) total_loss:0.182660(0.314033))	
-[Iter: 132]Epoch: [0][1048/4216]	Time 1.507 (1.635)	Data Time 0.077 (0.132)	LOSSES - loss_D:0.000148(0.000419) loss_G_GAN:0.002485(0.001447) loss_G_L1:0.209098(0.311392) total_loss:0.211731(0.313258))	
-[Iter: 133]Epoch: [0][1056/4216]	Time 1.514 (1.634)	Data Time 0.081 (0.132)	LOSSES - loss_D:0.000134(0.000417) loss_G_GAN:0.002432(0.001454) loss_G_L1:0.158043(0.310239) total_loss:0.160608(0.312110))	
-[Iter: 134]Epoch: [0][1064/4216]	Time 1.516 (1.633)	Data Time 0.080 (0.131)	LOSSES - loss_D:0.000120(0.000414) loss_G_GAN:0.002489(0.001462) loss_G_L1:0.182363(0.309285) total_loss:0.184972(0.311161))	
-[Iter: 135]Epoch: [0][1072/4216]	Time 1.513 (1.632)	Data Time 0.080 (0.131)	LOSSES - loss_D:0.000105(0.000412) loss_G_GAN:0.002700(0.001471) loss_G_L1:0.176464(0.308301) total_loss:0.179269(0.310184))	
-[Iter: 136]Epoch: [0][1080/4216]	Time 1.514 (1.632)	Data Time 0.082 (0.131)	LOSSES - loss_D:0.000141(0.000410) loss_G_GAN:0.002437(0.001478) loss_G_L1:0.214905(0.307614) total_loss:0.217484(0.309503))	
-[Iter: 137]Epoch: [0][1088/4216]	Time 1.508 (1.631)	Data Time 0.080 (0.130)	LOSSES - loss_D:0.000101(0.000408) loss_G_GAN:0.002677(0.001487) loss_G_L1:0.155471(0.306503) total_loss:0.158248(0.308399))	
-[Iter: 138]Epoch: [0][1096/4216]	Time 1.512 (1.630)	Data Time 0.079 (0.130)	LOSSES - loss_D:0.000117(0.000406) loss_G_GAN:0.002590(0.001495) loss_G_L1:0.185208(0.305624) total_loss:0.187915(0.307526))	
-[Iter: 139]Epoch: [0][1104/4216]	Time 1.511 (1.629)	Data Time 0.080 (0.130)	LOSSES - loss_D:0.000116(0.000404) loss_G_GAN:0.002569(0.001503) loss_G_L1:0.179134(0.304714) total_loss:0.181818(0.306621))	
-[Iter: 140]Epoch: [0][1112/4216]	Time 1.518 (1.628)	Data Time 0.081 (0.129)	LOSSES - loss_D:0.000096(0.000402) loss_G_GAN:0.002721(0.001512) loss_G_L1:0.184728(0.303857) total_loss:0.187545(0.305771))	
-[Iter: 141]Epoch: [0][1120/4216]	Time 1.513 (1.627)	Data Time 0.080 (0.129)	LOSSES - loss_D:0.000085(0.000399) loss_G_GAN:0.002824(0.001521) loss_G_L1:0.157214(0.302817) total_loss:0.160123(0.304738))	
-[Iter: 142]Epoch: [0][1128/4216]	Time 1.512 (1.626)	Data Time 0.081 (0.129)	LOSSES - loss_D:0.000108(0.000397) loss_G_GAN:0.002862(0.001530) loss_G_L1:0.175327(0.301920) total_loss:0.178297(0.303847))	
-[Iter: 143]Epoch: [0][1136/4216]	Time 1.506 (1.626)	Data Time 0.079 (0.128)	LOSSES - loss_D:0.000091(0.000395) loss_G_GAN:0.002715(0.001539) loss_G_L1:0.180042(0.301067) total_loss:0.182848(0.303001))	
-[Iter: 144]Epoch: [0][1144/4216]	Time 1.509 (1.625)	Data Time 0.079 (0.128)	LOSSES - loss_D:0.000127(0.000393) loss_G_GAN:0.002402(0.001545) loss_G_L1:0.235411(0.300611) total_loss:0.237940(0.302549))	
-[Iter: 145]Epoch: [0][1152/4216]	Time 1.507 (1.624)	Data Time 0.079 (0.128)	LOSSES - loss_D:0.000090(0.000391) loss_G_GAN:0.002776(0.001553) loss_G_L1:0.180304(0.299782) total_loss:0.183170(0.301726))	
-[Iter: 146]Epoch: [0][1160/4216]	Time 1.505 (1.623)	Data Time 0.078 (0.127)	LOSSES - loss_D:0.000086(0.000389) loss_G_GAN:0.002990(0.001563) loss_G_L1:0.139182(0.298682) total_loss:0.142257(0.300634))	
-[Iter: 147]Epoch: [0][1168/4216]	Time 1.514 (1.622)	Data Time 0.076 (0.127)	LOSSES - loss_D:0.000086(0.000387) loss_G_GAN:0.002766(0.001571) loss_G_L1:0.188599(0.297933) total_loss:0.191451(0.299891))	
-[Iter: 148]Epoch: [0][1176/4216]	Time 1.512 (1.622)	Data Time 0.077 (0.126)	LOSSES - loss_D:0.000097(0.000385) loss_G_GAN:0.002929(0.001580) loss_G_L1:0.161579(0.297011) total_loss:0.164605(0.298977))	
-[Iter: 149]Epoch: [0][1184/4216]	Time 1.513 (1.621)	Data Time 0.077 (0.126)	LOSSES - loss_D:0.000098(0.000383) loss_G_GAN:0.002753(0.001588) loss_G_L1:0.190951(0.296300) total_loss:0.193801(0.298271))	
-[Iter: 150]Epoch: [0][1192/4216]	Time 1.511 (1.620)	Data Time 0.077 (0.126)	LOSSES - loss_D:0.000086(0.000381) loss_G_GAN:0.002774(0.001596) loss_G_L1:0.200790(0.295663) total_loss:0.203650(0.297640))	
-[Iter: 151]Epoch: [0][1200/4216]	Time 1.514 (1.620)	Data Time 0.080 (0.126)	LOSSES - loss_D:0.000078(0.000379) loss_G_GAN:0.003092(0.001606) loss_G_L1:0.156900(0.294744) total_loss:0.160070(0.296729))	
-[Iter: 152]Epoch: [0][1208/4216]	Time 1.513 (1.619)	Data Time 0.081 (0.125)	LOSSES - loss_D:0.000115(0.000377) loss_G_GAN:0.002707(0.001613) loss_G_L1:0.190404(0.294058) total_loss:0.193226(0.296048))	
-[Iter: 153]Epoch: [0][1216/4216]	Time 1.516 (1.618)	Data Time 0.078 (0.125)	LOSSES - loss_D:0.000085(0.000375) loss_G_GAN:0.002934(0.001622) loss_G_L1:0.152546(0.293133) total_loss:0.155565(0.295130))	
-[Iter: 154]Epoch: [0][1224/4216]	Time 1.513 (1.618)	Data Time 0.078 (0.125)	LOSSES - loss_D:0.000055(0.000373) loss_G_GAN:0.003162(0.001632) loss_G_L1:0.157899(0.292254) total_loss:0.161116(0.294260))	
-[Iter: 155]Epoch: [0][1232/4216]	Time 1.518 (1.617)	Data Time 0.081 (0.124)	LOSSES - loss_D:0.000065(0.000371) loss_G_GAN:0.002988(0.001641) loss_G_L1:0.170862(0.291471) total_loss:0.173914(0.293483))	
-[Iter: 156]Epoch: [0][1240/4216]	Time 1.517 (1.616)	Data Time 0.082 (0.124)	LOSSES - loss_D:0.000077(0.000370) loss_G_GAN:0.002913(0.001649) loss_G_L1:0.170165(0.290694) total_loss:0.173155(0.292712))	
-[Iter: 157]Epoch: [0][1248/4216]	Time 1.518 (1.616)	Data Time 0.081 (0.124)	LOSSES - loss_D:0.000088(0.000368) loss_G_GAN:0.002890(0.001657) loss_G_L1:0.164728(0.289891) total_loss:0.167706(0.291916))	
-[Iter: 158]Epoch: [0][1256/4216]	Time 1.509 (1.615)	Data Time 0.078 (0.124)	LOSSES - loss_D:0.000048(0.000366) loss_G_GAN:0.003227(0.001667) loss_G_L1:0.167600(0.289117) total_loss:0.170875(0.291150))	
-[Iter: 159]Epoch: [0][1264/4216]	Time 1.509 (1.614)	Data Time 0.077 (0.123)	LOSSES - loss_D:0.000083(0.000364) loss_G_GAN:0.002855(0.001674) loss_G_L1:0.189405(0.288490) total_loss:0.192343(0.290528))	
-[Iter: 160]Epoch: [0][1272/4216]	Time 1.509 (1.614)	Data Time 0.077 (0.123)	LOSSES - loss_D:0.000049(0.000362) loss_G_GAN:0.003240(0.001684) loss_G_L1:0.160069(0.287688) total_loss:0.163358(0.289733))	
-[Iter: 161]Epoch: [0][1280/4216]	Time 1.511 (1.613)	Data Time 0.080 (0.123)	LOSSES - loss_D:0.000115(0.000360) loss_G_GAN:0.002945(0.001692) loss_G_L1:0.171680(0.286967) total_loss:0.174739(0.289019))	
-[Iter: 162]Epoch: [0][1288/4216]	Time 1.518 (1.612)	Data Time 0.080 (0.122)	LOSSES - loss_D:0.000094(0.000359) loss_G_GAN:0.003029(0.001700) loss_G_L1:0.166402(0.286223) total_loss:0.169525(0.288282))	
-[Iter: 163]Epoch: [0][1296/4216]	Time 1.509 (1.612)	Data Time 0.076 (0.122)	LOSSES - loss_D:0.000080(0.000357) loss_G_GAN:0.002886(0.001707) loss_G_L1:0.168009(0.285498) total_loss:0.170975(0.287562))	
-[Iter: 164]Epoch: [0][1304/4216]	Time 1.512 (1.611)	Data Time 0.077 (0.122)	LOSSES - loss_D:0.000083(0.000355) loss_G_GAN:0.002934(0.001715) loss_G_L1:0.179183(0.284849) total_loss:0.182200(0.286919))	
-[Iter: 165]Epoch: [0][1312/4216]	Time 1.513 (1.611)	Data Time 0.079 (0.122)	LOSSES - loss_D:0.000064(0.000354) loss_G_GAN:0.003088(0.001723) loss_G_L1:0.162751(0.284109) total_loss:0.165902(0.286186))	
-[Iter: 166]Epoch: [0][1320/4216]	Time 1.508 (1.610)	Data Time 0.077 (0.121)	LOSSES - loss_D:0.000056(0.000352) loss_G_GAN:0.003063(0.001731) loss_G_L1:0.172215(0.283435) total_loss:0.175335(0.285518))	
-[Iter: 167]Epoch: [0][1328/4216]	Time 1.521 (1.609)	Data Time 0.082 (0.121)	LOSSES - loss_D:0.000071(0.000350) loss_G_GAN:0.003064(0.001739) loss_G_L1:0.194645(0.282904) total_loss:0.197780(0.284993))	
-[Iter: 168]Epoch: [0][1336/4216]	Time 1.512 (1.609)	Data Time 0.080 (0.121)	LOSSES - loss_D:0.000091(0.000349) loss_G_GAN:0.003046(0.001747) loss_G_L1:0.168328(0.282222) total_loss:0.171464(0.284317))	
-[Iter: 169]Epoch: [0][1344/4216]	Time 1.510 (1.608)	Data Time 0.081 (0.121)	LOSSES - loss_D:0.000055(0.000347) loss_G_GAN:0.003292(0.001756) loss_G_L1:0.150850(0.281444) total_loss:0.154196(0.283547))	
-[Iter: 170]Epoch: [0][1352/4216]	Time 1.511 (1.608)	Data Time 0.077 (0.120)	LOSSES - loss_D:0.000057(0.000345) loss_G_GAN:0.003170(0.001764) loss_G_L1:0.177640(0.280834) total_loss:0.180867(0.282943))	
-[Iter: 171]Epoch: [0][1360/4216]	Time 1.509 (1.607)	Data Time 0.081 (0.120)	LOSSES - loss_D:0.000064(0.000344) loss_G_GAN:0.003092(0.001772) loss_G_L1:0.163642(0.280148) total_loss:0.166798(0.282264))	
-[Iter: 172]Epoch: [0][1368/4216]	Time 1.510 (1.607)	Data Time 0.080 (0.120)	LOSSES - loss_D:0.000073(0.000342) loss_G_GAN:0.002869(0.001779) loss_G_L1:0.190098(0.279625) total_loss:0.193040(0.281745))	
-[Iter: 173]Epoch: [0][1376/4216]	Time 1.513 (1.606)	Data Time 0.082 (0.120)	LOSSES - loss_D:0.000079(0.000340) loss_G_GAN:0.003093(0.001786) loss_G_L1:0.160935(0.278939) total_loss:0.164107(0.281065))	
-[Iter: 174]Epoch: [0][1384/4216]	Time 1.508 (1.605)	Data Time 0.076 (0.119)	LOSSES - loss_D:0.000079(0.000339) loss_G_GAN:0.002951(0.001793) loss_G_L1:0.170398(0.278315) total_loss:0.173428(0.280447))	
-[Iter: 175]Epoch: [0][1392/4216]	Time 1.516 (1.605)	Data Time 0.079 (0.119)	LOSSES - loss_D:0.000068(0.000337) loss_G_GAN:0.003117(0.001800) loss_G_L1:0.193164(0.277828) total_loss:0.196349(0.279966))	
-[Iter: 176]Epoch: [0][1400/4216]	Time 1.512 (1.604)	Data Time 0.077 (0.119)	LOSSES - loss_D:0.000087(0.000336) loss_G_GAN:0.003167(0.001808) loss_G_L1:0.155691(0.277134) total_loss:0.158945(0.279278))	
-[Iter: 177]Epoch: [0][1408/4216]	Time 1.508 (1.604)	Data Time 0.080 (0.119)	LOSSES - loss_D:0.000051(0.000334) loss_G_GAN:0.003249(0.001816) loss_G_L1:0.169046(0.276524) total_loss:0.172346(0.278674))	
-[Iter: 178]Epoch: [0][1416/4216]	Time 1.509 (1.603)	Data Time 0.078 (0.118)	LOSSES - loss_D:0.000057(0.000333) loss_G_GAN:0.003123(0.001824) loss_G_L1:0.175899(0.275958) total_loss:0.179079(0.278115))	
-[Iter: 179]Epoch: [0][1424/4216]	Time 1.510 (1.603)	Data Time 0.077 (0.118)	LOSSES - loss_D:0.000094(0.000331) loss_G_GAN:0.003124(0.001831) loss_G_L1:0.169585(0.275364) total_loss:0.172802(0.277526))	
-[Iter: 180]Epoch: [0][1432/4216]	Time 1.510 (1.602)	Data Time 0.077 (0.118)	LOSSES - loss_D:0.000059(0.000330) loss_G_GAN:0.003353(0.001839) loss_G_L1:0.154756(0.274694) total_loss:0.158168(0.276863))	
-[Iter: 181]Epoch: [0][1440/4216]	Time 1.531 (1.602)	Data Time 0.096 (0.118)	LOSSES - loss_D:0.000061(0.000328) loss_G_GAN:0.003004(0.001846) loss_G_L1:0.181382(0.274179) total_loss:0.184446(0.276353))	
-[Iter: 182]Epoch: [0][1448/4216]	Time 1.511 (1.601)	Data Time 0.078 (0.118)	LOSSES - loss_D:0.000054(0.000327) loss_G_GAN:0.003380(0.001854) loss_G_L1:0.152810(0.273512) total_loss:0.156243(0.275693))	
-[Iter: 183]Epoch: [0][1456/4216]	Time 1.507 (1.601)	Data Time 0.078 (0.117)	LOSSES - loss_D:0.000055(0.000325) loss_G_GAN:0.003331(0.001862) loss_G_L1:0.182486(0.273014) total_loss:0.185871(0.275202))	
-[Iter: 184]Epoch: [0][1464/4216]	Time 1.507 (1.600)	Data Time 0.076 (0.117)	LOSSES - loss_D:0.000066(0.000324) loss_G_GAN:0.003086(0.001869) loss_G_L1:0.186793(0.272546) total_loss:0.189945(0.274739))	
-[Iter: 185]Epoch: [0][1472/4216]	Time 1.515 (1.600)	Data Time 0.079 (0.117)	LOSSES - loss_D:0.000054(0.000323) loss_G_GAN:0.003240(0.001876) loss_G_L1:0.168549(0.271984) total_loss:0.171843(0.274182))	
-[Iter: 186]Epoch: [0][1480/4216]	Time 1.510 (1.599)	Data Time 0.076 (0.117)	LOSSES - loss_D:0.000056(0.000321) loss_G_GAN:0.003230(0.001884) loss_G_L1:0.191837(0.271553) total_loss:0.195123(0.273757))	
-[Iter: 187]Epoch: [0][1488/4216]	Time 1.515 (1.599)	Data Time 0.081 (0.117)	LOSSES - loss_D:0.000074(0.000320) loss_G_GAN:0.003257(0.001891) loss_G_L1:0.157930(0.270945) total_loss:0.161261(0.273156))	
-[Iter: 188]Epoch: [0][1496/4216]	Time 1.511 (1.598)	Data Time 0.080 (0.116)	LOSSES - loss_D:0.000068(0.000318) loss_G_GAN:0.003318(0.001899) loss_G_L1:0.146715(0.270284) total_loss:0.150101(0.272501))	
-[Iter: 189]Epoch: [0][1504/4216]	Time 1.511 (1.598)	Data Time 0.082 (0.116)	LOSSES - loss_D:0.000069(0.000317) loss_G_GAN:0.002920(0.001904) loss_G_L1:0.178937(0.269801) total_loss:0.181926(0.272022))	
-[Iter: 190]Epoch: [0][1512/4216]	Time 1.514 (1.598)	Data Time 0.082 (0.116)	LOSSES - loss_D:0.000050(0.000316) loss_G_GAN:0.003309(0.001911) loss_G_L1:0.166384(0.269257) total_loss:0.169742(0.271484))	
-[Iter: 191]Epoch: [0][1520/4216]	Time 1.510 (1.597)	Data Time 0.079 (0.116)	LOSSES - loss_D:0.000054(0.000314) loss_G_GAN:0.003208(0.001918) loss_G_L1:0.185175(0.268816) total_loss:0.188437(0.271049))	
-[Iter: 192]Epoch: [0][1528/4216]	Time 1.512 (1.597)	Data Time 0.077 (0.116)	LOSSES - loss_D:0.000049(0.000313) loss_G_GAN:0.003524(0.001926) loss_G_L1:0.137079(0.268130) total_loss:0.140652(0.270370))	
-[Iter: 193]Epoch: [0][1536/4216]	Time 1.513 (1.596)	Data Time 0.081 (0.115)	LOSSES - loss_D:0.000076(0.000312) loss_G_GAN:0.002936(0.001932) loss_G_L1:0.225915(0.267912) total_loss:0.228926(0.270155))	
-[Iter: 194]Epoch: [0][1544/4216]	Time 1.512 (1.596)	Data Time 0.084 (0.115)	LOSSES - loss_D:0.000034(0.000310) loss_G_GAN:0.003628(0.001940) loss_G_L1:0.143446(0.267270) total_loss:0.147108(0.269521))	
-[Iter: 195]Epoch: [0][1552/4216]	Time 1.510 (1.595)	Data Time 0.076 (0.115)	LOSSES - loss_D:0.000059(0.000309) loss_G_GAN:0.003438(0.001948) loss_G_L1:0.158484(0.266712) total_loss:0.161981(0.268969))	
-[Iter: 196]Epoch: [0][1560/4216]	Time 1.512 (1.595)	Data Time 0.076 (0.115)	LOSSES - loss_D:0.000050(0.000308) loss_G_GAN:0.003225(0.001955) loss_G_L1:0.235979(0.266555) total_loss:0.239254(0.268818))	
-[Iter: 197]Epoch: [0][1568/4216]	Time 1.519 (1.595)	Data Time 0.082 (0.115)	LOSSES - loss_D:0.000040(0.000306) loss_G_GAN:0.003521(0.001963) loss_G_L1:0.147103(0.265949) total_loss:0.150665(0.268218))	
-[Iter: 198]Epoch: [0][1576/4216]	Time 1.518 (1.594)	Data Time 0.083 (0.115)	LOSSES - loss_D:0.000044(0.000305) loss_G_GAN:0.003472(0.001970) loss_G_L1:0.153863(0.265383) total_loss:0.157378(0.267658))	
-[Iter: 199]Epoch: [0][1584/4216]	Time 1.509 (1.594)	Data Time 0.080 (0.114)	LOSSES - loss_D:0.000048(0.000304) loss_G_GAN:0.003469(0.001978) loss_G_L1:0.166694(0.264887) total_loss:0.170210(0.267168))	
-[Iter: 200]Epoch: [0][1592/4216]	Time 1.516 (1.593)	Data Time 0.081 (0.114)	LOSSES - loss_D:0.000049(0.000302) loss_G_GAN:0.003260(0.001984) loss_G_L1:0.206154(0.264593) total_loss:0.209463(0.266880))	
-[Iter: 201]Epoch: [0][1600/4216]	Time 1.514 (1.593)	Data Time 0.079 (0.114)	LOSSES - loss_D:0.000051(0.000301) loss_G_GAN:0.003780(0.001993) loss_G_L1:0.134267(0.263945) total_loss:0.138097(0.266239))	
-[Iter: 202]Epoch: [0][1608/4216]	Time 1.510 (1.593)	Data Time 0.077 (0.114)	LOSSES - loss_D:0.000052(0.000300) loss_G_GAN:0.003252(0.001999) loss_G_L1:0.195324(0.263605) total_loss:0.198628(0.265904))	
-[Iter: 203]Epoch: [0][1616/4216]	Time 1.510 (1.592)	Data Time 0.080 (0.114)	LOSSES - loss_D:0.000055(0.000299) loss_G_GAN:0.003834(0.002008) loss_G_L1:0.120747(0.262901) total_loss:0.124636(0.265209))	
-[Iter: 204]Epoch: [0][1624/4216]	Time 1.510 (1.592)	Data Time 0.079 (0.114)	LOSSES - loss_D:0.000062(0.000298) loss_G_GAN:0.003460(0.002015) loss_G_L1:0.148202(0.262339) total_loss:0.151724(0.264652))	
-[Iter: 205]Epoch: [0][1632/4216]	Time 1.517 (1.591)	Data Time 0.080 (0.113)	LOSSES - loss_D:0.000052(0.000296) loss_G_GAN:0.003142(0.002021) loss_G_L1:0.180978(0.261942) total_loss:0.184172(0.264260))	
-[Iter: 206]Epoch: [0][1640/4216]	Time 1.513 (1.591)	Data Time 0.086 (0.113)	LOSSES - loss_D:0.000055(0.000295) loss_G_GAN:0.003371(0.002028) loss_G_L1:0.135537(0.261329) total_loss:0.138964(0.263651))	
-[Iter: 207]Epoch: [0][1648/4216]	Time 1.514 (1.591)	Data Time 0.078 (0.113)	LOSSES - loss_D:0.000073(0.000294) loss_G_GAN:0.003477(0.002035) loss_G_L1:0.167116(0.260874) total_loss:0.170666(0.263202))	
-[Iter: 208]Epoch: [0][1656/4216]	Time 1.525 (1.590)	Data Time 0.091 (0.113)	LOSSES - loss_D:0.000058(0.000293) loss_G_GAN:0.003211(0.002040) loss_G_L1:0.166866(0.260422) total_loss:0.170136(0.262755))	
-[Iter: 209]Epoch: [0][1664/4216]	Time 1.531 (1.590)	Data Time 0.098 (0.113)	LOSSES - loss_D:0.000056(0.000292) loss_G_GAN:0.003214(0.002046) loss_G_L1:0.149551(0.259891) total_loss:0.152820(0.262229))	
-[Iter: 210]Epoch: [0][1672/4216]	Time 1.515 (1.590)	Data Time 0.082 (0.113)	LOSSES - loss_D:0.000046(0.000291) loss_G_GAN:0.003556(0.002053) loss_G_L1:0.143774(0.259338) total_loss:0.147377(0.261682))	
-[Iter: 211]Epoch: [0][1680/4216]	Time 1.504 (1.589)	Data Time 0.076 (0.113)	LOSSES - loss_D:0.000067(0.000290) loss_G_GAN:0.003258(0.002059) loss_G_L1:0.173433(0.258931) total_loss:0.176758(0.261279))	
-[Iter: 212]Epoch: [0][1688/4216]	Time 1.508 (1.589)	Data Time 0.077 (0.112)	LOSSES - loss_D:0.000038(0.000289) loss_G_GAN:0.003648(0.002066) loss_G_L1:0.151129(0.258423) total_loss:0.154814(0.260777))	
-[Iter: 213]Epoch: [0][1696/4216]	Time 1.513 (1.589)	Data Time 0.078 (0.112)	LOSSES - loss_D:0.000044(0.000287) loss_G_GAN:0.003313(0.002072) loss_G_L1:0.199386(0.258145) total_loss:0.202743(0.260505))	
-[Iter: 214]Epoch: [0][1704/4216]	Time 1.506 (1.588)	Data Time 0.077 (0.112)	LOSSES - loss_D:0.000042(0.000286) loss_G_GAN:0.003771(0.002080) loss_G_L1:0.144828(0.257616) total_loss:0.148641(0.259982))	
-[Iter: 215]Epoch: [0][1712/4216]	Time 1.509 (1.588)	Data Time 0.079 (0.112)	LOSSES - loss_D:0.000052(0.000285) loss_G_GAN:0.003212(0.002085) loss_G_L1:0.173613(0.257225) total_loss:0.176877(0.259596))	
-[Iter: 216]Epoch: [0][1720/4216]	Time 1.510 (1.587)	Data Time 0.081 (0.112)	LOSSES - loss_D:0.000044(0.000284) loss_G_GAN:0.003784(0.002093) loss_G_L1:0.164100(0.256794) total_loss:0.167928(0.259171))	
-[Iter: 217]Epoch: [0][1728/4216]	Time 1.504 (1.587)	Data Time 0.077 (0.112)	LOSSES - loss_D:0.000046(0.000283) loss_G_GAN:0.003545(0.002100) loss_G_L1:0.134112(0.256229) total_loss:0.137704(0.258611))	
-[Iter: 218]Epoch: [0][1736/4216]	Time 1.509 (1.587)	Data Time 0.079 (0.111)	LOSSES - loss_D:0.000034(0.000282) loss_G_GAN:0.003691(0.002107) loss_G_L1:0.159561(0.255785) total_loss:0.163287(0.258174))	
-[Iter: 219]Epoch: [0][1744/4216]	Time 1.509 (1.586)	Data Time 0.081 (0.111)	LOSSES - loss_D:0.000048(0.000281) loss_G_GAN:0.003441(0.002113) loss_G_L1:0.203249(0.255545) total_loss:0.206738(0.257939))	
-[Iter: 220]Epoch: [0][1752/4216]	Time 1.515 (1.586)	Data Time 0.081 (0.111)	LOSSES - loss_D:0.000049(0.000280) loss_G_GAN:0.003462(0.002119) loss_G_L1:0.146714(0.255051) total_loss:0.150225(0.257450))	
-[Iter: 221]Epoch: [0][1760/4216]	Time 1.506 (1.586)	Data Time 0.079 (0.111)	LOSSES - loss_D:0.000053(0.000279) loss_G_GAN:0.003598(0.002126) loss_G_L1:0.146579(0.254560) total_loss:0.150230(0.256964))	
-[Iter: 222]Epoch: [0][1768/4216]	Time 1.506 (1.585)	Data Time 0.080 (0.111)	LOSSES - loss_D:0.000040(0.000278) loss_G_GAN:0.003694(0.002133) loss_G_L1:0.209557(0.254357) total_loss:0.213291(0.256768))	
-[Iter: 223]Epoch: [0][1776/4216]	Time 1.512 (1.585)	Data Time 0.081 (0.111)	LOSSES - loss_D:0.000045(0.000276) loss_G_GAN:0.003657(0.002140) loss_G_L1:0.121395(0.253761) total_loss:0.125097(0.256177))	
-[Iter: 224]Epoch: [0][1784/4216]	Time 1.508 (1.585)	Data Time 0.077 (0.111)	LOSSES - loss_D:0.000049(0.000275) loss_G_GAN:0.003678(0.002147) loss_G_L1:0.153895(0.253315) total_loss:0.157622(0.255737))	
-[Iter: 225]Epoch: [0][1792/4216]	Time 1.511 (1.584)	Data Time 0.080 (0.111)	LOSSES - loss_D:0.000040(0.000274) loss_G_GAN:0.003423(0.002152) loss_G_L1:0.150074(0.252856) total_loss:0.153538(0.255283))	
-[Iter: 226]Epoch: [0][1800/4216]	Time 1.513 (1.584)	Data Time 0.079 (0.110)	LOSSES - loss_D:0.000042(0.000273) loss_G_GAN:0.003974(0.002161) loss_G_L1:0.157781(0.252435) total_loss:0.161797(0.254869))	
-[Iter: 227]Epoch: [0][1808/4216]	Time 1.513 (1.584)	Data Time 0.077 (0.110)	LOSSES - loss_D:0.000052(0.000272) loss_G_GAN:0.003278(0.002165) loss_G_L1:0.210164(0.252249) total_loss:0.213494(0.254687))	
-[Iter: 228]Epoch: [0][1816/4216]	Time 1.513 (1.583)	Data Time 0.076 (0.110)	LOSSES - loss_D:0.000043(0.000271) loss_G_GAN:0.003545(0.002172) loss_G_L1:0.158356(0.251837) total_loss:0.161945(0.254280))	
-[Iter: 229]Epoch: [0][1824/4216]	Time 1.512 (1.583)	Data Time 0.083 (0.110)	LOSSES - loss_D:0.000038(0.000270) loss_G_GAN:0.003638(0.002178) loss_G_L1:0.143274(0.251363) total_loss:0.146950(0.253812))	
-[Iter: 230]Epoch: [0][1832/4216]	Time 1.513 (1.583)	Data Time 0.081 (0.110)	LOSSES - loss_D:0.000025(0.000269) loss_G_GAN:0.003889(0.002185) loss_G_L1:0.167003(0.250997) total_loss:0.170917(0.253451))	
-[Iter: 231]Epoch: [0][1840/4216]	Time 1.506 (1.582)	Data Time 0.076 (0.110)	LOSSES - loss_D:0.000030(0.000268) loss_G_GAN:0.003762(0.002192) loss_G_L1:0.150149(0.250560) total_loss:0.153941(0.253020))	
-[Iter: 232]Epoch: [0][1848/4216]	Time 1.512 (1.582)	Data Time 0.080 (0.110)	LOSSES - loss_D:0.000034(0.000267) loss_G_GAN:0.003611(0.002198) loss_G_L1:0.178962(0.250251) total_loss:0.182607(0.252717))	
-[Iter: 233]Epoch: [0][1856/4216]	Time 1.512 (1.582)	Data Time 0.081 (0.109)	LOSSES - loss_D:0.000037(0.000266) loss_G_GAN:0.003556(0.002204) loss_G_L1:0.170094(0.249907) total_loss:0.173688(0.252378))	
-[Iter: 234]Epoch: [0][1864/4216]	Time 1.509 (1.581)	Data Time 0.077 (0.109)	LOSSES - loss_D:0.000033(0.000265) loss_G_GAN:0.004018(0.002212) loss_G_L1:0.130616(0.249398) total_loss:0.134667(0.251875))	
-[Iter: 235]Epoch: [0][1872/4216]	Time 1.513 (1.581)	Data Time 0.081 (0.109)	LOSSES - loss_D:0.000031(0.000264) loss_G_GAN:0.003714(0.002218) loss_G_L1:0.178639(0.249096) total_loss:0.182385(0.251579))	
-[Iter: 236]Epoch: [0][1880/4216]	Time 1.511 (1.581)	Data Time 0.079 (0.109)	LOSSES - loss_D:0.000037(0.000263) loss_G_GAN:0.003983(0.002226) loss_G_L1:0.129653(0.248590) total_loss:0.133673(0.251079))	
-[Iter: 237]Epoch: [0][1888/4216]	Time 1.517 (1.581)	Data Time 0.080 (0.109)	LOSSES - loss_D:0.000043(0.000262) loss_G_GAN:0.003536(0.002231) loss_G_L1:0.144123(0.248150) total_loss:0.147702(0.250643))	
-[Iter: 238]Epoch: [0][1896/4216]	Time 1.517 (1.580)	Data Time 0.082 (0.109)	LOSSES - loss_D:0.000037(0.000261) loss_G_GAN:0.003727(0.002238) loss_G_L1:0.168589(0.247815) total_loss:0.172353(0.250314))	
-[Iter: 239]Epoch: [0][1904/4216]	Time 1.515 (1.580)	Data Time 0.078 (0.109)	LOSSES - loss_D:0.000045(0.000261) loss_G_GAN:0.003393(0.002242) loss_G_L1:0.134408(0.247341) total_loss:0.137846(0.249844))	
-[Iter: 240]Epoch: [0][1912/4216]	Time 1.510 (1.580)	Data Time 0.077 (0.109)	LOSSES - loss_D:0.000043(0.000260) loss_G_GAN:0.003522(0.002248) loss_G_L1:0.189735(0.247101) total_loss:0.193300(0.249608))	
-[Iter: 241]Epoch: [0][1920/4216]	Time 1.508 (1.579)	Data Time 0.079 (0.108)	LOSSES - loss_D:0.000039(0.000259) loss_G_GAN:0.003658(0.002254) loss_G_L1:0.167350(0.246770) total_loss:0.171047(0.249282))	
-[Iter: 242]Epoch: [0][1928/4216]	Time 1.514 (1.579)	Data Time 0.077 (0.108)	LOSSES - loss_D:0.000036(0.000258) loss_G_GAN:0.003645(0.002259) loss_G_L1:0.135624(0.246311) total_loss:0.139305(0.248828))	
-[Iter: 243]Epoch: [0][1936/4216]	Time 1.510 (1.579)	Data Time 0.078 (0.108)	LOSSES - loss_D:0.000044(0.000257) loss_G_GAN:0.003372(0.002264) loss_G_L1:0.152753(0.245926) total_loss:0.156170(0.248446))	
-[Iter: 244]Epoch: [0][1944/4216]	Time 1.507 (1.579)	Data Time 0.077 (0.108)	LOSSES - loss_D:0.000038(0.000256) loss_G_GAN:0.003542(0.002269) loss_G_L1:0.184334(0.245673) total_loss:0.187915(0.248198))	
-[Iter: 245]Epoch: [0][1952/4216]	Time 1.510 (1.578)	Data Time 0.081 (0.108)	LOSSES - loss_D:0.000058(0.000255) loss_G_GAN:0.003570(0.002274) loss_G_L1:0.220642(0.245571) total_loss:0.224270(0.248101))	
-[Iter: 246]Epoch: [0][1960/4216]	Time 1.509 (1.578)	Data Time 0.080 (0.108)	LOSSES - loss_D:0.000068(0.000254) loss_G_GAN:0.003769(0.002281) loss_G_L1:0.172613(0.245274) total_loss:0.176451(0.247809))	
-[Iter: 247]Epoch: [0][1968/4216]	Time 1.508 (1.578)	Data Time 0.079 (0.108)	LOSSES - loss_D:0.000087(0.000254) loss_G_GAN:0.003498(0.002285) loss_G_L1:0.152195(0.244898) total_loss:0.155780(0.247437))	
-[Iter: 248]Epoch: [0][1976/4216]	Time 1.506 (1.577)	Data Time 0.081 (0.108)	LOSSES - loss_D:0.000061(0.000253) loss_G_GAN:0.003698(0.002291) loss_G_L1:0.137244(0.244463) total_loss:0.141003(0.247008))	
-[Iter: 249]Epoch: [0][1984/4216]	Time 1.507 (1.577)	Data Time 0.079 (0.107)	LOSSES - loss_D:0.000074(0.000252) loss_G_GAN:0.002984(0.002294) loss_G_L1:0.194717(0.244264) total_loss:0.197775(0.246810))	
-[Iter: 250]Epoch: [0][1992/4216]	Time 1.511 (1.577)	Data Time 0.079 (0.107)	LOSSES - loss_D:0.000091(0.000252) loss_G_GAN:0.003628(0.002299) loss_G_L1:0.172780(0.243978) total_loss:0.176499(0.246529))	
-[Iter: 251]Epoch: [0][2000/4216]	Time 1.506 (1.577)	Data Time 0.080 (0.107)	LOSSES - loss_D:0.000120(0.000251) loss_G_GAN:0.003360(0.002303) loss_G_L1:0.124936(0.243503) total_loss:0.128416(0.246058))	
-[Iter: 252]Epoch: [0][2008/4216]	Time 1.510 (1.576)	Data Time 0.081 (0.107)	LOSSES - loss_D:0.000105(0.000251) loss_G_GAN:0.003465(0.002308) loss_G_L1:0.190960(0.243295) total_loss:0.194529(0.245854))	
-[Iter: 253]Epoch: [0][2016/4216]	Time 1.511 (1.576)	Data Time 0.080 (0.107)	LOSSES - loss_D:0.000061(0.000250) loss_G_GAN:0.003270(0.002312) loss_G_L1:0.207742(0.243154) total_loss:0.211073(0.245716))	
-[Iter: 254]Epoch: [0][2024/4216]	Time 1.513 (1.576)	Data Time 0.081 (0.107)	LOSSES - loss_D:0.000074(0.000249) loss_G_GAN:0.003707(0.002317) loss_G_L1:0.164944(0.242847) total_loss:0.168725(0.245413))	
-[Iter: 255]Epoch: [0][2032/4216]	Time 1.513 (1.576)	Data Time 0.079 (0.107)	LOSSES - loss_D:0.000040(0.000248) loss_G_GAN:0.003614(0.002322) loss_G_L1:0.119243(0.242362) total_loss:0.122897(0.244933))	
-[Iter: 256]Epoch: [0][2040/4216]	Time 1.514 (1.575)	Data Time 0.077 (0.107)	LOSSES - loss_D:0.000044(0.000248) loss_G_GAN:0.003683(0.002328) loss_G_L1:0.176315(0.242104) total_loss:0.180042(0.244679))	
-[Iter: 257]Epoch: [0][2048/4216]	Time 1.507 (1.575)	Data Time 0.080 (0.107)	LOSSES - loss_D:0.000045(0.000247) loss_G_GAN:0.003529(0.002332) loss_G_L1:0.123311(0.241642) total_loss:0.126886(0.244221))	
-[Iter: 258]Epoch: [0][2056/4216]	Time 1.512 (1.575)	Data Time 0.082 (0.107)	LOSSES - loss_D:0.000037(0.000246) loss_G_GAN:0.003914(0.002339) loss_G_L1:0.156756(0.241313) total_loss:0.160708(0.243897))	
-[Iter: 259]Epoch: [0][2064/4216]	Time 1.511 (1.575)	Data Time 0.078 (0.106)	LOSSES - loss_D:0.000034(0.000245) loss_G_GAN:0.003960(0.002345) loss_G_L1:0.129449(0.240881) total_loss:0.133443(0.243471))	
-[Iter: 260]Epoch: [0][2072/4216]	Time 1.506 (1.574)	Data Time 0.077 (0.106)	LOSSES - loss_D:0.000037(0.000244) loss_G_GAN:0.003702(0.002350) loss_G_L1:0.184278(0.240663) total_loss:0.188017(0.243257))	
-[Iter: 261]Epoch: [0][2080/4216]	Time 1.508 (1.574)	Data Time 0.077 (0.106)	LOSSES - loss_D:0.000036(0.000243) loss_G_GAN:0.003512(0.002355) loss_G_L1:0.154367(0.240332) total_loss:0.157915(0.242930))	
-[Iter: 262]Epoch: [0][2088/4216]	Time 1.513 (1.574)	Data Time 0.076 (0.106)	LOSSES - loss_D:0.000037(0.000243) loss_G_GAN:0.003682(0.002360) loss_G_L1:0.204696(0.240196) total_loss:0.208415(0.242799))	
-[Iter: 263]Epoch: [0][2096/4216]	Time 1.510 (1.574)	Data Time 0.081 (0.106)	LOSSES - loss_D:0.000034(0.000242) loss_G_GAN:0.004160(0.002366) loss_G_L1:0.136702(0.239803) total_loss:0.140897(0.242411))	
-[Iter: 264]Epoch: [0][2104/4216]	Time 1.522 (1.573)	Data Time 0.085 (0.106)	LOSSES - loss_D:0.000047(0.000241) loss_G_GAN:0.003468(0.002371) loss_G_L1:0.194071(0.239630) total_loss:0.197586(0.242241))	
-[Iter: 265]Epoch: [0][2112/4216]	Time 1.509 (1.573)	Data Time 0.080 (0.106)	LOSSES - loss_D:0.000037(0.000240) loss_G_GAN:0.003650(0.002375) loss_G_L1:0.148623(0.239286) total_loss:0.152309(0.241902))	
-[Iter: 266]Epoch: [0][2120/4216]	Time 1.509 (1.573)	Data Time 0.079 (0.106)	LOSSES - loss_D:0.000041(0.000240) loss_G_GAN:0.003702(0.002380) loss_G_L1:0.166378(0.239012) total_loss:0.170122(0.241632))	
-[Iter: 267]Epoch: [0][2128/4216]	Time 1.512 (1.573)	Data Time 0.081 (0.106)	LOSSES - loss_D:0.000028(0.000239) loss_G_GAN:0.003885(0.002386) loss_G_L1:0.148228(0.238672) total_loss:0.152140(0.241297))	
-[Iter: 268]Epoch: [0][2136/4216]	Time 1.506 (1.572)	Data Time 0.082 (0.106)	LOSSES - loss_D:0.000039(0.000238) loss_G_GAN:0.003572(0.002390) loss_G_L1:0.173725(0.238430) total_loss:0.177335(0.241058))	
-[Iter: 269]Epoch: [0][2144/4216]	Time 1.508 (1.572)	Data Time 0.080 (0.105)	LOSSES - loss_D:0.000030(0.000237) loss_G_GAN:0.004015(0.002397) loss_G_L1:0.134937(0.238045) total_loss:0.138982(0.240679))	
-[Iter: 270]Epoch: [0][2152/4216]	Time 1.513 (1.572)	Data Time 0.082 (0.105)	LOSSES - loss_D:0.000052(0.000237) loss_G_GAN:0.003736(0.002401) loss_G_L1:0.168600(0.237788) total_loss:0.172388(0.240426))	
-[Iter: 271]Epoch: [0][2160/4216]	Time 1.505 (1.572)	Data Time 0.078 (0.105)	LOSSES - loss_D:0.000035(0.000236) loss_G_GAN:0.003914(0.002407) loss_G_L1:0.148147(0.237457) total_loss:0.152096(0.240100))	
-[Iter: 272]Epoch: [0][2168/4216]	Time 1.508 (1.572)	Data Time 0.078 (0.105)	LOSSES - loss_D:0.000038(0.000235) loss_G_GAN:0.003789(0.002412) loss_G_L1:0.157599(0.237163) total_loss:0.161427(0.239811))	
-[Iter: 273]Epoch: [0][2176/4216]	Time 1.505 (1.571)	Data Time 0.079 (0.105)	LOSSES - loss_D:0.000035(0.000234) loss_G_GAN:0.003521(0.002416) loss_G_L1:0.172790(0.236928) total_loss:0.176346(0.239578))	
-[Iter: 274]Epoch: [0][2184/4216]	Time 1.510 (1.571)	Data Time 0.079 (0.105)	LOSSES - loss_D:0.000036(0.000234) loss_G_GAN:0.003606(0.002421) loss_G_L1:0.194963(0.236774) total_loss:0.198605(0.239429))	
-[Iter: 275]Epoch: [0][2192/4216]	Time 1.505 (1.571)	Data Time 0.076 (0.105)	LOSSES - loss_D:0.000030(0.000233) loss_G_GAN:0.003901(0.002426) loss_G_L1:0.116549(0.236337) total_loss:0.120480(0.238996))	
-[Iter: 276]Epoch: [0][2200/4216]	Time 1.507 (1.571)	Data Time 0.076 (0.105)	LOSSES - loss_D:0.000048(0.000232) loss_G_GAN:0.003828(0.002431) loss_G_L1:0.176359(0.236120) total_loss:0.180236(0.238783))	
-[Iter: 277]Epoch: [0][2208/4216]	Time 1.506 (1.570)	Data Time 0.079 (0.105)	LOSSES - loss_D:0.000037(0.000232) loss_G_GAN:0.003694(0.002436) loss_G_L1:0.143029(0.235784) total_loss:0.146760(0.238451))	
-[Iter: 278]Epoch: [0][2216/4216]	Time 1.510 (1.570)	Data Time 0.077 (0.105)	LOSSES - loss_D:0.000034(0.000231) loss_G_GAN:0.003936(0.002441) loss_G_L1:0.155658(0.235496) total_loss:0.159629(0.238168))	
-[Iter: 279]Epoch: [0][2224/4216]	Time 1.511 (1.570)	Data Time 0.077 (0.104)	LOSSES - loss_D:0.000039(0.000230) loss_G_GAN:0.003473(0.002445) loss_G_L1:0.175707(0.235281) total_loss:0.179219(0.237956))	
-[Iter: 280]Epoch: [0][2232/4216]	Time 1.507 (1.570)	Data Time 0.082 (0.104)	LOSSES - loss_D:0.000044(0.000230) loss_G_GAN:0.003849(0.002450) loss_G_L1:0.151566(0.234982) total_loss:0.155460(0.237662))	
-[Iter: 281]Epoch: [0][2240/4216]	Time 1.508 (1.570)	Data Time 0.078 (0.104)	LOSSES - loss_D:0.000041(0.000229) loss_G_GAN:0.003449(0.002453) loss_G_L1:0.132146(0.234616) total_loss:0.135636(0.237299))	
-[Iter: 282]Epoch: [0][2248/4216]	Time 1.513 (1.569)	Data Time 0.077 (0.104)	LOSSES - loss_D:0.000037(0.000228) loss_G_GAN:0.003931(0.002458) loss_G_L1:0.151401(0.234321) total_loss:0.155369(0.237008))	
-[Iter: 283]Epoch: [0][2256/4216]	Time 1.511 (1.569)	Data Time 0.082 (0.104)	LOSSES - loss_D:0.000039(0.000228) loss_G_GAN:0.003543(0.002462) loss_G_L1:0.204222(0.234215) total_loss:0.207804(0.236905))	
-[Iter: 284]Epoch: [0][2264/4216]	Time 1.510 (1.569)	Data Time 0.079 (0.104)	LOSSES - loss_D:0.000045(0.000227) loss_G_GAN:0.003943(0.002468) loss_G_L1:0.106043(0.233764) total_loss:0.110031(0.236458))	
-[Iter: 285]Epoch: [0][2272/4216]	Time 1.517 (1.569)	Data Time 0.079 (0.104)	LOSSES - loss_D:0.000047(0.000226) loss_G_GAN:0.003537(0.002471) loss_G_L1:0.155740(0.233490) total_loss:0.159324(0.236187))	
-[Iter: 286]Epoch: [0][2280/4216]	Time 1.519 (1.569)	Data Time 0.081 (0.104)	LOSSES - loss_D:0.000036(0.000226) loss_G_GAN:0.004085(0.002477) loss_G_L1:0.184633(0.233319) total_loss:0.188754(0.236022))	
-[Iter: 287]Epoch: [0][2288/4216]	Time 1.508 (1.568)	Data Time 0.077 (0.104)	LOSSES - loss_D:0.000040(0.000225) loss_G_GAN:0.003653(0.002481) loss_G_L1:0.099936(0.232854) total_loss:0.103629(0.235560))	
-[Iter: 288]Epoch: [0][2296/4216]	Time 1.513 (1.568)	Data Time 0.077 (0.104)	LOSSES - loss_D:0.000038(0.000224) loss_G_GAN:0.003953(0.002486) loss_G_L1:0.139681(0.232531) total_loss:0.143671(0.235241))	
-[Iter: 289]Epoch: [0][2304/4216]	Time 1.513 (1.568)	Data Time 0.082 (0.104)	LOSSES - loss_D:0.000029(0.000224) loss_G_GAN:0.003825(0.002491) loss_G_L1:0.139615(0.232209) total_loss:0.143470(0.234924))	
-[Iter: 290]Epoch: [0][2312/4216]	Time 1.510 (1.568)	Data Time 0.081 (0.103)	LOSSES - loss_D:0.000039(0.000223) loss_G_GAN:0.003951(0.002496) loss_G_L1:0.151698(0.231932) total_loss:0.155688(0.234650))	
-[Iter: 291]Epoch: [0][2320/4216]	Time 1.507 (1.568)	Data Time 0.078 (0.103)	LOSSES - loss_D:0.000050(0.000222) loss_G_GAN:0.003654(0.002500) loss_G_L1:0.180370(0.231754) total_loss:0.184074(0.234477))	
-[Iter: 292]Epoch: [0][2328/4216]	Time 1.506 (1.567)	Data Time 0.076 (0.103)	LOSSES - loss_D:0.000033(0.000222) loss_G_GAN:0.003752(0.002504) loss_G_L1:0.149395(0.231472) total_loss:0.153179(0.234198))	
-[Iter: 293]Epoch: [0][2336/4216]	Time 1.509 (1.567)	Data Time 0.078 (0.103)	LOSSES - loss_D:0.000032(0.000221) loss_G_GAN:0.003700(0.002508) loss_G_L1:0.135140(0.231144) total_loss:0.138873(0.233873))	
-[Iter: 294]Epoch: [0][2344/4216]	Time 1.505 (1.567)	Data Time 0.076 (0.103)	LOSSES - loss_D:0.000037(0.000220) loss_G_GAN:0.003819(0.002513) loss_G_L1:0.135409(0.230818) total_loss:0.139264(0.233551))	
-[Iter: 295]Epoch: [0][2352/4216]	Time 1.514 (1.567)	Data Time 0.081 (0.103)	LOSSES - loss_D:0.000035(0.000220) loss_G_GAN:0.004008(0.002518) loss_G_L1:0.178367(0.230640) total_loss:0.182411(0.233378))	
-[Iter: 296]Epoch: [0][2360/4216]	Time 1.512 (1.567)	Data Time 0.083 (0.103)	LOSSES - loss_D:0.000054(0.000219) loss_G_GAN:0.003866(0.002522) loss_G_L1:0.129007(0.230297) total_loss:0.132927(0.233038))	
-[Iter: 297]Epoch: [0][2368/4216]	Time 1.512 (1.566)	Data Time 0.081 (0.103)	LOSSES - loss_D:0.000053(0.000219) loss_G_GAN:0.003475(0.002525) loss_G_L1:0.150659(0.230029) total_loss:0.154188(0.232773))	
-[Iter: 298]Epoch: [0][2376/4216]	Time 1.511 (1.566)	Data Time 0.077 (0.103)	LOSSES - loss_D:0.000036(0.000218) loss_G_GAN:0.003665(0.002529) loss_G_L1:0.131684(0.229699) total_loss:0.135386(0.232446))	
-[Iter: 299]Epoch: [0][2384/4216]	Time 1.512 (1.566)	Data Time 0.079 (0.103)	LOSSES - loss_D:0.000043(0.000218) loss_G_GAN:0.003485(0.002532) loss_G_L1:0.191184(0.229570) total_loss:0.194712(0.232320))	
-[Iter: 300]Epoch: [0][2392/4216]	Time 1.507 (1.566)	Data Time 0.078 (0.103)	LOSSES - loss_D:0.000042(0.000217) loss_G_GAN:0.003822(0.002537) loss_G_L1:0.129142(0.229235) total_loss:0.133005(0.231989))	
-[Iter: 301]Epoch: [0][2400/4216]	Time 1.515 (1.566)	Data Time 0.082 (0.103)	LOSSES - loss_D:0.000023(0.000216) loss_G_GAN:0.004073(0.002542) loss_G_L1:0.155327(0.228990) total_loss:0.159423(0.231748))	
-[Iter: 302]Epoch: [0][2408/4216]	Time 1.513 (1.565)	Data Time 0.084 (0.103)	LOSSES - loss_D:0.000043(0.000216) loss_G_GAN:0.003952(0.002547) loss_G_L1:0.134776(0.228678) total_loss:0.138771(0.231440))	
-[Iter: 303]Epoch: [0][2416/4216]	Time 1.517 (1.565)	Data Time 0.079 (0.102)	LOSSES - loss_D:0.000038(0.000215) loss_G_GAN:0.003911(0.002551) loss_G_L1:0.123639(0.228331) total_loss:0.127588(0.231097))	
-[Iter: 304]Epoch: [0][2424/4216]	Time 1.515 (1.565)	Data Time 0.077 (0.102)	LOSSES - loss_D:0.000036(0.000215) loss_G_GAN:0.003769(0.002555) loss_G_L1:0.131740(0.228013) total_loss:0.135545(0.230783))	
-[Iter: 305]Epoch: [0][2432/4216]	Time 1.510 (1.565)	Data Time 0.079 (0.102)	LOSSES - loss_D:0.000033(0.000214) loss_G_GAN:0.003702(0.002559) loss_G_L1:0.233384(0.228031) total_loss:0.237119(0.230804))	
-[Iter: 306]Epoch: [0][2440/4216]	Time 1.514 (1.565)	Data Time 0.079 (0.102)	LOSSES - loss_D:0.000031(0.000213) loss_G_GAN:0.003947(0.002563) loss_G_L1:0.128489(0.227706) total_loss:0.132467(0.230482))	
-[Iter: 307]Epoch: [0][2448/4216]	Time 1.507 (1.565)	Data Time 0.077 (0.102)	LOSSES - loss_D:0.000036(0.000213) loss_G_GAN:0.003861(0.002568) loss_G_L1:0.157293(0.227476) total_loss:0.161190(0.230257))	
-[Iter: 308]Epoch: [0][2456/4216]	Time 1.505 (1.564)	Data Time 0.076 (0.102)	LOSSES - loss_D:0.000037(0.000212) loss_G_GAN:0.004044(0.002572) loss_G_L1:0.130791(0.227162) total_loss:0.134873(0.229947))	
-[Iter: 309]Epoch: [0][2464/4216]	Time 1.508 (1.564)	Data Time 0.077 (0.102)	LOSSES - loss_D:0.000035(0.000212) loss_G_GAN:0.003664(0.002576) loss_G_L1:0.132609(0.226856) total_loss:0.136309(0.229644))	
-[Iter: 310]Epoch: [0][2472/4216]	Time 1.512 (1.564)	Data Time 0.077 (0.102)	LOSSES - loss_D:0.000026(0.000211) loss_G_GAN:0.004153(0.002581) loss_G_L1:0.143572(0.226588) total_loss:0.147751(0.229380))	
-[Iter: 311]Epoch: [0][2480/4216]	Time 1.506 (1.564)	Data Time 0.077 (0.102)	LOSSES - loss_D:0.000054(0.000211) loss_G_GAN:0.003664(0.002584) loss_G_L1:0.110551(0.226215) total_loss:0.114270(0.229009))	
-[Iter: 312]Epoch: [0][2488/4216]	Time 1.512 (1.564)	Data Time 0.080 (0.102)	LOSSES - loss_D:0.000047(0.000210) loss_G_GAN:0.003985(0.002589) loss_G_L1:0.149918(0.225970) total_loss:0.153949(0.228769))	
-[Iter: 313]Epoch: [0][2496/4216]	Time 1.511 (1.564)	Data Time 0.078 (0.102)	LOSSES - loss_D:0.000063(0.000210) loss_G_GAN:0.003611(0.002592) loss_G_L1:0.126910(0.225653) total_loss:0.130584(0.228455))	
-[Iter: 314]Epoch: [0][2504/4216]	Time 1.505 (1.563)	Data Time 0.076 (0.102)	LOSSES - loss_D:0.000032(0.000209) loss_G_GAN:0.004388(0.002598) loss_G_L1:0.118752(0.225313) total_loss:0.123172(0.228120))	
-[Iter: 315]Epoch: [0][2512/4216]	Time 1.509 (1.563)	Data Time 0.077 (0.102)	LOSSES - loss_D:0.000068(0.000209) loss_G_GAN:0.003504(0.002601) loss_G_L1:0.169026(0.225134) total_loss:0.172598(0.227944))	
-[Iter: 316]Epoch: [0][2520/4216]	Time 1.508 (1.563)	Data Time 0.076 (0.101)	LOSSES - loss_D:0.000040(0.000208) loss_G_GAN:0.004082(0.002606) loss_G_L1:0.127659(0.224826) total_loss:0.131781(0.227639))	
-[Iter: 317]Epoch: [0][2528/4216]	Time 1.507 (1.563)	Data Time 0.077 (0.101)	LOSSES - loss_D:0.000042(0.000207) loss_G_GAN:0.003877(0.002610) loss_G_L1:0.182712(0.224693) total_loss:0.186631(0.227510))	
-[Iter: 318]Epoch: [0][2536/4216]	Time 1.515 (1.563)	Data Time 0.083 (0.101)	LOSSES - loss_D:0.000035(0.000207) loss_G_GAN:0.003969(0.002614) loss_G_L1:0.132722(0.224404) total_loss:0.136726(0.227225))	
-[Iter: 319]Epoch: [0][2544/4216]	Time 1.508 (1.562)	Data Time 0.082 (0.101)	LOSSES - loss_D:0.000039(0.000206) loss_G_GAN:0.003825(0.002618) loss_G_L1:0.123606(0.224088) total_loss:0.127470(0.226912))	
-[Iter: 320]Epoch: [0][2552/4216]	Time 1.505 (1.562)	Data Time 0.077 (0.101)	LOSSES - loss_D:0.000095(0.000206) loss_G_GAN:0.004256(0.002623) loss_G_L1:0.122301(0.223770) total_loss:0.126653(0.226598))	
-[Iter: 321]Epoch: [0][2560/4216]	Time 1.514 (1.562)	Data Time 0.082 (0.101)	LOSSES - loss_D:0.000073(0.000206) loss_G_GAN:0.003619(0.002626) loss_G_L1:0.146217(0.223528) total_loss:0.149909(0.226360))	
-[Iter: 322]Epoch: [0][2568/4216]	Time 1.513 (1.562)	Data Time 0.082 (0.101)	LOSSES - loss_D:0.000057(0.000205) loss_G_GAN:0.003907(0.002630) loss_G_L1:0.125906(0.223225) total_loss:0.129869(0.226060))	
-[Iter: 323]Epoch: [0][2576/4216]	Time 1.519 (1.562)	Data Time 0.087 (0.101)	LOSSES - loss_D:0.000059(0.000205) loss_G_GAN:0.003746(0.002633) loss_G_L1:0.189033(0.223119) total_loss:0.192838(0.225957))	
-[Iter: 324]Epoch: [0][2584/4216]	Time 1.506 (1.562)	Data Time 0.077 (0.101)	LOSSES - loss_D:0.000032(0.000204) loss_G_GAN:0.003917(0.002637) loss_G_L1:0.119238(0.222798) total_loss:0.123186(0.225640))	
-[Iter: 325]Epoch: [0][2592/4216]	Time 1.512 (1.562)	Data Time 0.076 (0.101)	LOSSES - loss_D:0.000066(0.000204) loss_G_GAN:0.003434(0.002640) loss_G_L1:0.152283(0.222582) total_loss:0.155783(0.225425))	
-[Iter: 326]Epoch: [0][2600/4216]	Time 1.513 (1.561)	Data Time 0.079 (0.101)	LOSSES - loss_D:0.000029(0.000203) loss_G_GAN:0.004165(0.002644) loss_G_L1:0.171188(0.222424) total_loss:0.175382(0.225271))	
-[Iter: 327]Epoch: [0][2608/4216]	Time 1.513 (1.561)	Data Time 0.078 (0.101)	LOSSES - loss_D:0.000051(0.000203) loss_G_GAN:0.004041(0.002649) loss_G_L1:0.219285(0.222414) total_loss:0.223378(0.225266))	
-[Iter: 328]Epoch: [0][2616/4216]	Time 1.510 (1.561)	Data Time 0.082 (0.101)	LOSSES - loss_D:0.000051(0.000202) loss_G_GAN:0.003978(0.002653) loss_G_L1:0.103731(0.222052) total_loss:0.107759(0.224907))	
-[Iter: 329]Epoch: [0][2624/4216]	Time 1.518 (1.561)	Data Time 0.083 (0.101)	LOSSES - loss_D:0.000035(0.000202) loss_G_GAN:0.003551(0.002655) loss_G_L1:0.213300(0.222026) total_loss:0.216887(0.224883))	
-[Iter: 330]Epoch: [0][2632/4216]	Time 1.513 (1.561)	Data Time 0.076 (0.101)	LOSSES - loss_D:0.000034(0.000201) loss_G_GAN:0.003710(0.002659) loss_G_L1:0.152707(0.221816) total_loss:0.156451(0.224676))	
-[Iter: 331]Epoch: [0][2640/4216]	Time 1.510 (1.561)	Data Time 0.077 (0.100)	LOSSES - loss_D:0.000031(0.000201) loss_G_GAN:0.003916(0.002662) loss_G_L1:0.142204(0.221575) total_loss:0.146151(0.224438))	
-[Iter: 332]Epoch: [0][2648/4216]	Time 1.505 (1.560)	Data Time 0.076 (0.100)	LOSSES - loss_D:0.000027(0.000200) loss_G_GAN:0.004047(0.002667) loss_G_L1:0.111670(0.221244) total_loss:0.115744(0.224111))	
-[Iter: 333]Epoch: [0][2656/4216]	Time 1.511 (1.560)	Data Time 0.077 (0.100)	LOSSES - loss_D:0.000029(0.000200) loss_G_GAN:0.004083(0.002671) loss_G_L1:0.194189(0.221163) total_loss:0.198301(0.224034))	
-[Iter: 334]Epoch: [0][2664/4216]	Time 1.512 (1.560)	Data Time 0.083 (0.100)	LOSSES - loss_D:0.000044(0.000199) loss_G_GAN:0.003891(0.002674) loss_G_L1:0.157323(0.220972) total_loss:0.161258(0.223846))	
-[Iter: 335]Epoch: [0][2672/4216]	Time 1.511 (1.560)	Data Time 0.081 (0.100)	LOSSES - loss_D:0.000037(0.000199) loss_G_GAN:0.003776(0.002678) loss_G_L1:0.137008(0.220721) total_loss:0.140821(0.223598))	
-[Iter: 336]Epoch: [0][2680/4216]	Time 1.508 (1.560)	Data Time 0.077 (0.100)	LOSSES - loss_D:0.000035(0.000198) loss_G_GAN:0.003743(0.002681) loss_G_L1:0.125362(0.220437) total_loss:0.129140(0.223317))	
-[Iter: 337]Epoch: [0][2688/4216]	Time 1.515 (1.560)	Data Time 0.080 (0.100)	LOSSES - loss_D:0.000028(0.000198) loss_G_GAN:0.004057(0.002685) loss_G_L1:0.185774(0.220335) total_loss:0.189859(0.223217))	
-[Iter: 338]Epoch: [0][2696/4216]	Time 1.507 (1.560)	Data Time 0.079 (0.100)	LOSSES - loss_D:0.000031(0.000197) loss_G_GAN:0.003947(0.002689) loss_G_L1:0.101972(0.219984) total_loss:0.105949(0.222870))	
-[Iter: 339]Epoch: [0][2704/4216]	Time 1.507 (1.559)	Data Time 0.077 (0.100)	LOSSES - loss_D:0.000050(0.000197) loss_G_GAN:0.003709(0.002692) loss_G_L1:0.124942(0.219704) total_loss:0.128700(0.222593))	
-[Iter: 340]Epoch: [0][2712/4216]	Time 1.503 (1.559)	Data Time 0.076 (0.100)	LOSSES - loss_D:0.000034(0.000196) loss_G_GAN:0.003830(0.002695) loss_G_L1:0.130049(0.219440) total_loss:0.133913(0.222332))	
-[Iter: 341]Epoch: [0][2720/4216]	Time 1.511 (1.559)	Data Time 0.077 (0.100)	LOSSES - loss_D:0.000029(0.000196) loss_G_GAN:0.003927(0.002699) loss_G_L1:0.182246(0.219331) total_loss:0.186203(0.222226))	
-[Iter: 342]Epoch: [0][2728/4216]	Time 1.512 (1.559)	Data Time 0.077 (0.100)	LOSSES - loss_D:0.000035(0.000195) loss_G_GAN:0.003759(0.002702) loss_G_L1:0.165707(0.219174) total_loss:0.169500(0.222072))	
-[Iter: 343]Epoch: [0][2736/4216]	Time 1.509 (1.559)	Data Time 0.076 (0.100)	LOSSES - loss_D:0.000023(0.000195) loss_G_GAN:0.004139(0.002706) loss_G_L1:0.123669(0.218896) total_loss:0.127831(0.221797))	
-[Iter: 344]Epoch: [0][2744/4216]	Time 1.512 (1.559)	Data Time 0.081 (0.100)	LOSSES - loss_D:0.000029(0.000194) loss_G_GAN:0.004076(0.002710) loss_G_L1:0.216382(0.218889) total_loss:0.220487(0.221793))	
-[Iter: 345]Epoch: [0][2752/4216]	Time 1.508 (1.559)	Data Time 0.082 (0.100)	LOSSES - loss_D:0.000030(0.000194) loss_G_GAN:0.004122(0.002714) loss_G_L1:0.136988(0.218651) total_loss:0.141141(0.221559))	
-[Iter: 346]Epoch: [0][2760/4216]	Time 1.510 (1.558)	Data Time 0.076 (0.099)	LOSSES - loss_D:0.000061(0.000194) loss_G_GAN:0.003545(0.002716) loss_G_L1:0.133907(0.218406) total_loss:0.137513(0.221316))	
-[Iter: 347]Epoch: [0][2768/4216]	Time 1.511 (1.558)	Data Time 0.078 (0.099)	LOSSES - loss_D:0.000039(0.000193) loss_G_GAN:0.003771(0.002720) loss_G_L1:0.117685(0.218116) total_loss:0.121494(0.221029))	
-[Iter: 348]Epoch: [0][2776/4216]	Time 1.508 (1.558)	Data Time 0.076 (0.099)	LOSSES - loss_D:0.000033(0.000193) loss_G_GAN:0.003898(0.002723) loss_G_L1:0.190718(0.218037) total_loss:0.194649(0.220953))	
-[Iter: 349]Epoch: [0][2784/4216]	Time 1.509 (1.558)	Data Time 0.078 (0.099)	LOSSES - loss_D:0.000052(0.000192) loss_G_GAN:0.003692(0.002726) loss_G_L1:0.142390(0.217821) total_loss:0.146135(0.220739))	
-[Iter: 350]Epoch: [0][2792/4216]	Time 1.514 (1.558)	Data Time 0.082 (0.099)	LOSSES - loss_D:0.000043(0.000192) loss_G_GAN:0.003537(0.002728) loss_G_L1:0.172816(0.217692) total_loss:0.176396(0.220612))	
-[Iter: 351]Epoch: [0][2800/4216]	Time 1.511 (1.558)	Data Time 0.082 (0.099)	LOSSES - loss_D:0.000039(0.000191) loss_G_GAN:0.004103(0.002732) loss_G_L1:0.142037(0.217476) total_loss:0.146180(0.220400))	
-[Iter: 352]Epoch: [0][2808/4216]	Time 1.523 (1.558)	Data Time 0.089 (0.099)	LOSSES - loss_D:0.000038(0.000191) loss_G_GAN:0.004144(0.002736) loss_G_L1:0.133073(0.217237) total_loss:0.137256(0.220164))	
-[Iter: 353]Epoch: [0][2816/4216]	Time 1.509 (1.558)	Data Time 0.081 (0.099)	LOSSES - loss_D:0.000033(0.000191) loss_G_GAN:0.004142(0.002740) loss_G_L1:0.149325(0.217044) total_loss:0.153499(0.219975))	
-[Iter: 354]Epoch: [0][2824/4216]	Time 1.511 (1.557)	Data Time 0.082 (0.099)	LOSSES - loss_D:0.000022(0.000190) loss_G_GAN:0.004176(0.002744) loss_G_L1:0.168074(0.216906) total_loss:0.172272(0.219840))	
-[Iter: 355]Epoch: [0][2832/4216]	Time 1.503 (1.557)	Data Time 0.076 (0.099)	LOSSES - loss_D:0.000060(0.000190) loss_G_GAN:0.003429(0.002746) loss_G_L1:0.145274(0.216704) total_loss:0.148763(0.219640))	
-[Iter: 356]Epoch: [0][2840/4216]	Time 1.508 (1.557)	Data Time 0.076 (0.099)	LOSSES - loss_D:0.000050(0.000189) loss_G_GAN:0.003598(0.002748) loss_G_L1:0.121456(0.216437) total_loss:0.125105(0.219374))	
-[Iter: 357]Epoch: [0][2848/4216]	Time 1.507 (1.557)	Data Time 0.079 (0.099)	LOSSES - loss_D:0.000031(0.000189) loss_G_GAN:0.004133(0.002752) loss_G_L1:0.141985(0.216228) total_loss:0.146149(0.219169))	
-[Iter: 358]Epoch: [0][2856/4216]	Time 1.509 (1.557)	Data Time 0.078 (0.099)	LOSSES - loss_D:0.000022(0.000188) loss_G_GAN:0.004267(0.002756) loss_G_L1:0.173351(0.216108) total_loss:0.177641(0.219053))	
-[Iter: 359]Epoch: [0][2864/4216]	Time 1.514 (1.557)	Data Time 0.077 (0.099)	LOSSES - loss_D:0.000038(0.000188) loss_G_GAN:0.004099(0.002760) loss_G_L1:0.153719(0.215935) total_loss:0.157856(0.218883))	
-[Iter: 360]Epoch: [0][2872/4216]	Time 1.512 (1.557)	Data Time 0.082 (0.099)	LOSSES - loss_D:0.000027(0.000187) loss_G_GAN:0.004095(0.002764) loss_G_L1:0.184726(0.215848) total_loss:0.188847(0.218799))	
-[Iter: 361]Epoch: [0][2880/4216]	Time 1.510 (1.556)	Data Time 0.082 (0.099)	LOSSES - loss_D:0.000056(0.000187) loss_G_GAN:0.003481(0.002766) loss_G_L1:0.111288(0.215558) total_loss:0.114824(0.218511))	
-[Iter: 362]Epoch: [0][2888/4216]	Time 1.504 (1.556)	Data Time 0.076 (0.099)	LOSSES - loss_D:0.000036(0.000187) loss_G_GAN:0.004264(0.002770) loss_G_L1:0.135073(0.215336) total_loss:0.139374(0.218293))	
-[Iter: 363]Epoch: [0][2896/4216]	Time 1.505 (1.556)	Data Time 0.078 (0.099)	LOSSES - loss_D:0.000069(0.000186) loss_G_GAN:0.003203(0.002771) loss_G_L1:0.157781(0.215177) total_loss:0.161052(0.218135))	
-[Iter: 364]Epoch: [0][2904/4216]	Time 1.511 (1.556)	Data Time 0.076 (0.098)	LOSSES - loss_D:0.000046(0.000186) loss_G_GAN:0.003638(0.002774) loss_G_L1:0.133026(0.214952) total_loss:0.136711(0.217911))	
-[Iter: 365]Epoch: [0][2912/4216]	Time 1.509 (1.556)	Data Time 0.077 (0.098)	LOSSES - loss_D:0.000060(0.000186) loss_G_GAN:0.003431(0.002775) loss_G_L1:0.152426(0.214780) total_loss:0.155916(0.217741))	
-[Iter: 366]Epoch: [0][2920/4216]	Time 1.511 (1.556)	Data Time 0.082 (0.098)	LOSSES - loss_D:0.000034(0.000185) loss_G_GAN:0.004179(0.002779) loss_G_L1:0.159566(0.214629) total_loss:0.163779(0.217594))	
-[Iter: 367]Epoch: [0][2928/4216]	Time 1.510 (1.556)	Data Time 0.080 (0.098)	LOSSES - loss_D:0.000037(0.000185) loss_G_GAN:0.003888(0.002782) loss_G_L1:0.123907(0.214382) total_loss:0.127831(0.217349))	
-[Iter: 368]Epoch: [0][2936/4216]	Time 1.505 (1.556)	Data Time 0.077 (0.098)	LOSSES - loss_D:0.000031(0.000184) loss_G_GAN:0.004128(0.002786) loss_G_L1:0.156630(0.214225) total_loss:0.160789(0.217196))	
-[Iter: 369]Epoch: [0][2944/4216]	Time 1.510 (1.555)	Data Time 0.080 (0.098)	LOSSES - loss_D:0.000032(0.000184) loss_G_GAN:0.004133(0.002790) loss_G_L1:0.147099(0.214043) total_loss:0.151264(0.217017))	
-[Iter: 370]Epoch: [0][2952/4216]	Time 1.515 (1.555)	Data Time 0.084 (0.098)	LOSSES - loss_D:0.000044(0.000184) loss_G_GAN:0.003969(0.002793) loss_G_L1:0.144629(0.213856) total_loss:0.148642(0.216832))	
-[Iter: 371]Epoch: [0][2960/4216]	Time 1.508 (1.555)	Data Time 0.081 (0.098)	LOSSES - loss_D:0.000048(0.000183) loss_G_GAN:0.003448(0.002794) loss_G_L1:0.151512(0.213688) total_loss:0.155008(0.216666))	
-[Iter: 372]Epoch: [0][2968/4216]	Time 1.508 (1.555)	Data Time 0.077 (0.098)	LOSSES - loss_D:0.000036(0.000183) loss_G_GAN:0.003927(0.002798) loss_G_L1:0.154439(0.213528) total_loss:0.158402(0.216509))	
-[Iter: 373]Epoch: [0][2976/4216]	Time 1.508 (1.555)	Data Time 0.076 (0.098)	LOSSES - loss_D:0.000030(0.000182) loss_G_GAN:0.004152(0.002801) loss_G_L1:0.148806(0.213355) total_loss:0.152989(0.216339))	
-[Iter: 374]Epoch: [0][2984/4216]	Time 1.506 (1.555)	Data Time 0.076 (0.098)	LOSSES - loss_D:0.000086(0.000182) loss_G_GAN:0.003555(0.002803) loss_G_L1:0.120646(0.213107) total_loss:0.124287(0.216092))	
-[Iter: 375]Epoch: [0][2992/4216]	Time 1.511 (1.555)	Data Time 0.076 (0.098)	LOSSES - loss_D:0.000205(0.000182) loss_G_GAN:0.005257(0.002810) loss_G_L1:0.172620(0.212999) total_loss:0.178082(0.215991))	
-[Iter: 376]Epoch: [0][3000/4216]	Time 1.516 (1.555)	Data Time 0.080 (0.098)	LOSSES - loss_D:0.001841(0.000187) loss_G_GAN:0.004884(0.002815) loss_G_L1:0.158558(0.212854) total_loss:0.165284(0.215856))	
-[Iter: 377]Epoch: [0][3008/4216]	Time 1.514 (1.554)	Data Time 0.084 (0.098)	LOSSES - loss_D:0.000783(0.000188) loss_G_GAN:0.003495(0.002817) loss_G_L1:0.158332(0.212710) total_loss:0.162610(0.215715))	
-[Iter: 378]Epoch: [0][3016/4216]	Time 1.512 (1.554)	Data Time 0.081 (0.098)	LOSSES - loss_D:0.000485(0.000189) loss_G_GAN:0.003128(0.002818) loss_G_L1:0.143280(0.212526) total_loss:0.146893(0.215533))	
-[Iter: 379]Epoch: [0][3024/4216]	Time 1.506 (1.554)	Data Time 0.079 (0.098)	LOSSES - loss_D:0.000471(0.000190) loss_G_GAN:0.003228(0.002819) loss_G_L1:0.158095(0.212382) total_loss:0.161794(0.215391))	
-[Iter: 380]Epoch: [0][3032/4216]	Time 1.506 (1.554)	Data Time 0.079 (0.098)	LOSSES - loss_D:0.000189(0.000190) loss_G_GAN:0.003140(0.002820) loss_G_L1:0.164048(0.212255) total_loss:0.167376(0.215265))	
-[Iter: 381]Epoch: [0][3040/4216]	Time 1.518 (1.554)	Data Time 0.084 (0.098)	LOSSES - loss_D:0.000125(0.000190) loss_G_GAN:0.003185(0.002821) loss_G_L1:0.140213(0.212066) total_loss:0.143523(0.215076))	
-[Iter: 382]Epoch: [0][3048/4216]	Time 1.518 (1.554)	Data Time 0.081 (0.098)	LOSSES - loss_D:0.000149(0.000190) loss_G_GAN:0.002903(0.002821) loss_G_L1:0.113223(0.211807) total_loss:0.116276(0.214818))	
-[Iter: 383]Epoch: [0][3056/4216]	Time 1.511 (1.554)	Data Time 0.077 (0.098)	LOSSES - loss_D:0.000141(0.000189) loss_G_GAN:0.002832(0.002821) loss_G_L1:0.128346(0.211589) total_loss:0.131318(0.214600))	
-[Iter: 384]Epoch: [0][3064/4216]	Time 1.512 (1.554)	Data Time 0.078 (0.097)	LOSSES - loss_D:0.000104(0.000189) loss_G_GAN:0.003467(0.002823) loss_G_L1:0.143658(0.211413) total_loss:0.147230(0.214424))	
-[Iter: 385]Epoch: [0][3072/4216]	Time 1.507 (1.554)	Data Time 0.081 (0.097)	LOSSES - loss_D:0.000086(0.000189) loss_G_GAN:0.003197(0.002824) loss_G_L1:0.115804(0.211164) total_loss:0.119087(0.214177))	
-[Iter: 386]Epoch: [0][3080/4216]	Time 1.508 (1.553)	Data Time 0.079 (0.097)	LOSSES - loss_D:0.000086(0.000189) loss_G_GAN:0.003079(0.002824) loss_G_L1:0.133675(0.210963) total_loss:0.136840(0.213976))	
-[Iter: 387]Epoch: [0][3088/4216]	Time 1.506 (1.553)	Data Time 0.076 (0.097)	LOSSES - loss_D:0.000077(0.000188) loss_G_GAN:0.003414(0.002826) loss_G_L1:0.135115(0.210767) total_loss:0.138607(0.213782))	
-[Iter: 388]Epoch: [0][3096/4216]	Time 1.503 (1.553)	Data Time 0.076 (0.097)	LOSSES - loss_D:0.000048(0.000188) loss_G_GAN:0.003477(0.002828) loss_G_L1:0.137470(0.210579) total_loss:0.140995(0.213594))	
-[Iter: 389]Epoch: [0][3104/4216]	Time 1.509 (1.553)	Data Time 0.076 (0.097)	LOSSES - loss_D:0.000068(0.000188) loss_G_GAN:0.003330(0.002829) loss_G_L1:0.126174(0.210362) total_loss:0.129572(0.213378))	
-[Iter: 390]Epoch: [0][3112/4216]	Time 1.511 (1.553)	Data Time 0.078 (0.097)	LOSSES - loss_D:0.000057(0.000187) loss_G_GAN:0.003474(0.002830) loss_G_L1:0.131047(0.210158) total_loss:0.134578(0.213176))	
-[Iter: 391]Epoch: [0][3120/4216]	Time 1.506 (1.553)	Data Time 0.078 (0.097)	LOSSES - loss_D:0.000048(0.000187) loss_G_GAN:0.003719(0.002833) loss_G_L1:0.145802(0.209994) total_loss:0.149569(0.213013))	
-[Iter: 392]Epoch: [0][3128/4216]	Time 1.519 (1.553)	Data Time 0.086 (0.097)	LOSSES - loss_D:0.000046(0.000187) loss_G_GAN:0.003598(0.002835) loss_G_L1:0.120529(0.209765) total_loss:0.124173(0.212787))	
-[Iter: 393]Epoch: [0][3136/4216]	Time 1.518 (1.553)	Data Time 0.083 (0.097)	LOSSES - loss_D:0.000037(0.000186) loss_G_GAN:0.003838(0.002837) loss_G_L1:0.176124(0.209680) total_loss:0.179999(0.212703))	
-[Iter: 394]Epoch: [0][3144/4216]	Time 1.511 (1.553)	Data Time 0.078 (0.097)	LOSSES - loss_D:0.000089(0.000186) loss_G_GAN:0.003148(0.002838) loss_G_L1:0.111185(0.209430) total_loss:0.114422(0.212454))	
-[Iter: 395]Epoch: [0][3152/4216]	Time 1.507 (1.552)	Data Time 0.077 (0.097)	LOSSES - loss_D:0.000053(0.000186) loss_G_GAN:0.003844(0.002841) loss_G_L1:0.160540(0.209306) total_loss:0.164436(0.212332))	
-[Iter: 396]Epoch: [0][3160/4216]	Time 1.506 (1.552)	Data Time 0.077 (0.097)	LOSSES - loss_D:0.000046(0.000185) loss_G_GAN:0.003409(0.002842) loss_G_L1:0.173129(0.209215) total_loss:0.176583(0.212242))	
-[Iter: 397]Epoch: [0][3168/4216]	Time 1.504 (1.552)	Data Time 0.077 (0.097)	LOSSES - loss_D:0.000062(0.000185) loss_G_GAN:0.003450(0.002844) loss_G_L1:0.125110(0.209003) total_loss:0.128622(0.212031))	
-[Iter: 398]Epoch: [0][3176/4216]	Time 1.522 (1.552)	Data Time 0.083 (0.097)	LOSSES - loss_D:0.000053(0.000185) loss_G_GAN:0.003675(0.002846) loss_G_L1:0.157372(0.208873) total_loss:0.161100(0.211903))	
-[Iter: 399]Epoch: [0][3184/4216]	Time 1.514 (1.552)	Data Time 0.080 (0.097)	LOSSES - loss_D:0.000088(0.000184) loss_G_GAN:0.003397(0.002847) loss_G_L1:0.140830(0.208703) total_loss:0.144315(0.211734))	
-[Iter: 400]Epoch: [0][3192/4216]	Time 1.506 (1.552)	Data Time 0.076 (0.097)	LOSSES - loss_D:0.000055(0.000184) loss_G_GAN:0.003426(0.002848) loss_G_L1:0.153635(0.208565) total_loss:0.157115(0.211597))	
-[Iter: 401]Epoch: [0][3200/4216]	Time 1.511 (1.552)	Data Time 0.081 (0.097)	LOSSES - loss_D:0.000072(0.000184) loss_G_GAN:0.003205(0.002849) loss_G_L1:0.123078(0.208352) total_loss:0.126355(0.211385))	
-[Iter: 402]Epoch: [0][3208/4216]	Time 1.521 (1.552)	Data Time 0.085 (0.097)	LOSSES - loss_D:0.000074(0.000184) loss_G_GAN:0.003406(0.002851) loss_G_L1:0.137706(0.208176) total_loss:0.141186(0.211210))	
-[Iter: 403]Epoch: [0][3216/4216]	Time 1.512 (1.552)	Data Time 0.079 (0.097)	LOSSES - loss_D:0.000074(0.000183) loss_G_GAN:0.003453(0.002852) loss_G_L1:0.121195(0.207960) total_loss:0.124721(0.210996))	
-[Iter: 404]Epoch: [0][3224/4216]	Time 1.509 (1.552)	Data Time 0.077 (0.097)	LOSSES - loss_D:0.000089(0.000183) loss_G_GAN:0.002925(0.002852) loss_G_L1:0.140520(0.207793) total_loss:0.143534(0.210829))	
-[Iter: 405]Epoch: [0][3232/4216]	Time 1.512 (1.551)	Data Time 0.081 (0.097)	LOSSES - loss_D:0.000055(0.000183) loss_G_GAN:0.003766(0.002855) loss_G_L1:0.149608(0.207650) total_loss:0.153429(0.210687))	
-[Iter: 406]Epoch: [0][3240/4216]	Time 1.518 (1.551)	Data Time 0.086 (0.097)	LOSSES - loss_D:0.000041(0.000182) loss_G_GAN:0.003889(0.002857) loss_G_L1:0.129313(0.207457) total_loss:0.133243(0.210496))	
-[Iter: 407]Epoch: [0][3248/4216]	Time 1.510 (1.551)	Data Time 0.079 (0.096)	LOSSES - loss_D:0.000062(0.000182) loss_G_GAN:0.003398(0.002859) loss_G_L1:0.129744(0.207266) total_loss:0.133205(0.210306))	
-[Iter: 408]Epoch: [0][3256/4216]	Time 1.513 (1.551)	Data Time 0.081 (0.096)	LOSSES - loss_D:0.000054(0.000182) loss_G_GAN:0.003873(0.002861) loss_G_L1:0.199878(0.207248) total_loss:0.203804(0.210290))	
-[Iter: 409]Epoch: [0][3264/4216]	Time 1.516 (1.551)	Data Time 0.079 (0.096)	LOSSES - loss_D:0.000041(0.000181) loss_G_GAN:0.003966(0.002864) loss_G_L1:0.145557(0.207097) total_loss:0.149564(0.210142))	
-[Iter: 410]Epoch: [0][3272/4216]	Time 1.511 (1.551)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000067(0.000181) loss_G_GAN:0.003285(0.002865) loss_G_L1:0.111075(0.206863) total_loss:0.114427(0.209908))	
-[Iter: 411]Epoch: [0][3280/4216]	Time 1.508 (1.551)	Data Time 0.077 (0.096)	LOSSES - loss_D:0.000047(0.000181) loss_G_GAN:0.003450(0.002866) loss_G_L1:0.133593(0.206684) total_loss:0.137090(0.209731))	
-[Iter: 412]Epoch: [0][3288/4216]	Time 1.507 (1.551)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000054(0.000181) loss_G_GAN:0.003377(0.002867) loss_G_L1:0.111702(0.206454) total_loss:0.115134(0.209502))	
-[Iter: 413]Epoch: [0][3296/4216]	Time 1.510 (1.551)	Data Time 0.079 (0.096)	LOSSES - loss_D:0.000049(0.000180) loss_G_GAN:0.003629(0.002869) loss_G_L1:0.125266(0.206257) total_loss:0.128944(0.209307))	
-[Iter: 414]Epoch: [0][3304/4216]	Time 1.512 (1.551)	Data Time 0.082 (0.096)	LOSSES - loss_D:0.000075(0.000180) loss_G_GAN:0.003726(0.002871) loss_G_L1:0.165978(0.206160) total_loss:0.169778(0.209211))	
-[Iter: 415]Epoch: [0][3312/4216]	Time 1.513 (1.550)	Data Time 0.081 (0.096)	LOSSES - loss_D:0.000036(0.000180) loss_G_GAN:0.003622(0.002873) loss_G_L1:0.102454(0.205910) total_loss:0.106112(0.208963))	
-[Iter: 416]Epoch: [0][3320/4216]	Time 1.515 (1.550)	Data Time 0.080 (0.096)	LOSSES - loss_D:0.000059(0.000179) loss_G_GAN:0.003701(0.002875) loss_G_L1:0.221172(0.205947) total_loss:0.224932(0.209001))	
-[Iter: 417]Epoch: [0][3328/4216]	Time 1.516 (1.550)	Data Time 0.082 (0.096)	LOSSES - loss_D:0.000065(0.000179) loss_G_GAN:0.003141(0.002876) loss_G_L1:0.097957(0.205688) total_loss:0.101164(0.208742))	
-[Iter: 418]Epoch: [0][3336/4216]	Time 1.517 (1.550)	Data Time 0.081 (0.096)	LOSSES - loss_D:0.000084(0.000179) loss_G_GAN:0.003242(0.002877) loss_G_L1:0.122980(0.205490) total_loss:0.126306(0.208545))	
-[Iter: 419]Epoch: [0][3344/4216]	Time 1.511 (1.550)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000057(0.000178) loss_G_GAN:0.003368(0.002878) loss_G_L1:0.113400(0.205270) total_loss:0.116825(0.208326))	
-[Iter: 420]Epoch: [0][3352/4216]	Time 1.514 (1.550)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000043(0.000178) loss_G_GAN:0.003757(0.002880) loss_G_L1:0.208853(0.205279) total_loss:0.212653(0.208337))	
-[Iter: 421]Epoch: [0][3360/4216]	Time 1.513 (1.550)	Data Time 0.080 (0.096)	LOSSES - loss_D:0.000040(0.000178) loss_G_GAN:0.003757(0.002882) loss_G_L1:0.158874(0.205168) total_loss:0.162672(0.208228))	
-[Iter: 422]Epoch: [0][3368/4216]	Time 1.510 (1.550)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000048(0.000178) loss_G_GAN:0.003610(0.002884) loss_G_L1:0.107544(0.204937) total_loss:0.111201(0.207998))	
-[Iter: 423]Epoch: [0][3376/4216]	Time 1.509 (1.550)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000050(0.000177) loss_G_GAN:0.003409(0.002885) loss_G_L1:0.153112(0.204814) total_loss:0.156572(0.207877))	
-[Iter: 424]Epoch: [0][3384/4216]	Time 1.515 (1.550)	Data Time 0.082 (0.096)	LOSSES - loss_D:0.000042(0.000177) loss_G_GAN:0.003646(0.002887) loss_G_L1:0.153112(0.204693) total_loss:0.156800(0.207756))	
-[Iter: 425]Epoch: [0][3392/4216]	Time 1.528 (1.550)	Data Time 0.091 (0.096)	LOSSES - loss_D:0.000059(0.000177) loss_G_GAN:0.003508(0.002888) loss_G_L1:0.118123(0.204489) total_loss:0.121690(0.207554))	
-[Iter: 426]Epoch: [0][3400/4216]	Time 1.509 (1.550)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000041(0.000176) loss_G_GAN:0.003633(0.002890) loss_G_L1:0.149500(0.204360) total_loss:0.153174(0.207426))	
-[Iter: 427]Epoch: [0][3408/4216]	Time 1.510 (1.549)	Data Time 0.077 (0.096)	LOSSES - loss_D:0.000042(0.000176) loss_G_GAN:0.003578(0.002892) loss_G_L1:0.122134(0.204167) total_loss:0.125754(0.207235))	
-[Iter: 428]Epoch: [0][3416/4216]	Time 1.513 (1.549)	Data Time 0.081 (0.096)	LOSSES - loss_D:0.000034(0.000176) loss_G_GAN:0.004202(0.002895) loss_G_L1:0.143142(0.204025) total_loss:0.147378(0.207095))	
-[Iter: 429]Epoch: [0][3424/4216]	Time 1.514 (1.549)	Data Time 0.081 (0.096)	LOSSES - loss_D:0.000052(0.000175) loss_G_GAN:0.003243(0.002895) loss_G_L1:0.117056(0.203822) total_loss:0.120351(0.206893))	
-[Iter: 430]Epoch: [0][3432/4216]	Time 1.512 (1.549)	Data Time 0.079 (0.096)	LOSSES - loss_D:0.000039(0.000175) loss_G_GAN:0.003893(0.002898) loss_G_L1:0.183081(0.203774) total_loss:0.187014(0.206846))	
-[Iter: 431]Epoch: [0][3440/4216]	Time 1.513 (1.549)	Data Time 0.078 (0.096)	LOSSES - loss_D:0.000031(0.000175) loss_G_GAN:0.003761(0.002900) loss_G_L1:0.153964(0.203658) total_loss:0.157756(0.206733))	
-[Iter: 432]Epoch: [0][3448/4216]	Time 1.516 (1.549)	Data Time 0.077 (0.096)	LOSSES - loss_D:0.000051(0.000174) loss_G_GAN:0.003722(0.002902) loss_G_L1:0.097392(0.203412) total_loss:0.101165(0.206488))	
-[Iter: 433]Epoch: [0][3456/4216]	Time 1.515 (1.549)	Data Time 0.082 (0.095)	LOSSES - loss_D:0.000051(0.000174) loss_G_GAN:0.003372(0.002903) loss_G_L1:0.147375(0.203283) total_loss:0.150798(0.206360))	
-[Iter: 434]Epoch: [0][3464/4216]	Time 1.518 (1.549)	Data Time 0.081 (0.095)	LOSSES - loss_D:0.000044(0.000174) loss_G_GAN:0.003667(0.002905) loss_G_L1:0.136067(0.203128) total_loss:0.139778(0.206206))	
-[Iter: 435]Epoch: [0][3472/4216]	Time 1.514 (1.549)	Data Time 0.081 (0.095)	LOSSES - loss_D:0.000044(0.000174) loss_G_GAN:0.003591(0.002906) loss_G_L1:0.116636(0.202929) total_loss:0.120271(0.206009))	
-[Iter: 436]Epoch: [0][3480/4216]	Time 1.510 (1.549)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000026(0.000173) loss_G_GAN:0.004310(0.002909) loss_G_L1:0.186068(0.202890) total_loss:0.190404(0.205973))	
-[Iter: 437]Epoch: [0][3488/4216]	Time 1.500 (1.549)	Data Time 0.076 (0.095)	LOSSES - loss_D:0.000034(0.000173) loss_G_GAN:0.003756(0.002911) loss_G_L1:0.131965(0.202728) total_loss:0.135755(0.205812))	
-[Iter: 438]Epoch: [0][3496/4216]	Time 1.507 (1.549)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000065(0.000173) loss_G_GAN:0.003366(0.002912) loss_G_L1:0.111409(0.202520) total_loss:0.114840(0.205604))	
-[Iter: 439]Epoch: [0][3504/4216]	Time 1.510 (1.548)	Data Time 0.076 (0.095)	LOSSES - loss_D:0.000058(0.000172) loss_G_GAN:0.003619(0.002914) loss_G_L1:0.123785(0.202340) total_loss:0.127462(0.205426))	
-[Iter: 440]Epoch: [0][3512/4216]	Time 1.517 (1.548)	Data Time 0.080 (0.095)	LOSSES - loss_D:0.000044(0.000172) loss_G_GAN:0.004126(0.002917) loss_G_L1:0.236964(0.202419) total_loss:0.241134(0.205508))	
-[Iter: 441]Epoch: [0][3520/4216]	Time 1.512 (1.548)	Data Time 0.080 (0.095)	LOSSES - loss_D:0.000054(0.000172) loss_G_GAN:0.003345(0.002918) loss_G_L1:0.112507(0.202215) total_loss:0.115905(0.205304))	
-[Iter: 442]Epoch: [0][3528/4216]	Time 1.507 (1.548)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000032(0.000172) loss_G_GAN:0.004071(0.002920) loss_G_L1:0.179169(0.202163) total_loss:0.183273(0.205255))	
-[Iter: 443]Epoch: [0][3536/4216]	Time 1.506 (1.548)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000047(0.000171) loss_G_GAN:0.003866(0.002922) loss_G_L1:0.113975(0.201964) total_loss:0.117887(0.205057))	
-[Iter: 444]Epoch: [0][3544/4216]	Time 1.514 (1.548)	Data Time 0.080 (0.095)	LOSSES - loss_D:0.000029(0.000171) loss_G_GAN:0.004039(0.002925) loss_G_L1:0.211947(0.201986) total_loss:0.216015(0.205082))	
-[Iter: 445]Epoch: [0][3552/4216]	Time 1.506 (1.548)	Data Time 0.078 (0.095)	LOSSES - loss_D:0.000060(0.000171) loss_G_GAN:0.003990(0.002927) loss_G_L1:0.135042(0.201836) total_loss:0.139092(0.204934))	
-[Iter: 446]Epoch: [0][3560/4216]	Time 1.510 (1.548)	Data Time 0.082 (0.095)	LOSSES - loss_D:0.000053(0.000170) loss_G_GAN:0.003214(0.002928) loss_G_L1:0.106764(0.201623) total_loss:0.110031(0.204721))	
-[Iter: 447]Epoch: [0][3568/4216]	Time 1.510 (1.548)	Data Time 0.080 (0.095)	LOSSES - loss_D:0.000037(0.000170) loss_G_GAN:0.004223(0.002931) loss_G_L1:0.174747(0.201563) total_loss:0.179008(0.204663))	
-[Iter: 448]Epoch: [0][3576/4216]	Time 1.510 (1.548)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000029(0.000170) loss_G_GAN:0.004019(0.002933) loss_G_L1:0.153779(0.201456) total_loss:0.157827(0.204559))	
-[Iter: 449]Epoch: [0][3584/4216]	Time 1.519 (1.548)	Data Time 0.083 (0.095)	LOSSES - loss_D:0.000059(0.000170) loss_G_GAN:0.004094(0.002936) loss_G_L1:0.164389(0.201373) total_loss:0.168542(0.204479))	
-[Iter: 450]Epoch: [0][3592/4216]	Time 1.514 (1.548)	Data Time 0.080 (0.095)	LOSSES - loss_D:0.000042(0.000169) loss_G_GAN:0.003348(0.002937) loss_G_L1:0.120600(0.201194) total_loss:0.123991(0.204300))	
-[Iter: 451]Epoch: [0][3600/4216]	Time 1.505 (1.547)	Data Time 0.076 (0.095)	LOSSES - loss_D:0.000030(0.000169) loss_G_GAN:0.004296(0.002940) loss_G_L1:0.145024(0.201069) total_loss:0.149349(0.204178))	
-[Iter: 452]Epoch: [0][3608/4216]	Time 1.507 (1.547)	Data Time 0.076 (0.095)	LOSSES - loss_D:0.000035(0.000169) loss_G_GAN:0.003889(0.002942) loss_G_L1:0.124073(0.200899) total_loss:0.127997(0.204009))	
-[Iter: 453]Epoch: [0][3616/4216]	Time 1.509 (1.547)	Data Time 0.078 (0.095)	LOSSES - loss_D:0.000033(0.000168) loss_G_GAN:0.003791(0.002944) loss_G_L1:0.122770(0.200726) total_loss:0.126593(0.203839))	
-[Iter: 454]Epoch: [0][3624/4216]	Time 1.505 (1.547)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000027(0.000168) loss_G_GAN:0.004047(0.002946) loss_G_L1:0.162744(0.200643) total_loss:0.166819(0.203757))	
-[Iter: 455]Epoch: [0][3632/4216]	Time 1.504 (1.547)	Data Time 0.076 (0.095)	LOSSES - loss_D:0.000060(0.000168) loss_G_GAN:0.003824(0.002948) loss_G_L1:0.119197(0.200464) total_loss:0.123080(0.203580))	
-[Iter: 456]Epoch: [0][3640/4216]	Time 1.518 (1.547)	Data Time 0.082 (0.095)	LOSSES - loss_D:0.000039(0.000168) loss_G_GAN:0.004425(0.002951) loss_G_L1:0.214758(0.200495) total_loss:0.219222(0.203614))	
-[Iter: 457]Epoch: [0][3648/4216]	Time 1.513 (1.547)	Data Time 0.083 (0.095)	LOSSES - loss_D:0.000231(0.000168) loss_G_GAN:0.002501(0.002950) loss_G_L1:0.132323(0.200346) total_loss:0.135055(0.203464))	
-[Iter: 458]Epoch: [0][3656/4216]	Time 1.515 (1.547)	Data Time 0.077 (0.095)	LOSSES - loss_D:0.000111(0.000168) loss_G_GAN:0.002707(0.002950) loss_G_L1:0.134638(0.200202) total_loss:0.137456(0.203320))	
-[Iter: 459]Epoch: [0][3664/4216]	Time 1.511 (1.547)	Data Time 0.078 (0.095)	LOSSES - loss_D:0.000117(0.000167) loss_G_GAN:0.003299(0.002951) loss_G_L1:0.113810(0.200014) total_loss:0.117226(0.203132))	
-[Iter: 460]Epoch: [0][3672/4216]	Time 1.507 (1.547)	Data Time 0.078 (0.094)	LOSSES - loss_D:0.000185(0.000167) loss_G_GAN:0.003451(0.002952) loss_G_L1:0.116692(0.199833) total_loss:0.120327(0.202952))	
-[Iter: 461]Epoch: [0][3680/4216]	Time 1.510 (1.547)	Data Time 0.077 (0.094)	LOSSES - loss_D:0.000051(0.000167) loss_G_GAN:0.004164(0.002954) loss_G_L1:0.169122(0.199767) total_loss:0.173337(0.202888))	
-[Iter: 462]Epoch: [0][3688/4216]	Time 1.517 (1.547)	Data Time 0.084 (0.094)	LOSSES - loss_D:0.000041(0.000167) loss_G_GAN:0.004091(0.002957) loss_G_L1:0.137183(0.199631) total_loss:0.141315(0.202755))	
-[Iter: 463]Epoch: [0][3696/4216]	Time 1.523 (1.546)	Data Time 0.089 (0.094)	LOSSES - loss_D:0.000068(0.000167) loss_G_GAN:0.003391(0.002958) loss_G_L1:0.104987(0.199427) total_loss:0.108446(0.202551))	
-[Iter: 464]Epoch: [0][3704/4216]	Time 1.508 (1.546)	Data Time 0.080 (0.094)	LOSSES - loss_D:0.000050(0.000166) loss_G_GAN:0.003625(0.002959) loss_G_L1:0.141766(0.199302) total_loss:0.145441(0.202428))	
-[Iter: 465]Epoch: [0][3712/4216]	Time 1.515 (1.546)	Data Time 0.082 (0.094)	LOSSES - loss_D:0.000079(0.000166) loss_G_GAN:0.003162(0.002960) loss_G_L1:0.115849(0.199123) total_loss:0.119090(0.202249))	
-[Iter: 466]Epoch: [0][3720/4216]	Time 1.513 (1.546)	Data Time 0.079 (0.094)	LOSSES - loss_D:0.000040(0.000166) loss_G_GAN:0.003582(0.002961) loss_G_L1:0.145441(0.199008) total_loss:0.149063(0.202135))	
-[Iter: 467]Epoch: [0][3728/4216]	Time 1.505 (1.546)	Data Time 0.076 (0.094)	LOSSES - loss_D:0.000047(0.000166) loss_G_GAN:0.004326(0.002964) loss_G_L1:0.150397(0.198904) total_loss:0.154769(0.202033))	
-[Iter: 468]Epoch: [0][3736/4216]	Time 1.505 (1.546)	Data Time 0.076 (0.094)	LOSSES - loss_D:0.000021(0.000165) loss_G_GAN:0.004069(0.002966) loss_G_L1:0.131837(0.198760) total_loss:0.135927(0.201892))	
-[Iter: 469]Epoch: [0][3744/4216]	Time 1.512 (1.546)	Data Time 0.077 (0.094)	LOSSES - loss_D:0.000084(0.000165) loss_G_GAN:0.003267(0.002967) loss_G_L1:0.122814(0.198598) total_loss:0.126165(0.201730))	
-[Iter: 470]Epoch: [0][3752/4216]	Time 1.511 (1.546)	Data Time 0.076 (0.094)	LOSSES - loss_D:0.000054(0.000165) loss_G_GAN:0.004349(0.002970) loss_G_L1:0.149980(0.198495) total_loss:0.154384(0.201630))	
-[Iter: 471]Epoch: [0][3760/4216]	Time 1.509 (1.546)	Data Time 0.076 (0.094)	LOSSES - loss_D:0.000031(0.000165) loss_G_GAN:0.003623(0.002971) loss_G_L1:0.133059(0.198356) total_loss:0.136714(0.201492))	
-[Iter: 472]Epoch: [0][3768/4216]	Time 1.515 (1.546)	Data Time 0.080 (0.094)	LOSSES - loss_D:0.000066(0.000165) loss_G_GAN:0.004087(0.002974) loss_G_L1:0.139746(0.198232) total_loss:0.143900(0.201370))	
-[Iter: 473]Epoch: [0][3776/4216]	Time 1.515 (1.546)	Data Time 0.082 (0.094)	LOSSES - loss_D:0.000042(0.000164) loss_G_GAN:0.003642(0.002975) loss_G_L1:0.134162(0.198096) total_loss:0.137846(0.201236))	
-[Iter: 474]Epoch: [0][3784/4216]	Time 1.509 (1.546)	Data Time 0.079 (0.094)	LOSSES - loss_D:0.000035(0.000164) loss_G_GAN:0.003795(0.002977) loss_G_L1:0.134036(0.197961) total_loss:0.137867(0.201102))	
-[Iter: 475]Epoch: [0][3792/4216]	Time 1.507 (1.546)	Data Time 0.078 (0.094)	LOSSES - loss_D:0.000022(0.000164) loss_G_GAN:0.004160(0.002979) loss_G_L1:0.134726(0.197828) total_loss:0.138908(0.200971))	
-[Iter: 476]Epoch: [0][3800/4216]	Time 1.506 (1.545)	Data Time 0.078 (0.094)	LOSSES - loss_D:0.000028(0.000163) loss_G_GAN:0.004391(0.002982) loss_G_L1:0.131054(0.197688) total_loss:0.135474(0.200833))	
-[Iter: 477]Epoch: [0][3808/4216]	Time 1.513 (1.545)	Data Time 0.083 (0.094)	LOSSES - loss_D:0.000024(0.000163) loss_G_GAN:0.004185(0.002985) loss_G_L1:0.157681(0.197604) total_loss:0.161890(0.200752))	
-[Iter: 478]Epoch: [0][3816/4216]	Time 1.514 (1.545)	Data Time 0.081 (0.094)	LOSSES - loss_D:0.000034(0.000163) loss_G_GAN:0.004120(0.002987) loss_G_L1:0.130133(0.197463) total_loss:0.134288(0.200613))	
-[Iter: 479]Epoch: [0][3824/4216]	Time 1.523 (1.545)	Data Time 0.090 (0.094)	LOSSES - loss_D:0.000023(0.000163) loss_G_GAN:0.004544(0.002990) loss_G_L1:0.160093(0.197385) total_loss:0.164659(0.200538))	
-[Iter: 480]Epoch: [0][3832/4216]	Time 1.509 (1.545)	Data Time 0.080 (0.094)	LOSSES - loss_D:0.000022(0.000162) loss_G_GAN:0.004325(0.002993) loss_G_L1:0.140434(0.197266) total_loss:0.144781(0.200421))	
-[Iter: 481]Epoch: [0][3840/4216]	Time 1.510 (1.545)	Data Time 0.081 (0.094)	LOSSES - loss_D:0.000032(0.000162) loss_G_GAN:0.003867(0.002995) loss_G_L1:0.145015(0.197158) total_loss:0.148915(0.200314))	
-[Iter: 482]Epoch: [0][3848/4216]	Time 1.508 (1.545)	Data Time 0.079 (0.094)	LOSSES - loss_D:0.000038(0.000162) loss_G_GAN:0.004237(0.002997) loss_G_L1:0.148880(0.197057) total_loss:0.153156(0.200217))	
-[Iter: 483]Epoch: [0][3856/4216]	Time 1.510 (1.545)	Data Time 0.079 (0.094)	LOSSES - loss_D:0.000038(0.000162) loss_G_GAN:0.004115(0.003000) loss_G_L1:0.132059(0.196923) total_loss:0.136212(0.200084))	
-[Iter: 484]Epoch: [0][3864/4216]	Time 1.513 (1.545)	Data Time 0.079 (0.094)	LOSSES - loss_D:0.000033(0.000161) loss_G_GAN:0.003998(0.003002) loss_G_L1:0.117851(0.196759) total_loss:0.121882(0.199922))	
-[Iter: 485]Epoch: [0][3872/4216]	Time 1.506 (1.545)	Data Time 0.078 (0.094)	LOSSES - loss_D:0.000034(0.000161) loss_G_GAN:0.003737(0.003003) loss_G_L1:0.126843(0.196615) total_loss:0.130614(0.199780))	
-[Iter: 486]Epoch: [0][3880/4216]	Time 1.513 (1.545)	Data Time 0.077 (0.094)	LOSSES - loss_D:0.000043(0.000161) loss_G_GAN:0.003678(0.003005) loss_G_L1:0.124707(0.196467) total_loss:0.128428(0.199633))	
-[Iter: 487]Epoch: [0][3888/4216]	Time 1.513 (1.545)	Data Time 0.079 (0.094)	LOSSES - loss_D:0.000045(0.000160) loss_G_GAN:0.003530(0.003006) loss_G_L1:0.097846(0.196265) total_loss:0.101421(0.199431))	
-[Iter: 488]Epoch: [0][3896/4216]	Time 1.516 (1.545)	Data Time 0.081 (0.094)	LOSSES - loss_D:0.000049(0.000160) loss_G_GAN:0.003683(0.003007) loss_G_L1:0.123398(0.196115) total_loss:0.127130(0.199283))	
-[Iter: 489]Epoch: [0][3904/4216]	Time 1.515 (1.545)	Data Time 0.084 (0.094)	LOSSES - loss_D:0.000063(0.000160) loss_G_GAN:0.003240(0.003008) loss_G_L1:0.107772(0.195935) total_loss:0.111074(0.199103))	
-[Iter: 490]Epoch: [0][3912/4216]	Time 1.508 (1.545)	Data Time 0.076 (0.094)	LOSSES - loss_D:0.000096(0.000160) loss_G_GAN:0.003679(0.003009) loss_G_L1:0.107455(0.195754) total_loss:0.111230(0.198923))	
-[Iter: 491]Epoch: [0][3920/4216]	Time 1.514 (1.544)	Data Time 0.078 (0.094)	LOSSES - loss_D:0.000053(0.000160) loss_G_GAN:0.004117(0.003011) loss_G_L1:0.120835(0.195602) total_loss:0.125005(0.198773))	
-[Iter: 492]Epoch: [0][3928/4216]	Time 1.509 (1.544)	Data Time 0.077 (0.094)	LOSSES - loss_D:0.000033(0.000159) loss_G_GAN:0.003909(0.003013) loss_G_L1:0.127007(0.195462) total_loss:0.130948(0.198635))	
-[Iter: 493]Epoch: [0][3936/4216]	Time 1.511 (1.544)	Data Time 0.078 (0.094)	LOSSES - loss_D:0.000054(0.000159) loss_G_GAN:0.004328(0.003016) loss_G_L1:0.188353(0.195448) total_loss:0.192735(0.198623))	
-[Iter: 494]Epoch: [0][3944/4216]	Time 1.511 (1.544)	Data Time 0.080 (0.093)	LOSSES - loss_D:0.000031(0.000159) loss_G_GAN:0.004055(0.003018) loss_G_L1:0.107674(0.195270) total_loss:0.111760(0.198447))	
-[Iter: 495]Epoch: [0][3952/4216]	Time 1.514 (1.544)	Data Time 0.080 (0.093)	LOSSES - loss_D:0.000019(0.000159) loss_G_GAN:0.004592(0.003021) loss_G_L1:0.201007(0.195282) total_loss:0.205617(0.198461))	
-[Iter: 496]Epoch: [0][3960/4216]	Time 1.510 (1.544)	Data Time 0.078 (0.093)	LOSSES - loss_D:0.000049(0.000158) loss_G_GAN:0.003540(0.003022) loss_G_L1:0.147428(0.195185) total_loss:0.151017(0.198366))	
-[Iter: 497]Epoch: [0][3968/4216]	Time 1.512 (1.544)	Data Time 0.080 (0.093)	LOSSES - loss_D:0.000069(0.000158) loss_G_GAN:0.003782(0.003024) loss_G_L1:0.136948(0.195068) total_loss:0.140799(0.198250))	
-[Iter: 498]Epoch: [0][3976/4216]	Time 1.512 (1.544)	Data Time 0.078 (0.093)	LOSSES - loss_D:0.000035(0.000158) loss_G_GAN:0.003785(0.003025) loss_G_L1:0.155369(0.194988) total_loss:0.159189(0.198172))	
-[Iter: 499]Epoch: [0][3984/4216]	Time 1.505 (1.544)	Data Time 0.077 (0.093)	LOSSES - loss_D:0.000057(0.000158) loss_G_GAN:0.003617(0.003026) loss_G_L1:0.151636(0.194901) total_loss:0.155309(0.198086))	
-[Iter: 500]Epoch: [0][3992/4216]	Time 1.507 (1.544)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000024(0.000158) loss_G_GAN:0.004307(0.003029) loss_G_L1:0.134861(0.194781) total_loss:0.139192(0.197968))	
-[Iter: 501]Epoch: [0][4000/4216]	Time 1.511 (1.544)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000030(0.000157) loss_G_GAN:0.003921(0.003031) loss_G_L1:0.148021(0.194688) total_loss:0.151971(0.197876))	
-[Iter: 502]Epoch: [0][4008/4216]	Time 1.506 (1.544)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.000108(0.000157) loss_G_GAN:0.004103(0.003033) loss_G_L1:0.143335(0.194586) total_loss:0.147546(0.197776))	
-[Iter: 503]Epoch: [0][4016/4216]	Time 1.508 (1.544)	Data Time 0.077 (0.093)	LOSSES - loss_D:0.000452(0.000158) loss_G_GAN:0.003672(0.003034) loss_G_L1:0.112849(0.194423) total_loss:0.116973(0.197615))	
-[Iter: 504]Epoch: [0][4024/4216]	Time 1.511 (1.544)	Data Time 0.079 (0.093)	LOSSES - loss_D:0.000349(0.000158) loss_G_GAN:0.003839(0.003036) loss_G_L1:0.105192(0.194246) total_loss:0.109380(0.197440))	
-[Iter: 505]Epoch: [0][4032/4216]	Time 1.508 (1.544)	Data Time 0.077 (0.093)	LOSSES - loss_D:0.000723(0.000159) loss_G_GAN:0.003909(0.003037) loss_G_L1:0.194143(0.194246) total_loss:0.198775(0.197443))	
-[Iter: 506]Epoch: [0][4040/4216]	Time 1.504 (1.543)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.001540(0.000162) loss_G_GAN:0.004193(0.003040) loss_G_L1:0.135397(0.194130) total_loss:0.141130(0.197331))	
-[Iter: 507]Epoch: [0][4048/4216]	Time 1.503 (1.543)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.001194(0.000164) loss_G_GAN:0.003642(0.003041) loss_G_L1:0.131948(0.194007) total_loss:0.136784(0.197212))	
-[Iter: 508]Epoch: [0][4056/4216]	Time 1.505 (1.543)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.001415(0.000167) loss_G_GAN:0.003522(0.003042) loss_G_L1:0.171156(0.193962) total_loss:0.176093(0.197170))	
-[Iter: 509]Epoch: [0][4064/4216]	Time 1.504 (1.543)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000597(0.000167) loss_G_GAN:0.002260(0.003040) loss_G_L1:0.155728(0.193887) total_loss:0.158585(0.197095))	
-[Iter: 510]Epoch: [0][4072/4216]	Time 1.512 (1.543)	Data Time 0.081 (0.093)	LOSSES - loss_D:0.000130(0.000167) loss_G_GAN:0.002174(0.003039) loss_G_L1:0.155414(0.193812) total_loss:0.157718(0.197017))	
-[Iter: 511]Epoch: [0][4080/4216]	Time 1.508 (1.543)	Data Time 0.078 (0.093)	LOSSES - loss_D:0.000301(0.000168) loss_G_GAN:0.001606(0.003036) loss_G_L1:0.113677(0.193655) total_loss:0.115583(0.196858))	
-[Iter: 512]Epoch: [0][4088/4216]	Time 1.509 (1.543)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000169(0.000168) loss_G_GAN:0.002336(0.003034) loss_G_L1:0.122604(0.193516) total_loss:0.125109(0.196718))	
-[Iter: 513]Epoch: [0][4096/4216]	Time 1.515 (1.543)	Data Time 0.079 (0.093)	LOSSES - loss_D:0.000213(0.000168) loss_G_GAN:0.002063(0.003033) loss_G_L1:0.121865(0.193376) total_loss:0.124141(0.196576))	
-[Iter: 514]Epoch: [0][4104/4216]	Time 1.507 (1.543)	Data Time 0.078 (0.093)	LOSSES - loss_D:0.000124(0.000168) loss_G_GAN:0.002585(0.003032) loss_G_L1:0.171065(0.193333) total_loss:0.173774(0.196532))	
-[Iter: 515]Epoch: [0][4112/4216]	Time 1.508 (1.543)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.000142(0.000168) loss_G_GAN:0.002880(0.003031) loss_G_L1:0.136509(0.193223) total_loss:0.139531(0.196421))	
-[Iter: 516]Epoch: [0][4120/4216]	Time 1.507 (1.543)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.000138(0.000167) loss_G_GAN:0.002313(0.003030) loss_G_L1:0.115030(0.193071) total_loss:0.117480(0.196268))	
-[Iter: 517]Epoch: [0][4128/4216]	Time 1.504 (1.543)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000062(0.000167) loss_G_GAN:0.003270(0.003030) loss_G_L1:0.194998(0.193075) total_loss:0.198331(0.196272))	
-[Iter: 518]Epoch: [0][4136/4216]	Time 1.508 (1.543)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.000077(0.000167) loss_G_GAN:0.002714(0.003030) loss_G_L1:0.126995(0.192947) total_loss:0.129786(0.196144))	
-[Iter: 519]Epoch: [0][4144/4216]	Time 1.509 (1.543)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.000104(0.000167) loss_G_GAN:0.002680(0.003029) loss_G_L1:0.125134(0.192816) total_loss:0.127919(0.196013))	
-[Iter: 520]Epoch: [0][4152/4216]	Time 1.508 (1.542)	Data Time 0.080 (0.093)	LOSSES - loss_D:0.000070(0.000167) loss_G_GAN:0.003777(0.003031) loss_G_L1:0.136302(0.192708) total_loss:0.140148(0.195905))	
-[Iter: 521]Epoch: [0][4160/4216]	Time 1.515 (1.542)	Data Time 0.082 (0.093)	LOSSES - loss_D:0.000151(0.000167) loss_G_GAN:0.002470(0.003030) loss_G_L1:0.101167(0.192532) total_loss:0.103788(0.195728))	
-[Iter: 522]Epoch: [0][4168/4216]	Time 1.510 (1.542)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000062(0.000167) loss_G_GAN:0.002835(0.003029) loss_G_L1:0.142444(0.192436) total_loss:0.145342(0.195632))	
-[Iter: 523]Epoch: [0][4176/4216]	Time 1.507 (1.542)	Data Time 0.075 (0.093)	LOSSES - loss_D:0.000066(0.000166) loss_G_GAN:0.003278(0.003030) loss_G_L1:0.116303(0.192291) total_loss:0.119647(0.195487))	
-[Iter: 524]Epoch: [0][4184/4216]	Time 1.513 (1.542)	Data Time 0.078 (0.093)	LOSSES - loss_D:0.000057(0.000166) loss_G_GAN:0.003062(0.003030) loss_G_L1:0.156398(0.192222) total_loss:0.159517(0.195418))	
-[Iter: 525]Epoch: [0][4192/4216]	Time 1.507 (1.542)	Data Time 0.076 (0.093)	LOSSES - loss_D:0.000100(0.000166) loss_G_GAN:0.002683(0.003029) loss_G_L1:0.129066(0.192102) total_loss:0.131848(0.195297))	
-[Iter: 526]Epoch: [0][4200/4216]	Time 1.511 (1.542)	Data Time 0.080 (0.092)	LOSSES - loss_D:0.000049(0.000166) loss_G_GAN:0.003465(0.003030) loss_G_L1:0.160974(0.192043) total_loss:0.164488(0.195238))	
-[Iter: 527]Epoch: [0][4208/4216]	Time 2.429 (1.544)	Data Time 0.028 (0.092)	LOSSES - loss_D:0.000166(0.000166) loss_G_GAN:0.002366(0.003029) loss_G_L1:0.078134(0.191826) total_loss:0.080665(0.195021))	
-Finished Train Epoch 0 Loss {'loss_D': 0.000165806738238231, 'loss_G_GAN': 0.003028613031643886, 'loss_G_L1': 0.1918264547578524, 'total_loss': 0.1950208745277345}
-Total Loss {'loss_D': 0.000165806738238231, 'loss_G_GAN': 0.003028613031643886, 'loss_G_L1': 0.1918264547578524, 'total_loss': 0.1950208745277345}
-Saving epoch 0
-[Iter: 528]Epoch: [1][0/4216]	Time 8.381 (8.381)	Data Time 6.944 (6.944)	LOSSES - loss_D:0.000063(0.000063) loss_G_GAN:0.003749(0.003749) loss_G_L1:0.182586(0.182586) total_loss:0.186398(0.186398))	
-[Iter: 529]Epoch: [1][8/4216]	Time 1.560 (4.970)	Data Time 0.132 (3.538)	LOSSES - loss_D:0.000042(0.000052) loss_G_GAN:0.003674(0.003711) loss_G_L1:0.108805(0.145695) total_loss:0.112520(0.149459))	
-[Iter: 530]Epoch: [1][16/4216]	Time 1.515 (3.818)	Data Time 0.084 (2.387)	LOSSES - loss_D:0.000069(0.000058) loss_G_GAN:0.003172(0.003531) loss_G_L1:0.114833(0.135408) total_loss:0.118074(0.138997))	
-[Iter: 531]Epoch: [1][24/4216]	Time 1.514 (3.242)	Data Time 0.082 (1.810)	LOSSES - loss_D:0.000062(0.000059) loss_G_GAN:0.003926(0.003630) loss_G_L1:0.123605(0.132457) total_loss:0.127593(0.136146))	
-[Iter: 532]Epoch: [1][32/4216]	Time 1.517 (2.897)	Data Time 0.087 (1.466)	LOSSES - loss_D:0.000061(0.000059) loss_G_GAN:0.003159(0.003536) loss_G_L1:0.106267(0.127219) total_loss:0.109487(0.130814))	
-[Iter: 533]Epoch: [1][40/4216]	Time 1.508 (2.666)	Data Time 0.078 (1.234)	LOSSES - loss_D:0.000037(0.000056) loss_G_GAN:0.003467(0.003524) loss_G_L1:0.126414(0.127085) total_loss:0.129918(0.130665))	
-[Iter: 534]Epoch: [1][48/4216]	Time 1.506 (2.500)	Data Time 0.076 (1.069)	LOSSES - loss_D:0.000045(0.000054) loss_G_GAN:0.003428(0.003511) loss_G_L1:0.130317(0.127547) total_loss:0.133790(0.131111))	
-[Iter: 535]Epoch: [1][56/4216]	Time 1.509 (2.376)	Data Time 0.076 (0.945)	LOSSES - loss_D:0.000050(0.000054) loss_G_GAN:0.003296(0.003484) loss_G_L1:0.103182(0.124501) total_loss:0.106528(0.128038))	
-[Iter: 536]Epoch: [1][64/4216]	Time 1.510 (2.280)	Data Time 0.079 (0.849)	LOSSES - loss_D:0.000034(0.000051) loss_G_GAN:0.003932(0.003534) loss_G_L1:0.153297(0.127701) total_loss:0.157263(0.131286))	
-[Iter: 537]Epoch: [1][72/4216]	Time 1.509 (2.203)	Data Time 0.080 (0.772)	LOSSES - loss_D:0.000034(0.000050) loss_G_GAN:0.003962(0.003576) loss_G_L1:0.121202(0.127051) total_loss:0.125198(0.130677))	
-[Iter: 538]Epoch: [1][80/4216]	Time 1.507 (2.140)	Data Time 0.077 (0.709)	LOSSES - loss_D:0.000086(0.000053) loss_G_GAN:0.003144(0.003537) loss_G_L1:0.090771(0.123753) total_loss:0.094001(0.127343))	
-[Iter: 539]Epoch: [1][88/4216]	Time 1.505 (2.087)	Data Time 0.075 (0.656)	LOSSES - loss_D:0.000053(0.000053) loss_G_GAN:0.003153(0.003505) loss_G_L1:0.136460(0.124811) total_loss:0.139666(0.128370))	
-[Iter: 540]Epoch: [1][96/4216]	Time 1.509 (2.042)	Data Time 0.074 (0.611)	LOSSES - loss_D:0.000072(0.000054) loss_G_GAN:0.002802(0.003451) loss_G_L1:0.125963(0.124900) total_loss:0.128837(0.128406))	
-[Iter: 541]Epoch: [1][104/4216]	Time 1.506 (2.004)	Data Time 0.074 (0.573)	LOSSES - loss_D:0.000053(0.000054) loss_G_GAN:0.003272(0.003438) loss_G_L1:0.110641(0.123882) total_loss:0.113966(0.127374))	
-[Iter: 542]Epoch: [1][112/4216]	Time 1.509 (1.971)	Data Time 0.078 (0.540)	LOSSES - loss_D:0.000065(0.000055) loss_G_GAN:0.003266(0.003427) loss_G_L1:0.114657(0.123267) total_loss:0.117989(0.126748))	
-[Iter: 543]Epoch: [1][120/4216]	Time 1.509 (1.942)	Data Time 0.079 (0.511)	LOSSES - loss_D:0.000036(0.000054) loss_G_GAN:0.003727(0.003446) loss_G_L1:0.168611(0.126101) total_loss:0.172375(0.129600))	
-[Iter: 544]Epoch: [1][128/4216]	Time 1.561 (1.920)	Data Time 0.127 (0.488)	LOSSES - loss_D:0.000056(0.000054) loss_G_GAN:0.003313(0.003438) loss_G_L1:0.100034(0.124567) total_loss:0.103403(0.128059))	
-[Iter: 545]Epoch: [1][136/4216]	Time 1.514 (1.897)	Data Time 0.079 (0.466)	LOSSES - loss_D:0.000071(0.000055) loss_G_GAN:0.004193(0.003480) loss_G_L1:0.149642(0.125960) total_loss:0.153906(0.129495))	
-[Iter: 546]Epoch: [1][144/4216]	Time 1.509 (1.877)	Data Time 0.077 (0.445)	LOSSES - loss_D:0.000041(0.000054) loss_G_GAN:0.004511(0.003534) loss_G_L1:0.168243(0.128186) total_loss:0.172795(0.131774))	
-[Iter: 547]Epoch: [1][152/4216]	Time 1.512 (1.858)	Data Time 0.076 (0.427)	LOSSES - loss_D:0.000033(0.000053) loss_G_GAN:0.003516(0.003533) loss_G_L1:0.111462(0.127350) total_loss:0.115011(0.130936))	
-[Iter: 548]Epoch: [1][160/4216]	Time 1.515 (1.842)	Data Time 0.081 (0.410)	LOSSES - loss_D:0.000047(0.000053) loss_G_GAN:0.003227(0.003518) loss_G_L1:0.144348(0.128159) total_loss:0.147621(0.131730))	
-[Iter: 549]Epoch: [1][168/4216]	Time 1.513 (1.827)	Data Time 0.076 (0.395)	LOSSES - loss_D:0.000044(0.000052) loss_G_GAN:0.004181(0.003549) loss_G_L1:0.150406(0.129170) total_loss:0.154631(0.132771))	
-[Iter: 550]Epoch: [1][176/4216]	Time 1.510 (1.813)	Data Time 0.074 (0.381)	LOSSES - loss_D:0.000063(0.000053) loss_G_GAN:0.003247(0.003536) loss_G_L1:0.107776(0.128240) total_loss:0.111086(0.131828))	
-[Iter: 551]Epoch: [1][184/4216]	Time 1.513 (1.801)	Data Time 0.077 (0.368)	LOSSES - loss_D:0.000062(0.000053) loss_G_GAN:0.003492(0.003534) loss_G_L1:0.120608(0.127922) total_loss:0.124163(0.131509))	
-[Iter: 552]Epoch: [1][192/4216]	Time 1.515 (1.789)	Data Time 0.078 (0.357)	LOSSES - loss_D:0.000027(0.000052) loss_G_GAN:0.003935(0.003550) loss_G_L1:0.118641(0.127551) total_loss:0.122603(0.131153))	
-[Iter: 553]Epoch: [1][200/4216]	Time 1.511 (1.779)	Data Time 0.078 (0.346)	LOSSES - loss_D:0.000041(0.000052) loss_G_GAN:0.003640(0.003553) loss_G_L1:0.133074(0.127763) total_loss:0.136755(0.131368))	
-[Iter: 554]Epoch: [1][208/4216]	Time 1.510 (1.769)	Data Time 0.074 (0.336)	LOSSES - loss_D:0.000056(0.000052) loss_G_GAN:0.003684(0.003558) loss_G_L1:0.113964(0.127252) total_loss:0.117704(0.130862))	
-[Iter: 555]Epoch: [1][216/4216]	Time 1.511 (1.759)	Data Time 0.075 (0.327)	LOSSES - loss_D:0.000035(0.000051) loss_G_GAN:0.003615(0.003560) loss_G_L1:0.134035(0.127494) total_loss:0.137685(0.131106))	
-[Iter: 556]Epoch: [1][224/4216]	Time 1.514 (1.751)	Data Time 0.075 (0.318)	LOSSES - loss_D:0.000039(0.000051) loss_G_GAN:0.004182(0.003582) loss_G_L1:0.151574(0.128325) total_loss:0.155795(0.131957))	
-[Iter: 557]Epoch: [1][232/4216]	Time 1.523 (1.743)	Data Time 0.087 (0.310)	LOSSES - loss_D:0.000056(0.000051) loss_G_GAN:0.003116(0.003566) loss_G_L1:0.153409(0.129161) total_loss:0.156581(0.132778))	
-[Iter: 558]Epoch: [1][240/4216]	Time 1.510 (1.736)	Data Time 0.076 (0.303)	LOSSES - loss_D:0.000045(0.000051) loss_G_GAN:0.003490(0.003564) loss_G_L1:0.113765(0.128664) total_loss:0.117300(0.132279))	
-[Iter: 559]Epoch: [1][248/4216]	Time 1.510 (1.729)	Data Time 0.078 (0.296)	LOSSES - loss_D:0.000029(0.000050) loss_G_GAN:0.003985(0.003577) loss_G_L1:0.188821(0.130544) total_loss:0.192835(0.134171))	
-[Iter: 560]Epoch: [1][256/4216]	Time 1.524 (1.723)	Data Time 0.092 (0.290)	LOSSES - loss_D:0.000061(0.000051) loss_G_GAN:0.003616(0.003578) loss_G_L1:0.138068(0.130772) total_loss:0.141745(0.134401))	
-[Iter: 561]Epoch: [1][264/4216]	Time 1.508 (1.716)	Data Time 0.078 (0.283)	LOSSES - loss_D:0.000025(0.000050) loss_G_GAN:0.003747(0.003583) loss_G_L1:0.099030(0.129839) total_loss:0.102802(0.133471))	
-[Iter: 562]Epoch: [1][272/4216]	Time 1.505 (1.710)	Data Time 0.075 (0.277)	LOSSES - loss_D:0.000049(0.000050) loss_G_GAN:0.003427(0.003578) loss_G_L1:0.134166(0.129962) total_loss:0.137642(0.133590))	
-[Iter: 563]Epoch: [1][280/4216]	Time 1.508 (1.705)	Data Time 0.076 (0.272)	LOSSES - loss_D:0.000036(0.000049) loss_G_GAN:0.003651(0.003580) loss_G_L1:0.123363(0.129779) total_loss:0.127050(0.133409))	
-[Iter: 564]Epoch: [1][288/4216]	Time 1.509 (1.699)	Data Time 0.080 (0.267)	LOSSES - loss_D:0.000040(0.000049) loss_G_GAN:0.003637(0.003582) loss_G_L1:0.142842(0.130132) total_loss:0.146519(0.133763))	
-[Iter: 565]Epoch: [1][296/4216]	Time 1.507 (1.694)	Data Time 0.077 (0.262)	LOSSES - loss_D:0.000034(0.000049) loss_G_GAN:0.003993(0.003593) loss_G_L1:0.128956(0.130101) total_loss:0.132983(0.133743))	
-[Iter: 566]Epoch: [1][304/4216]	Time 1.513 (1.690)	Data Time 0.077 (0.257)	LOSSES - loss_D:0.000036(0.000048) loss_G_GAN:0.003808(0.003598) loss_G_L1:0.124229(0.129950) total_loss:0.128072(0.133597))	
-[Iter: 567]Epoch: [1][312/4216]	Time 1.510 (1.685)	Data Time 0.078 (0.252)	LOSSES - loss_D:0.000071(0.000049) loss_G_GAN:0.003027(0.003584) loss_G_L1:0.099860(0.129198) total_loss:0.102958(0.132831))	
-[Iter: 568]Epoch: [1][320/4216]	Time 1.516 (1.681)	Data Time 0.080 (0.248)	LOSSES - loss_D:0.000025(0.000048) loss_G_GAN:0.004302(0.003602) loss_G_L1:0.125028(0.129096) total_loss:0.129354(0.132746))	
-[Iter: 569]Epoch: [1][328/4216]	Time 1.515 (1.677)	Data Time 0.082 (0.244)	LOSSES - loss_D:0.000036(0.000048) loss_G_GAN:0.004603(0.003625) loss_G_L1:0.148513(0.129559) total_loss:0.153151(0.133232))	
-[Iter: 570]Epoch: [1][336/4216]	Time 1.507 (1.673)	Data Time 0.078 (0.240)	LOSSES - loss_D:0.000021(0.000047) loss_G_GAN:0.004634(0.003649) loss_G_L1:0.170764(0.130517) total_loss:0.175419(0.134213))	
-[Iter: 571]Epoch: [1][344/4216]	Time 1.506 (1.669)	Data Time 0.078 (0.237)	LOSSES - loss_D:0.000025(0.000047) loss_G_GAN:0.003967(0.003656) loss_G_L1:0.090421(0.129606) total_loss:0.094413(0.133309))	
-[Iter: 572]Epoch: [1][352/4216]	Time 1.513 (1.666)	Data Time 0.078 (0.233)	LOSSES - loss_D:0.000041(0.000047) loss_G_GAN:0.003762(0.003658) loss_G_L1:0.136828(0.129766) total_loss:0.140631(0.133471))	
-[Iter: 573]Epoch: [1][360/4216]	Time 1.507 (1.662)	Data Time 0.078 (0.230)	LOSSES - loss_D:0.000031(0.000046) loss_G_GAN:0.003759(0.003661) loss_G_L1:0.102381(0.129171) total_loss:0.106171(0.132878))	
-[Iter: 574]Epoch: [1][368/4216]	Time 1.514 (1.659)	Data Time 0.081 (0.227)	LOSSES - loss_D:0.000025(0.000046) loss_G_GAN:0.004157(0.003671) loss_G_L1:0.113108(0.128829) total_loss:0.117290(0.132546))	
-[Iter: 575]Epoch: [1][376/4216]	Time 1.515 (1.656)	Data Time 0.084 (0.224)	LOSSES - loss_D:0.000034(0.000046) loss_G_GAN:0.004135(0.003681) loss_G_L1:0.170739(0.129702) total_loss:0.174909(0.133429))	
-[Iter: 576]Epoch: [1][384/4216]	Time 1.518 (1.653)	Data Time 0.083 (0.221)	LOSSES - loss_D:0.000028(0.000045) loss_G_GAN:0.004016(0.003688) loss_G_L1:0.104478(0.129188) total_loss:0.108522(0.132921))	
-[Iter: 577]Epoch: [1][392/4216]	Time 1.511 (1.651)	Data Time 0.080 (0.218)	LOSSES - loss_D:0.000030(0.000045) loss_G_GAN:0.004017(0.003694) loss_G_L1:0.119405(0.128992) total_loss:0.123452(0.132731))	
-[Iter: 578]Epoch: [1][400/4216]	Time 1.508 (1.648)	Data Time 0.078 (0.215)	LOSSES - loss_D:0.000042(0.000045) loss_G_GAN:0.003605(0.003692) loss_G_L1:0.114334(0.128704) total_loss:0.117980(0.132442))	
-[Iter: 579]Epoch: [1][408/4216]	Time 1.505 (1.645)	Data Time 0.078 (0.213)	LOSSES - loss_D:0.000040(0.000045) loss_G_GAN:0.003519(0.003689) loss_G_L1:0.098303(0.128120) total_loss:0.101862(0.131854))	
-[Iter: 580]Epoch: [1][416/4216]	Time 1.511 (1.643)	Data Time 0.080 (0.210)	LOSSES - loss_D:0.000019(0.000044) loss_G_GAN:0.004053(0.003696) loss_G_L1:0.143695(0.128414) total_loss:0.147767(0.132154))	
-[Iter: 581]Epoch: [1][424/4216]	Time 1.508 (1.640)	Data Time 0.080 (0.208)	LOSSES - loss_D:0.000020(0.000044) loss_G_GAN:0.004266(0.003707) loss_G_L1:0.147725(0.128771) total_loss:0.152011(0.132522))	
-[Iter: 582]Epoch: [1][432/4216]	Time 1.507 (1.638)	Data Time 0.077 (0.205)	LOSSES - loss_D:0.000034(0.000044) loss_G_GAN:0.003646(0.003705) loss_G_L1:0.121205(0.128634) total_loss:0.124885(0.132383))	
-[Iter: 583]Epoch: [1][440/4216]	Time 1.514 (1.635)	Data Time 0.080 (0.203)	LOSSES - loss_D:0.000039(0.000044) loss_G_GAN:0.003526(0.003702) loss_G_L1:0.137940(0.128800) total_loss:0.141505(0.132546))	
-[Iter: 584]Epoch: [1][448/4216]	Time 1.514 (1.633)	Data Time 0.079 (0.201)	LOSSES - loss_D:0.000022(0.000043) loss_G_GAN:0.004551(0.003717) loss_G_L1:0.197148(0.129999) total_loss:0.201721(0.133759))	
-[Iter: 585]Epoch: [1][456/4216]	Time 1.510 (1.631)	Data Time 0.080 (0.199)	LOSSES - loss_D:0.000033(0.000043) loss_G_GAN:0.004474(0.003730) loss_G_L1:0.121667(0.129855) total_loss:0.126175(0.133629))	
-[Iter: 586]Epoch: [1][464/4216]	Time 1.514 (1.629)	Data Time 0.078 (0.197)	LOSSES - loss_D:0.000028(0.000043) loss_G_GAN:0.003682(0.003729) loss_G_L1:0.121978(0.129722) total_loss:0.125688(0.133494))	
-[Iter: 587]Epoch: [1][472/4216]	Time 1.512 (1.627)	Data Time 0.078 (0.195)	LOSSES - loss_D:0.000051(0.000043) loss_G_GAN:0.003324(0.003723) loss_G_L1:0.112648(0.129437) total_loss:0.116023(0.133203))	
-[Iter: 588]Epoch: [1][480/4216]	Time 1.510 (1.625)	Data Time 0.077 (0.193)	LOSSES - loss_D:0.000028(0.000043) loss_G_GAN:0.004043(0.003728) loss_G_L1:0.139447(0.129601) total_loss:0.143518(0.133372))	
-[Iter: 589]Epoch: [1][488/4216]	Time 1.514 (1.624)	Data Time 0.077 (0.191)	LOSSES - loss_D:0.000019(0.000042) loss_G_GAN:0.004143(0.003735) loss_G_L1:0.153222(0.129982) total_loss:0.157384(0.133759))	
-[Iter: 590]Epoch: [1][496/4216]	Time 1.517 (1.622)	Data Time 0.080 (0.189)	LOSSES - loss_D:0.000041(0.000042) loss_G_GAN:0.003554(0.003732) loss_G_L1:0.093921(0.129410) total_loss:0.097516(0.133184))	
-[Iter: 591]Epoch: [1][504/4216]	Time 1.523 (1.620)	Data Time 0.085 (0.188)	LOSSES - loss_D:0.000033(0.000042) loss_G_GAN:0.003734(0.003732) loss_G_L1:0.125155(0.129343) total_loss:0.128922(0.133117))	
-[Iter: 592]Epoch: [1][512/4216]	Time 1.517 (1.619)	Data Time 0.080 (0.186)	LOSSES - loss_D:0.000038(0.000042) loss_G_GAN:0.003717(0.003732) loss_G_L1:0.123367(0.129252) total_loss:0.127122(0.133025))	
-[Iter: 593]Epoch: [1][520/4216]	Time 1.519 (1.617)	Data Time 0.082 (0.184)	LOSSES - loss_D:0.000257(0.000045) loss_G_GAN:0.002987(0.003720) loss_G_L1:0.117615(0.129075) total_loss:0.120860(0.132841))	
-[Iter: 594]Epoch: [1][528/4216]	Time 1.514 (1.616)	Data Time 0.080 (0.183)	LOSSES - loss_D:0.000297(0.000049) loss_G_GAN:0.002047(0.003695) loss_G_L1:0.130195(0.129092) total_loss:0.132539(0.132836))	
-[Iter: 595]Epoch: [1][536/4216]	Time 1.514 (1.614)	Data Time 0.081 (0.181)	LOSSES - loss_D:0.000047(0.000049) loss_G_GAN:0.003650(0.003695) loss_G_L1:0.156210(0.129491) total_loss:0.159906(0.133234))	
-[Iter: 596]Epoch: [1][544/4216]	Time 1.513 (1.613)	Data Time 0.079 (0.180)	LOSSES - loss_D:0.000151(0.000051) loss_G_GAN:0.003583(0.003693) loss_G_L1:0.124382(0.129417) total_loss:0.128116(0.133160))	
-[Iter: 597]Epoch: [1][552/4216]	Time 1.515 (1.611)	Data Time 0.079 (0.178)	LOSSES - loss_D:0.000116(0.000052) loss_G_GAN:0.003620(0.003692) loss_G_L1:0.112358(0.129173) total_loss:0.116095(0.132916))	
-[Iter: 598]Epoch: [1][560/4216]	Time 1.512 (1.610)	Data Time 0.078 (0.177)	LOSSES - loss_D:0.000132(0.000053) loss_G_GAN:0.002873(0.003680) loss_G_L1:0.101900(0.128789) total_loss:0.104905(0.132522))	
-[Iter: 599]Epoch: [1][568/4216]	Time 1.512 (1.609)	Data Time 0.077 (0.176)	LOSSES - loss_D:0.000080(0.000053) loss_G_GAN:0.004812(0.003696) loss_G_L1:0.124799(0.128733) total_loss:0.129692(0.132483))	
-[Iter: 600]Epoch: [1][576/4216]	Time 1.516 (1.607)	Data Time 0.080 (0.174)	LOSSES - loss_D:0.000026(0.000053) loss_G_GAN:0.004370(0.003705) loss_G_L1:0.161258(0.129179) total_loss:0.165653(0.132937))	
-[Iter: 601]Epoch: [1][584/4216]	Time 1.513 (1.606)	Data Time 0.082 (0.173)	LOSSES - loss_D:0.000034(0.000052) loss_G_GAN:0.004160(0.003711) loss_G_L1:0.105138(0.128854) total_loss:0.109332(0.132618))	
-[Iter: 602]Epoch: [1][592/4216]	Time 1.512 (1.605)	Data Time 0.081 (0.172)	LOSSES - loss_D:0.000087(0.000053) loss_G_GAN:0.004157(0.003717) loss_G_L1:0.143400(0.129048) total_loss:0.147645(0.132818))	
-[Iter: 603]Epoch: [1][600/4216]	Time 1.516 (1.604)	Data Time 0.079 (0.171)	LOSSES - loss_D:0.000027(0.000053) loss_G_GAN:0.004014(0.003721) loss_G_L1:0.137538(0.129160) total_loss:0.141579(0.132934))	
-[Iter: 604]Epoch: [1][608/4216]	Time 1.511 (1.602)	Data Time 0.077 (0.169)	LOSSES - loss_D:0.000050(0.000053) loss_G_GAN:0.003232(0.003715) loss_G_L1:0.108705(0.128894) total_loss:0.111987(0.132662))	
-[Iter: 605]Epoch: [1][616/4216]	Time 1.511 (1.601)	Data Time 0.079 (0.168)	LOSSES - loss_D:0.000032(0.000052) loss_G_GAN:0.003708(0.003715) loss_G_L1:0.118812(0.128765) total_loss:0.122552(0.132532))	
-[Iter: 606]Epoch: [1][624/4216]	Time 1.511 (1.600)	Data Time 0.079 (0.167)	LOSSES - loss_D:0.000056(0.000052) loss_G_GAN:0.003244(0.003709) loss_G_L1:0.155469(0.129103) total_loss:0.158769(0.132864))	
-[Iter: 607]Epoch: [1][632/4216]	Time 1.510 (1.599)	Data Time 0.083 (0.166)	LOSSES - loss_D:0.000033(0.000052) loss_G_GAN:0.003765(0.003710) loss_G_L1:0.126214(0.129067) total_loss:0.130012(0.132829))	
-[Iter: 608]Epoch: [1][640/4216]	Time 1.509 (1.598)	Data Time 0.081 (0.165)	LOSSES - loss_D:0.000107(0.000053) loss_G_GAN:0.003682(0.003709) loss_G_L1:0.096953(0.128670) total_loss:0.100742(0.132432))	
-[Iter: 609]Epoch: [1][648/4216]	Time 1.513 (1.597)	Data Time 0.079 (0.164)	LOSSES - loss_D:0.000029(0.000052) loss_G_GAN:0.004236(0.003716) loss_G_L1:0.152647(0.128963) total_loss:0.156912(0.132731))	
-[Iter: 610]Epoch: [1][656/4216]	Time 1.511 (1.596)	Data Time 0.079 (0.163)	LOSSES - loss_D:0.000091(0.000053) loss_G_GAN:0.002822(0.003705) loss_G_L1:0.098120(0.128591) total_loss:0.101033(0.132349))	
-[Iter: 611]Epoch: [1][664/4216]	Time 1.514 (1.595)	Data Time 0.083 (0.162)	LOSSES - loss_D:0.000099(0.000053) loss_G_GAN:0.003422(0.003702) loss_G_L1:0.116943(0.128452) total_loss:0.120464(0.132208))	
-[Iter: 612]Epoch: [1][672/4216]	Time 1.518 (1.594)	Data Time 0.081 (0.161)	LOSSES - loss_D:0.000027(0.000053) loss_G_GAN:0.004182(0.003707) loss_G_L1:0.139344(0.128581) total_loss:0.143554(0.132341))	
-[Iter: 613]Epoch: [1][680/4216]	Time 1.509 (1.593)	Data Time 0.077 (0.160)	LOSSES - loss_D:0.000135(0.000054) loss_G_GAN:0.004813(0.003720) loss_G_L1:0.149768(0.128827) total_loss:0.154715(0.132601))	
-[Iter: 614]Epoch: [1][688/4216]	Time 1.511 (1.592)	Data Time 0.077 (0.159)	LOSSES - loss_D:0.000039(0.000054) loss_G_GAN:0.003865(0.003722) loss_G_L1:0.126121(0.128796) total_loss:0.130025(0.132572))	
-[Iter: 615]Epoch: [1][696/4216]	Time 1.510 (1.591)	Data Time 0.077 (0.158)	LOSSES - loss_D:0.000058(0.000054) loss_G_GAN:0.003234(0.003716) loss_G_L1:0.151330(0.129052) total_loss:0.154622(0.132822))	
-[Iter: 616]Epoch: [1][704/4216]	Time 1.509 (1.590)	Data Time 0.079 (0.157)	LOSSES - loss_D:0.000062(0.000054) loss_G_GAN:0.003104(0.003709) loss_G_L1:0.120636(0.128957) total_loss:0.123801(0.132721))	
-[Iter: 617]Epoch: [1][712/4216]	Time 1.514 (1.589)	Data Time 0.080 (0.156)	LOSSES - loss_D:0.000036(0.000054) loss_G_GAN:0.003708(0.003709) loss_G_L1:0.115947(0.128813) total_loss:0.119691(0.132576))	
-[Iter: 618]Epoch: [1][720/4216]	Time 1.514 (1.588)	Data Time 0.079 (0.155)	LOSSES - loss_D:0.000028(0.000054) loss_G_GAN:0.004082(0.003713) loss_G_L1:0.132559(0.128854) total_loss:0.136668(0.132621))	
-[Iter: 619]Epoch: [1][728/4216]	Time 1.512 (1.588)	Data Time 0.079 (0.155)	LOSSES - loss_D:0.000030(0.000053) loss_G_GAN:0.004036(0.003717) loss_G_L1:0.109082(0.128639) total_loss:0.113148(0.132409))	
-[Iter: 620]Epoch: [1][736/4216]	Time 1.511 (1.587)	Data Time 0.081 (0.154)	LOSSES - loss_D:0.000019(0.000053) loss_G_GAN:0.004583(0.003726) loss_G_L1:0.134531(0.128702) total_loss:0.139133(0.132482))	
-[Iter: 621]Epoch: [1][744/4216]	Time 1.514 (1.586)	Data Time 0.079 (0.153)	LOSSES - loss_D:0.000072(0.000053) loss_G_GAN:0.003137(0.003720) loss_G_L1:0.138093(0.128802) total_loss:0.141303(0.132575))	
-[Iter: 622]Epoch: [1][752/4216]	Time 1.511 (1.585)	Data Time 0.077 (0.152)	LOSSES - loss_D:0.000072(0.000053) loss_G_GAN:0.003302(0.003716) loss_G_L1:0.091180(0.128406) total_loss:0.094553(0.132175))	
-[Iter: 623]Epoch: [1][760/4216]	Time 1.517 (1.584)	Data Time 0.083 (0.152)	LOSSES - loss_D:0.000145(0.000054) loss_G_GAN:0.004612(0.003725) loss_G_L1:0.167117(0.128810) total_loss:0.171874(0.132589))	
-[Iter: 624]Epoch: [1][768/4216]	Time 1.512 (1.584)	Data Time 0.082 (0.151)	LOSSES - loss_D:0.000056(0.000054) loss_G_GAN:0.004099(0.003729) loss_G_L1:0.141127(0.128937) total_loss:0.145282(0.132720))	
-[Iter: 625]Epoch: [1][776/4216]	Time 1.515 (1.583)	Data Time 0.082 (0.150)	LOSSES - loss_D:0.000031(0.000054) loss_G_GAN:0.003827(0.003730) loss_G_L1:0.160819(0.129262) total_loss:0.164677(0.133046))	
-[Iter: 626]Epoch: [1][784/4216]	Time 1.512 (1.582)	Data Time 0.079 (0.149)	LOSSES - loss_D:0.000126(0.000055) loss_G_GAN:0.003408(0.003726) loss_G_L1:0.132414(0.129294) total_loss:0.135948(0.133075))	
-[Iter: 627]Epoch: [1][792/4216]	Time 1.510 (1.582)	Data Time 0.082 (0.149)	LOSSES - loss_D:0.000095(0.000055) loss_G_GAN:0.003534(0.003725) loss_G_L1:0.103159(0.129032) total_loss:0.106788(0.132812))	
-[Iter: 628]Epoch: [1][800/4216]	Time 1.509 (1.581)	Data Time 0.079 (0.148)	LOSSES - loss_D:0.000028(0.000055) loss_G_GAN:0.005097(0.003738) loss_G_L1:0.132766(0.129069) total_loss:0.137891(0.132862))	
-[Iter: 629]Epoch: [1][808/4216]	Time 1.511 (1.580)	Data Time 0.078 (0.147)	LOSSES - loss_D:0.000069(0.000055) loss_G_GAN:0.004208(0.003743) loss_G_L1:0.107427(0.128857) total_loss:0.111703(0.132655))	
-[Iter: 630]Epoch: [1][816/4216]	Time 1.516 (1.580)	Data Time 0.080 (0.147)	LOSSES - loss_D:0.000031(0.000055) loss_G_GAN:0.004403(0.003749) loss_G_L1:0.132794(0.128895) total_loss:0.137227(0.132699))	
-[Iter: 631]Epoch: [1][824/4216]	Time 1.511 (1.579)	Data Time 0.078 (0.146)	LOSSES - loss_D:0.000014(0.000054) loss_G_GAN:0.004480(0.003756) loss_G_L1:0.126420(0.128872) total_loss:0.130914(0.132682))	
-[Iter: 632]Epoch: [1][832/4216]	Time 1.514 (1.578)	Data Time 0.079 (0.145)	LOSSES - loss_D:0.000021(0.000054) loss_G_GAN:0.004449(0.003763) loss_G_L1:0.123127(0.128817) total_loss:0.127597(0.132634))	
-[Iter: 633]Epoch: [1][840/4216]	Time 1.512 (1.578)	Data Time 0.082 (0.145)	LOSSES - loss_D:0.000017(0.000054) loss_G_GAN:0.004668(0.003771) loss_G_L1:0.114513(0.128682) total_loss:0.119198(0.132507))	
-[Iter: 634]Epoch: [1][848/4216]	Time 1.515 (1.577)	Data Time 0.080 (0.144)	LOSSES - loss_D:0.000025(0.000054) loss_G_GAN:0.003973(0.003773) loss_G_L1:0.139318(0.128781) total_loss:0.143316(0.132608))	
-[Iter: 635]Epoch: [1][856/4216]	Time 1.514 (1.576)	Data Time 0.078 (0.144)	LOSSES - loss_D:0.000017(0.000053) loss_G_GAN:0.004491(0.003780) loss_G_L1:0.134293(0.128832) total_loss:0.138801(0.132665))	
-[Iter: 636]Epoch: [1][864/4216]	Time 1.516 (1.576)	Data Time 0.082 (0.143)	LOSSES - loss_D:0.000023(0.000053) loss_G_GAN:0.005355(0.003794) loss_G_L1:0.140884(0.128943) total_loss:0.146262(0.132790))	
-[Iter: 637]Epoch: [1][872/4216]	Time 1.508 (1.575)	Data Time 0.078 (0.142)	LOSSES - loss_D:0.000026(0.000053) loss_G_GAN:0.004102(0.003797) loss_G_L1:0.111680(0.128786) total_loss:0.115809(0.132636))	
-[Iter: 638]Epoch: [1][880/4216]	Time 1.516 (1.575)	Data Time 0.083 (0.142)	LOSSES - loss_D:0.000024(0.000052) loss_G_GAN:0.003920(0.003798) loss_G_L1:0.098752(0.128515) total_loss:0.102696(0.132366))	
-[Iter: 639]Epoch: [1][888/4216]	Time 1.511 (1.574)	Data Time 0.083 (0.141)	LOSSES - loss_D:0.000028(0.000052) loss_G_GAN:0.004649(0.003806) loss_G_L1:0.140641(0.128624) total_loss:0.145318(0.132482))	
-[Iter: 640]Epoch: [1][896/4216]	Time 1.509 (1.574)	Data Time 0.079 (0.141)	LOSSES - loss_D:0.000017(0.000052) loss_G_GAN:0.004638(0.003813) loss_G_L1:0.114268(0.128497) total_loss:0.118924(0.132362))	
-[Iter: 641]Epoch: [1][904/4216]	Time 1.519 (1.573)	Data Time 0.080 (0.140)	LOSSES - loss_D:0.000015(0.000052) loss_G_GAN:0.005059(0.003824) loss_G_L1:0.195365(0.129083) total_loss:0.200439(0.132959))	
-[Iter: 642]Epoch: [1][912/4216]	Time 1.513 (1.573)	Data Time 0.079 (0.140)	LOSSES - loss_D:0.000026(0.000051) loss_G_GAN:0.003868(0.003824) loss_G_L1:0.116967(0.128978) total_loss:0.120860(0.132854))	
-[Iter: 643]Epoch: [1][920/4216]	Time 1.515 (1.572)	Data Time 0.079 (0.139)	LOSSES - loss_D:0.000034(0.000051) loss_G_GAN:0.003933(0.003825) loss_G_L1:0.160465(0.129249) total_loss:0.164433(0.133126))	
-[Iter: 644]Epoch: [1][928/4216]	Time 1.511 (1.572)	Data Time 0.078 (0.139)	LOSSES - loss_D:0.000033(0.000051) loss_G_GAN:0.004467(0.003831) loss_G_L1:0.091576(0.128927) total_loss:0.096076(0.132809))	
-[Iter: 645]Epoch: [1][936/4216]	Time 1.516 (1.571)	Data Time 0.076 (0.138)	LOSSES - loss_D:0.000054(0.000051) loss_G_GAN:0.003219(0.003826) loss_G_L1:0.092576(0.128619) total_loss:0.095849(0.132496))	
-[Iter: 646]Epoch: [1][944/4216]	Time 1.511 (1.571)	Data Time 0.078 (0.138)	LOSSES - loss_D:0.000015(0.000051) loss_G_GAN:0.004982(0.003835) loss_G_L1:0.161889(0.128899) total_loss:0.166886(0.132785))	
-[Iter: 647]Epoch: [1][952/4216]	Time 1.516 (1.570)	Data Time 0.079 (0.137)	LOSSES - loss_D:0.000012(0.000050) loss_G_GAN:0.004728(0.003843) loss_G_L1:0.133277(0.128935) total_loss:0.138017(0.132829))	
-[Iter: 648]Epoch: [1][960/4216]	Time 1.515 (1.570)	Data Time 0.081 (0.137)	LOSSES - loss_D:0.000010(0.000050) loss_G_GAN:0.005497(0.003857) loss_G_L1:0.123951(0.128894) total_loss:0.129457(0.132801))	
-[Iter: 649]Epoch: [1][968/4216]	Time 1.515 (1.569)	Data Time 0.080 (0.136)	LOSSES - loss_D:0.000021(0.000050) loss_G_GAN:0.003995(0.003858) loss_G_L1:0.107989(0.128723) total_loss:0.112004(0.132630))	
-[Iter: 650]Epoch: [1][976/4216]	Time 1.507 (1.569)	Data Time 0.078 (0.136)	LOSSES - loss_D:0.000019(0.000050) loss_G_GAN:0.004089(0.003860) loss_G_L1:0.130525(0.128737) total_loss:0.134632(0.132647))	
-[Iter: 651]Epoch: [1][984/4216]	Time 1.514 (1.568)	Data Time 0.078 (0.135)	LOSSES - loss_D:0.000014(0.000049) loss_G_GAN:0.004967(0.003868) loss_G_L1:0.150880(0.128916) total_loss:0.155861(0.132834))	
-[Iter: 652]Epoch: [1][992/4216]	Time 1.513 (1.568)	Data Time 0.082 (0.135)	LOSSES - loss_D:0.000042(0.000049) loss_G_GAN:0.003608(0.003866) loss_G_L1:0.091577(0.128617) total_loss:0.095227(0.132533))	
-[Iter: 653]Epoch: [1][1000/4216]	Time 1.517 (1.567)	Data Time 0.082 (0.134)	LOSSES - loss_D:0.000013(0.000049) loss_G_GAN:0.005236(0.003877) loss_G_L1:0.151284(0.128797) total_loss:0.156533(0.132723))	
-[Iter: 654]Epoch: [1][1008/4216]	Time 1.512 (1.567)	Data Time 0.081 (0.134)	LOSSES - loss_D:0.000049(0.000049) loss_G_GAN:0.003375(0.003873) loss_G_L1:0.101201(0.128580) total_loss:0.104626(0.132502))	
-[Iter: 655]Epoch: [1][1016/4216]	Time 1.519 (1.567)	Data Time 0.082 (0.134)	LOSSES - loss_D:0.000031(0.000049) loss_G_GAN:0.004036(0.003875) loss_G_L1:0.141904(0.128684) total_loss:0.145971(0.132607))	
-[Iter: 656]Epoch: [1][1024/4216]	Time 1.512 (1.566)	Data Time 0.079 (0.133)	LOSSES - loss_D:0.000038(0.000049) loss_G_GAN:0.003795(0.003874) loss_G_L1:0.103105(0.128486) total_loss:0.106938(0.132408))	
-[Iter: 657]Epoch: [1][1032/4216]	Time 1.516 (1.566)	Data Time 0.080 (0.133)	LOSSES - loss_D:0.000018(0.000049) loss_G_GAN:0.004025(0.003875) loss_G_L1:0.179350(0.128877) total_loss:0.183393(0.132801))	
-[Iter: 658]Epoch: [1][1040/4216]	Time 1.512 (1.565)	Data Time 0.079 (0.132)	LOSSES - loss_D:0.000029(0.000048) loss_G_GAN:0.003888(0.003875) loss_G_L1:0.111934(0.128748) total_loss:0.115851(0.132671))	
-[Iter: 659]Epoch: [1][1048/4216]	Time 1.506 (1.565)	Data Time 0.079 (0.132)	LOSSES - loss_D:0.000029(0.000048) loss_G_GAN:0.004996(0.003884) loss_G_L1:0.153030(0.128932) total_loss:0.158056(0.132863))	
-[Iter: 660]Epoch: [1][1056/4216]	Time 1.514 (1.565)	Data Time 0.077 (0.132)	LOSSES - loss_D:0.000045(0.000048) loss_G_GAN:0.003854(0.003883) loss_G_L1:0.104421(0.128747) total_loss:0.108321(0.132679))	
-[Iter: 661]Epoch: [1][1064/4216]	Time 1.509 (1.564)	Data Time 0.076 (0.131)	LOSSES - loss_D:0.000159(0.000049) loss_G_GAN:0.004038(0.003885) loss_G_L1:0.118682(0.128672) total_loss:0.122880(0.132606))	
-[Iter: 662]Epoch: [1][1072/4216]	Time 1.508 (1.564)	Data Time 0.077 (0.131)	LOSSES - loss_D:0.000272(0.000051) loss_G_GAN:0.003533(0.003882) loss_G_L1:0.090302(0.128388) total_loss:0.094107(0.132321))	
-[Iter: 663]Epoch: [1][1080/4216]	Time 1.510 (1.563)	Data Time 0.077 (0.130)	LOSSES - loss_D:0.000028(0.000051) loss_G_GAN:0.005363(0.003893) loss_G_L1:0.132729(0.128420) total_loss:0.138121(0.132363))	
-[Iter: 664]Epoch: [1][1088/4216]	Time 1.509 (1.563)	Data Time 0.077 (0.130)	LOSSES - loss_D:0.000324(0.000053) loss_G_GAN:0.003404(0.003889) loss_G_L1:0.149486(0.128574) total_loss:0.153214(0.132515))	
-[Iter: 665]Epoch: [1][1096/4216]	Time 1.521 (1.563)	Data Time 0.083 (0.130)	LOSSES - loss_D:0.000187(0.000053) loss_G_GAN:0.002857(0.003882) loss_G_L1:0.141549(0.128668) total_loss:0.144593(0.132603))	
-[Iter: 666]Epoch: [1][1104/4216]	Time 1.514 (1.562)	Data Time 0.081 (0.129)	LOSSES - loss_D:0.000120(0.000054) loss_G_GAN:0.003395(0.003878) loss_G_L1:0.134235(0.128708) total_loss:0.137750(0.132640))	
-[Iter: 667]Epoch: [1][1112/4216]	Time 1.507 (1.562)	Data Time 0.079 (0.129)	LOSSES - loss_D:0.000199(0.000055) loss_G_GAN:0.003601(0.003876) loss_G_L1:0.131597(0.128728) total_loss:0.135397(0.132660))	
-[Iter: 668]Epoch: [1][1120/4216]	Time 1.515 (1.562)	Data Time 0.082 (0.129)	LOSSES - loss_D:0.000115(0.000055) loss_G_GAN:0.004076(0.003878) loss_G_L1:0.111890(0.128609) total_loss:0.116081(0.132542))	
-[Iter: 669]Epoch: [1][1128/4216]	Time 1.511 (1.561)	Data Time 0.081 (0.128)	LOSSES - loss_D:0.000052(0.000055) loss_G_GAN:0.004410(0.003882) loss_G_L1:0.118751(0.128539) total_loss:0.123213(0.132476))	
-[Iter: 670]Epoch: [1][1136/4216]	Time 1.516 (1.561)	Data Time 0.081 (0.128)	LOSSES - loss_D:0.000039(0.000055) loss_G_GAN:0.004472(0.003886) loss_G_L1:0.117478(0.128462) total_loss:0.121988(0.132403))	
-[Iter: 671]Epoch: [1][1144/4216]	Time 1.512 (1.561)	Data Time 0.079 (0.128)	LOSSES - loss_D:0.000040(0.000055) loss_G_GAN:0.004630(0.003891) loss_G_L1:0.117046(0.128383) total_loss:0.121715(0.132329))	
-[Iter: 672]Epoch: [1][1152/4216]	Time 1.515 (1.560)	Data Time 0.079 (0.127)	LOSSES - loss_D:0.000087(0.000055) loss_G_GAN:0.003246(0.003886) loss_G_L1:0.100524(0.128191) total_loss:0.103857(0.132133))	
-[Iter: 673]Epoch: [1][1160/4216]	Time 1.508 (1.560)	Data Time 0.082 (0.127)	LOSSES - loss_D:0.000028(0.000055) loss_G_GAN:0.004240(0.003889) loss_G_L1:0.118194(0.128122) total_loss:0.122462(0.132066))	
-[Iter: 674]Epoch: [1][1168/4216]	Time 1.529 (1.560)	Data Time 0.094 (0.127)	LOSSES - loss_D:0.000030(0.000055) loss_G_GAN:0.003943(0.003889) loss_G_L1:0.144799(0.128236) total_loss:0.148772(0.132180))	
-[Iter: 675]Epoch: [1][1176/4216]	Time 1.512 (1.559)	Data Time 0.082 (0.126)	LOSSES - loss_D:0.000023(0.000055) loss_G_GAN:0.004409(0.003893) loss_G_L1:0.117627(0.128164) total_loss:0.122059(0.132112))	
-[Iter: 676]Epoch: [1][1184/4216]	Time 1.513 (1.559)	Data Time 0.083 (0.126)	LOSSES - loss_D:0.000041(0.000055) loss_G_GAN:0.003416(0.003890) loss_G_L1:0.096439(0.127951) total_loss:0.099897(0.131895))	
-[Iter: 677]Epoch: [1][1192/4216]	Time 1.512 (1.559)	Data Time 0.077 (0.126)	LOSSES - loss_D:0.000018(0.000054) loss_G_GAN:0.004380(0.003893) loss_G_L1:0.141126(0.128039) total_loss:0.145523(0.131986))	
-[Iter: 678]Epoch: [1][1200/4216]	Time 1.512 (1.558)	Data Time 0.078 (0.125)	LOSSES - loss_D:0.000031(0.000054) loss_G_GAN:0.003714(0.003892) loss_G_L1:0.108604(0.127910) total_loss:0.112349(0.131856))	
-[Iter: 679]Epoch: [1][1208/4216]	Time 1.507 (1.558)	Data Time 0.076 (0.125)	LOSSES - loss_D:0.000015(0.000054) loss_G_GAN:0.004575(0.003896) loss_G_L1:0.107868(0.127778) total_loss:0.112458(0.131729))	
-[Iter: 680]Epoch: [1][1216/4216]	Time 1.512 (1.558)	Data Time 0.078 (0.125)	LOSSES - loss_D:0.000030(0.000054) loss_G_GAN:0.004269(0.003899) loss_G_L1:0.106771(0.127641) total_loss:0.111071(0.131594))	
-[Iter: 681]Epoch: [1][1224/4216]	Time 1.517 (1.558)	Data Time 0.085 (0.125)	LOSSES - loss_D:0.000010(0.000054) loss_G_GAN:0.005321(0.003908) loss_G_L1:0.185299(0.128015) total_loss:0.190630(0.131977))	
-[Iter: 682]Epoch: [1][1232/4216]	Time 1.513 (1.557)	Data Time 0.081 (0.124)	LOSSES - loss_D:0.000062(0.000054) loss_G_GAN:0.003327(0.003904) loss_G_L1:0.095502(0.127806) total_loss:0.098891(0.131763))	
-[Iter: 683]Epoch: [1][1240/4216]	Time 1.512 (1.557)	Data Time 0.078 (0.124)	LOSSES - loss_D:0.000018(0.000053) loss_G_GAN:0.004216(0.003906) loss_G_L1:0.114431(0.127720) total_loss:0.118665(0.131679))	
-[Iter: 684]Epoch: [1][1248/4216]	Time 1.509 (1.557)	Data Time 0.077 (0.124)	LOSSES - loss_D:0.000018(0.000053) loss_G_GAN:0.004251(0.003908) loss_G_L1:0.148461(0.127852) total_loss:0.152730(0.131814))	
-[Iter: 685]Epoch: [1][1256/4216]	Time 1.508 (1.556)	Data Time 0.076 (0.123)	LOSSES - loss_D:0.000033(0.000053) loss_G_GAN:0.003635(0.003907) loss_G_L1:0.089514(0.127609) total_loss:0.093183(0.131569))	
-[Iter: 686]Epoch: [1][1264/4216]	Time 1.509 (1.556)	Data Time 0.077 (0.123)	LOSSES - loss_D:0.000020(0.000053) loss_G_GAN:0.004716(0.003912) loss_G_L1:0.148074(0.127738) total_loss:0.152810(0.131703))	
-[Iter: 687]Epoch: [1][1272/4216]	Time 1.512 (1.556)	Data Time 0.077 (0.123)	LOSSES - loss_D:0.000009(0.000053) loss_G_GAN:0.005035(0.003919) loss_G_L1:0.145464(0.127849) total_loss:0.150508(0.131820))	
-[Iter: 688]Epoch: [1][1280/4216]	Time 1.510 (1.556)	Data Time 0.077 (0.123)	LOSSES - loss_D:0.000030(0.000052) loss_G_GAN:0.004380(0.003921) loss_G_L1:0.104268(0.127702) total_loss:0.108679(0.131676))	
-[Iter: 689]Epoch: [1][1288/4216]	Time 1.523 (1.555)	Data Time 0.087 (0.122)	LOSSES - loss_D:0.000016(0.000052) loss_G_GAN:0.004850(0.003927) loss_G_L1:0.109736(0.127592) total_loss:0.114602(0.131571))	
+Arguments used: CUDNN_BENCHMARK: False
+DATALOADER:
+  ASPECT_RATIO_GROUPING: True
+  FILTER_EMPTY_ANNOTATIONS: True
+  NUM_SAMPLES: -1
+  NUM_WORKERS: 16
+  REPEAT_THRESHOLD: 0.0
+  SAMPLER_TRAIN: TrainingSampler
+DATASETS:
+  IMSET: 2016/val.txt
+  MAX_TEMPORAL_GAP: 12
+  PRECOMPUTED_PROPOSAL_TOPK_TRAIN: 2000
+  PROPOSAL_FILES_TRAIN: ()
+  RANDOM_INSTANCE: False
+  TEST: Davis
+  TEST_ROOT: /mnt/lustre/yslan/Dataset/davis-2017/DAVIS
+  TRAIN: Davis
+  TRAIN_ROOT: /mnt/lustre/yslan/Dataset/davis-2017/DAVIS
+GLOBAL:
+  HACK: 1.0
+INFERENCE:
+  CLIP_OVERLAP: 3
+  ENGINE: SaliencyInferenceEngine
+  EXHAUSTIVE: False
+  SAVE_LOGITS: False
+INPUT:
+  FORMAT: RGB
+  MASK_FORMAT: polygon
+  RESIZE_MODE_TEST: resize_short_edge
+  RESIZE_MODE_TRAIN: resize_short_edge_and_crop
+  RESIZE_SHAPE_TEST: (480,)
+  RESIZE_SHAPE_TRAIN: (480, 854)
+  TW: 1
+MODEL:
+  BACKBONE:
+    DEEPBLENDER: True
+    FREEZE_AT: 2
+    FREEZE_BN: True
+    INPUT_C: 3
+    NAME: FusionUNet
+    OUTPUT_C: 3
+    PRETRAINED_WTS: 
+    UP_CONV1_INPLANES: [384, 768, 1280, 1280, 1024]
+    UP_CONV1_OUTPLANES: [64, 256, 512, 512, 512]
+  DECODER:
+    INTER_BLOCK: GC3d
+    REFINE_BLOCK: Refine3d
+  FREEZE_BN: True
+  MASK_ON: False
+  NETWORK: FusionUNet
+  N_CLASSES: 2
+  PIXEL_MEAN: [114.7748, 107.7354, 99.475]
+  PIXEL_STD: [1.0, 1.0, 1.0]
+  PRETRAINED: False
+  WEIGHTS: 
+NAME: deepblender_gan
+OUTPUT_DIR: ./output
+SEED: -1
+SOLVER:
+  BASE_LR: 0.001
+  BIAS_LR_FACTOR: 1.0
+  CHECKPOINT_PERIOD: 5000
+  CLIP_GRADIENTS:
+    CLIP_TYPE: value
+    CLIP_VALUE: 1.0
+    ENABLED: False
+    NORM_TYPE: 2.0
+  GAMMA: 0.1
+  IMS_PER_BATCH: 16
+  LR_SCHEDULERS: ['exponential', 'step']
+  MAX_ITER: 40000
+  MOMENTUM: 0.9
+  NESTEROV: False
+  STEPS: [10]
+  WARMUP_FACTOR: 0.001
+  WARMUP_ITERS: 1000
+  WARMUP_METHOD: linear
+  WEIGHT_DECAY: 0.0001
+  WEIGHT_DECAY_BIAS: 0.0001
+  WEIGHT_DECAY_NORM: 0.0
+TRAINING:
+  BASE_LR: 5e-05
+  BATCH_SIZE: 8
+  EVAL_EPOCH: 1
+  LOSSES:
+    BOOTSTRAP: False
+    CRITERION: 
+    MASK_CONSISTENCY: False
+    MULTI_CLASS: False
+    NAME: ['l1', 'gan']
+    SCALE: []
+    USE_IGNORE_MASK: False
+  LR_SCHEDULERS: ['exponential', 'step']
+  MAX_ITER: 90000
+  NUM_EPOCHS: 100
+  OPTIMISER: Adam
+  PRECISION: mixed
+  STEPS: (60000, 80000)
+VERSION: 2
+VIS_PERIOD: 0
+[Iter: 9488]Epoch: [0][0/4216]	Time 20.595 (20.595)	Data Time 9.516 (9.516)	LOSSES - loss_D:0.000001(0.000001) loss_G_GAN:0.006943(0.006943) loss_G_L1:0.045541(0.045541) total_loss:0.052485(0.052485))	
+[Iter: 9489]Epoch: [0][8/4216]	Time 1.516 (11.055)	Data Time 0.105 (4.810)	LOSSES - loss_D:0.000000(0.000001) loss_G_GAN:0.009737(0.008340) loss_G_L1:0.046148(0.045844) total_loss:0.055885(0.054185))	
+[Iter: 9490]Epoch: [0][16/4216]	Time 1.488 (7.866)	Data Time 0.076 (3.232)	LOSSES - loss_D:0.000000(0.000001) loss_G_GAN:0.009661(0.008780) loss_G_L1:0.050421(0.047370) total_loss:0.060082(0.056151))	
+[Iter: 9491]Epoch: [0][24/4216]	Time 1.494 (6.273)	Data Time 0.084 (2.445)	LOSSES - loss_D:0.000001(0.000001) loss_G_GAN:0.009667(0.009002) loss_G_L1:0.053635(0.048936) total_loss:0.063303(0.057939))	
+[Iter: 9492]Epoch: [0][32/4216]	Time 1.499 (5.318)	Data Time 0.089 (1.974)	LOSSES - loss_D:0.000000(0.000001) loss_G_GAN:0.010081(0.009218) loss_G_L1:0.051225(0.049394) total_loss:0.061307(0.058612))	
+[Iter: 9493]Epoch: [0][40/4216]	Time 1.511 (4.684)	Data Time 0.096 (1.661)	LOSSES - loss_D:0.000001(0.000001) loss_G_GAN:0.008662(0.009125) loss_G_L1:0.050591(0.049594) total_loss:0.059255(0.058719))	
+[Iter: 9494]Epoch: [0][48/4216]	Time 1.492 (4.228)	Data Time 0.083 (1.436)	LOSSES - loss_D:0.000001(0.000001) loss_G_GAN:0.008598(0.009050) loss_G_L1:0.042201(0.048537) total_loss:0.050799(0.057588))	
+[Iter: 9495]Epoch: [0][56/4216]	Time 1.496 (3.886)	Data Time 0.084 (1.267)	LOSSES - loss_D:0.000000(0.000001) loss_G_GAN:0.009100(0.009056) loss_G_L1:0.055795(0.049445) total_loss:0.064896(0.058501))	
+[Iter: 9496]Epoch: [0][64/4216]	Time 1.493 (3.620)	Data Time 0.082 (1.135)	LOSSES - loss_D:0.000000(0.000001) loss_G_GAN:0.009494(0.009105) loss_G_L1:0.037604(0.048129) total_loss:0.047098(0.057234))	
+[Iter: 9497]Epoch: [0][72/4216]	Time 1.486 (3.407)	Data Time 0.074 (1.029)	LOSSES - loss_D:0.000001(0.000001) loss_G_GAN:0.009298(0.009124) loss_G_L1:0.046732(0.047989) total_loss:0.056031(0.057114))	

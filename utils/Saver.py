@@ -10,6 +10,62 @@ import utils.Constants as Constants
 from utils.util import ToLabel
 
 
+def load_weightsV3(net_G, net_D, optim_G, optim_D, wts_file, model_dir):
+    start_epoch = 0
+    start_iter = 0
+    state_G = net_G.state_dict()
+    checkpoint = None
+    # load saved model if specified
+    import pdb
+    pdb.set_trace()
+    if wts_file is None:
+        # load checkpoint file if it exists -- > file  format checkpoint_<iteration>
+        chkpts = glob.glob(model_dir + "/*.pth")
+        chkpts = [c for c in chkpts if "checkpoint_" in c]
+        if len(chkpts) > 0:
+            chkpts.sort()
+            load_name = chkpts[-1]
+            try:
+                print('Loading checkpoint {}@Epoch {}{}...'.format(Constants.font.BOLD,
+                                                                   load_name, Constants.font.END))
+                checkpoint = torch.load(load_name)
+                start_epoch = checkpoint['epoch'] + 1
+                start_iter = checkpoint['iter'] + 1
+            except:
+                print('Loading failed')
+    else:
+        checkpoint = torch.load(wts_file)
+        start_epoch = checkpoint['epoch'] + 1 if 'epoch' in checkpoint else 0
+        start_iter = checkpoint['iter'] + 1 if 'iter' in checkpoint else 0
+        load_name = wts_file
+
+    if checkpoint is not None:
+        # checkpoint['model'] = {
+        #     k.replace('module.', ''): v for k, v in checkpoint['model'].items()}
+        # checkpoint_valid = {k: v for k, v in checkpoint['model'].items(
+        # ) if k in state_G and state_G[k].shape == v.shape}
+        # missing_keys = np.setdiff1d(
+        #     list(state_G.keys()), list(checkpoint_valid.keys()))
+
+        # if len(missing_keys) > 0:
+        #     print(missing_keys)
+        #     print("WARN: {} / {}keys are found missing in the loaded model weights.".format(len(missing_keys),
+        #                                                                                     len(state_G.keys())))
+        # for key in missing_keys:
+        #     checkpoint_valid[key] = state_G[key]
+
+        net_G.load_state_dict(checkpoint['net_G'])
+        net_D.load_state_dict(checkpoint['net_D'])
+        optim_G.load_state_dict(checkpoint['optim_G'])
+        optim_D.load_state_dict(checkpoint['optim_D'])
+
+        del checkpoint
+        torch.cuda.empty_cache()
+        print('Loaded weights from {}'.format(load_name))
+
+    return net_G, net_D, optim_G, optim_D, start_epoch, start_iter
+
+
 def load_weightsV2(model, optimiser, wts_file, model_dir):
     start_epoch = 0
     start_iter = 0

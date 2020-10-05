@@ -17,7 +17,7 @@ from loss.loss_utils import compute_loss
 # Constants
 from utils.Argparser import parse_argsV2
 from utils.AverageMeter import AverageMeter, AverageMeterDict
-from utils.Saver import save_checkpointV2, load_weightsV2, save_checkpointV3
+from utils.Saver import save_checkpointV2, load_weightsV2, save_checkpointV3, load_weightsV3
 from utils.util import get_lr_schedulers, show_image_summary, get_model, cleanup_env, \
     reduce_tensor, is_main_process, synchronize, get_datasets, get_optimiser, init_torch_distributed, _find_free_port, \
     format_pred, iou_fixed_torch
@@ -65,8 +65,8 @@ class Trainer:
                 self.net_G.parameters(), lr=cfg.TRAINING.BASE_LR, betas=(0.5, 0.999))
             self.optimizer_D = torch.optim.Adam(
                 self.net_D.parameters(), lr=cfg.TRAINING.BASE_LR, betas=(0.5, 0.999))
-            # model, optimiser, self.start_epoch, self.iteration = load_weightsV2( # TODO
-            #     model, optimiser, args.wts, self.model_dir)
+            self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, self.start_epoch, self.iteration = load_weightsV3(  # TODO
+                self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, args.wts, self.model_dir)
             self.lr_sched_netG = get_lr_schedulers(
                 self.optimizer_G, cfg, self.start_epoch)
             self.lr_sched_netD = get_lr_schedulers(
@@ -270,8 +270,8 @@ class Trainer:
                         os.makedirs(self.model_dir)
                     save_name = '{}/{}.pth'.format(self.model_dir,
                                                    self.iteration)
-                    save_checkpointV2(self.epoch, self.iteration,
-                                      self.net_G, self.optimiser, save_name)
+                    save_checkpointV3(
+                        self.epoch, self.iteration, self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, save_name)
 
         if args.local_rank == 0:
             print('Finished Train Epoch {} Loss {losses.avg}'.

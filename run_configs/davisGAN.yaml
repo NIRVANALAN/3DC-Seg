@@ -1,5 +1,5 @@
 _BASE_: "Base_DF.yaml"
-NAME: "deepblender"
+NAME: "deepblender_gan"
 MODEL:
   BACKBONE:
     NAME: "FusionUNet"
