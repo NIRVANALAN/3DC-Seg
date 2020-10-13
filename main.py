@@ -13,11 +13,12 @@ from torchsummary import summary
 
 from config import get_cfg
 from inference_handlers.infer_utils.util import get_inference_engine
+from inference_handlers.Engine import save_samples
 from loss.loss_utils import compute_loss
 # Constants
 from utils.Argparser import parse_argsV2
 from utils.AverageMeter import AverageMeter, AverageMeterDict
-from utils.Saver import save_checkpointV2, load_weightsV2, save_checkpointV3, load_weightsV3
+from utils.Saver import *
 from utils.util import get_lr_schedulers, show_image_summary, get_model, cleanup_env, \
     reduce_tensor, is_main_process, synchronize, get_datasets, get_optimiser, init_torch_distributed, _find_free_port, \
     format_pred, iou_fixed_torch
@@ -57,74 +58,54 @@ class Trainer:
 
         if args.task == 'train':
             self.loss_dict = {}
-            self.net_D = networks.define_D(3, 64, 'basic',
-                                           3, gpu_ids=[0]).to(self.device)
-            self.criterionGAN = networks.GANLoss('vanilla').to(self.device)
-            self.criterionL1 = torch.nn.L1Loss()
+            self.criterionL1 = torch.nn.L1Loss(reduction='none')
             self.optimizer_G = torch.optim.Adam(
                 self.net_G.parameters(), lr=cfg.TRAINING.BASE_LR, betas=(0.5, 0.999))
-            self.optimizer_D = torch.optim.Adam(
-                self.net_D.parameters(), lr=cfg.TRAINING.BASE_LR, betas=(0.5, 0.999))
-            self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, self.start_epoch, self.iteration = load_weightsV3(  # TODO
-                self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, args.wts, self.model_dir)
             self.lr_sched_netG = get_lr_schedulers(
                 self.optimizer_G, cfg, self.start_epoch)
-            self.lr_sched_netD = get_lr_schedulers(
-                self.optimizer_D, cfg, self.start_epoch)
+            if 'l1' not in cfg.NAME:  # no l1 only
+                self.net_D = networks.define_D(3, 64, 'basic',
+                                               3, gpu_ids=[0]).to(self.device)
+                self.criterionGAN = networks.GANLoss('vanilla').to(self.device)
+                self.optimizer_D = torch.optim.Adam(
+                    self.net_D.parameters(), lr=cfg.TRAINING.BASE_LR, betas=(0.5, 0.999))
+                self.lr_sched_netD = get_lr_schedulers(
+                    self.optimizer_D, cfg, self.start_epoch)
+                self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, self.start_epoch, self.iteration = load_weightsV3(  # TODO
+                    self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, args.wts, self.model_dir)
+            else:
+                self.net_D = None
+                self.net_G, self.optimizer_G, self.start_epoch, self.iteration = load_weightsG(  # TODO
+                    self.net_G, self.optimizer_G,  args.wts, self.model_dir)
+
             self.batch_size = self.cfg.TRAINING.BATCH_SIZE
+            num_samples = None if cfg.DATALOADER.NUM_SAMPLES == - \
+                1 else cfg.DATALOADER.NUM_SAMPLES
+            self.train_sampler = torch.utils.data.RandomSampler(self.trainset, replacement=True, num_samples=num_samples) \
+                if num_samples is not None else None
+            shuffle = True if self.train_sampler is None else False
+            self.trainloader = DataLoader(self.trainset, batch_size=self.batch_size, num_workers=cfg.DATALOADER.NUM_WORKERS,
+                                          shuffle=shuffle, sampler=self.train_sampler)
         # self.model, self.optimiser, self.start_epoch, start_iter = \
         #   load_weightsV2(self.model, self.optimiser, args.wts, self.model_dir)
 
-        self.world_size = 1  # single card training
+        self.world_size = torch.cuda.device_count()  # single card training
         self.args = args
-        self.epoch = 0
         self.best_loss_train = math.inf
         self.losses = AverageMeterDict()
         self.ious = AverageMeterDict()
 
-        num_samples = None if cfg.DATALOADER.NUM_SAMPLES == - \
-            1 else cfg.DATALOADER.NUM_SAMPLES
-        # if torch.cuda.device_count() > 1:
-        #     # shuffle parameter does not seem to shuffle the data for distributed sampler
-        #     self.train_sampler = torch.utils.data.distributed.DistributedSampler(
-        #         torch.utils.data.RandomSampler(
-        #             self.trainset, replacement=True, num_samples=num_samples),
-        #         shuffle=True)
-        # else:
-        self.train_sampler = torch.utils.data.RandomSampler(self.trainset, replacement=True, num_samples=num_samples) \
-            if num_samples is not None else None
-        shuffle = True if self.train_sampler is None else False
-        self.trainloader = DataLoader(self.trainset, batch_size=self.batch_size, num_workers=cfg.DATALOADER.NUM_WORKERS,
-                                      shuffle=shuffle, sampler=self.train_sampler)
-
-        # print(summary(self.model, tuple((3, cfg.INPUT.TW, 256, 256)), batch_size=1))
         INPUT_SHAPE = (512, 512)
         INPUT_NF = 3
         print(summary(self.net_G, [
               (INPUT_NF, *INPUT_SHAPE), (INPUT_NF, *INPUT_SHAPE)], batch_size=1))
         print("Arguments used: {}".format(cfg), flush=True)
-        # params = []
-        # for key, value in dict(self.model.named_parameters()).items():
-        #   if value.requires_grad:
-        #     params += [{'params': [value], 'lr': args.lr, 'weight_decay': 4e-5}]
 
     def init_distributed(self, cfg):
         torch.cuda.set_device(args.local_rank)
         init_torch_distributed(self.port)
         model = apex.parallel.convert_syncbn_model(self.net_G)
         model.cuda()
-        # model, optimizer, start_epoch, best_iou_train, best_iou_eval, best_loss_train, best_loss_eval, amp_weights = \
-        #   load_weights(model, self.optimiser, args, self.model_dir, scheduler=None, amp=amp)  # params
-        # lr_schedulers = get_lr_schedulers(optimizer, args, start_epoch)
-        # opt_levels = {'fp32': 'O0', 'fp16': 'O2', 'mixed': 'O1'}
-        # if cfg.TRAINING.PRECISION in opt_levels:
-        #     opt_level = opt_levels[cfg.TRAINING.PRECISION]
-        # else:
-        #     opt_level = opt_levels['fp32']
-        #     print('WARN: Precision string is not understood. Falling back to fp32')
-        # model, optimiser = amp.initialize(
-        #     model, optimiser, opt_level=opt_level)
-        # amp.load_state_dict(amp_weights)
         if torch.cuda.device_count() > 1:
             model = apex.parallel.DistributedDataParallel(
                 model, delay_allreduce=True)
@@ -141,30 +122,52 @@ class Trainer:
         """Calculate GAN loss for the discriminator"""
         # Fake; stop backprop to the generator by detaching fake_B
         # we use conditional GANs; we need to feed both input and output to the discriminator
-        self.reconstruction = self.fg+self.bg + self.raw_pred
+        # self.reconstruction = self.fg+self.bg + self.raw_pred
+        self.reconstruction = self.raw_pred
         pred_fake = self.net_D(self.reconstruction.detach())
-        self.loss_D_fake = self.criterionGAN(pred_fake, False)
+        self.scaled_mask = torch.nn.functional.interpolate(
+            self.loss_mask[:, None, :, :], (58, 106)).long()  # * for patchGAN Discriminator
+        self.loss_D_fake = self.criterionGAN(
+            pred_fake, False, self.scaled_mask)
         # Real
         pred_real = self.net_D(self.target_dict['images'])
-        self.loss_D_real = self.criterionGAN(pred_real, True)
+        self.loss_D_real = self.criterionGAN(pred_real, True, self.scaled_mask)
         # combine loss and calculate gradients
         self.loss_D = (self.loss_D_fake + self.loss_D_real) * 0.5 * 0.001
         self.loss_dict['loss_D'] = self.loss_D.item()
         self.loss_D.backward()
 
     def backward_G(self):
-        target = self.target_dict['images']  # TODO
-        synth_img = self.fg+self.bg + self.raw_pred
-        self.loss_G_L1 = self.criterionL1(
-            synth_img, target.float().cuda()) * 0.999
-        pred_fake = self.net_D(synth_img)
-        self.loss_G_GAN = self.criterionGAN(pred_fake, True) * 0.001
+        # target = self.target_dict['images']  # TODO
+        # synth_img = self.fg+self.bg + self.raw_pred
+        self.loss_G_L1 = self.criterionL1(self.reconstruction, self.gt) * 0.9
+        self.loss_G_L1 = (
+            self.loss_G_L1 * self.loss_mask[:, None, :, :]).sum() / self.loss_mask.sum()
+
+        pred_fake = self.net_D(self.reconstruction)
+        self.loss_G_GAN = self.criterionGAN(
+            pred_fake, True, self.scaled_mask) * 0.1
         self.loss_G = self.loss_G_GAN + self.loss_G_L1
         self.loss_dict['loss_G_GAN'] = self.loss_G_GAN.item()
         self.loss_dict['loss_G_L1'] = self.loss_G_L1.item()
         # combine loss and calculated gradients
         # * final loss
         self.loss_G.backward()
+
+    def optimize_l1(self):
+        self.forward()                   # compute fake images: G(A)
+        # update G
+        self.optimizer_G.zero_grad()
+        self.loss_G_L1 = self.criterionL1(self.raw_pred, self.gt) * 1.
+        self.loss_G_L1 = (
+            self.loss_G_L1 * self.loss_mask[:, None, :, :]).sum() / self.loss_mask.sum()
+        self.loss_G_L1.backward()
+        self.optimizer_G.step()
+        # import pdb
+        # pdb.set_trace()
+
+        self.loss_dict['loss_G_L1'] = self.loss_G_L1.item()
+        self.loss_dict['total_loss'] = self.loss_dict['loss_G_L1']
 
     def optimize_parameters(self):
         self.forward()                   # compute fake images: G(A)
@@ -212,31 +215,34 @@ class Trainer:
         data_time = AverageMeter()
         # switch to train mode
         self.net_G.train()
-        self.net_D.train()
+        # self.net_D.train() # TODO
         # self.ious.reset()
         self.losses.reset()
 
         end = time.time()
         for i, input_dict in enumerate(self.trainloader):
-            self.fg = input_dict["fg"].float().cuda()
-            self.bg = input_dict["bg"].float().cuda()
+            self.fg = input_dict["fg"].cuda()
+            self.bg = input_dict["bg"].cuda()
+            self.loss_mask = input_dict['inpaint_mask'].cuda()
+            self.gt = input_dict['images'].cuda()
             self.target_dict = dict([(k, t.float().cuda())
                                      for k, t in input_dict['target'].items()])
             data_time.update(time.time() - end)
 
             # * forward
-            self.optimize_parameters()
+            # self.optimize_parameters()
+            self.optimize_l1()
             pred = format_pred(self.raw_pred)
             # * loss
 
             self.iteration += 1
             # Average loss and accuracy across processes for logging
-            if torch.cuda.device_count() > 1:
-                reduced_loss = dict(
-                    [(key, reduce_tensor(val, self.world_size).data.item()) for key, val in self.loss_dict.items()])
-            else:
-                reduced_loss = dict([(key, val)
-                                     for key, val in self.loss_dict.items()])
+            # if torch.cuda.device_count() > 1:
+            #     reduced_loss = dict(
+            #         [(key, reduce_tensor(val, self.world_size).data.item()) for key, val in self.loss_dict.items()])
+            # else:
+            reduced_loss = dict([(key, val)
+                                 for key, val in self.loss_dict.items()])
 
             self.losses.update(reduced_loss)  # tw frames in a batch
 
@@ -265,13 +271,17 @@ class Trainer:
                           self.world_size * self.batch_size / batch_time.avg,
                           batch_time=batch_time, data_time=data_time, loss=loss_str), flush=True)
 
+                if self.iteration % 500 == 0:
+                    save_samples(input_dict, self.raw_pred,
+                                 self.iteration, self.model_dir)
+
                 if self.iteration % 10000 == 0:
                     if not os.path.exists(self.model_dir):
                         os.makedirs(self.model_dir)
                     save_name = '{}/{}.pth'.format(self.model_dir,
                                                    self.iteration)
-                    save_checkpointV3(
-                        self.epoch, self.iteration, self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, save_name)
+                    save_checkpointG(
+                        self.epoch, self.iteration, self.net_G, self.optimizer_G, save_name)
 
         if args.local_rank == 0:
             print('Finished Train Epoch {} Loss {losses.avg}'.
@@ -290,12 +300,12 @@ class Trainer:
         print("Starting validation for epoch {}".format(self.epoch), flush=True)
         for seq in self.testset.get_video_ids():
             self.testset.set_video_id(seq)
-            if torch.cuda.device_count() > 1:
-                test_sampler = torch.utils.data.distributed.DistributedSampler(
-                    self.testset, shuffle=False)
-            else:
-                test_sampler = None
-            # test_sampler.set_epoch(epoch)
+            # if torch.cuda.device_count() > 1:
+            #     test_sampler = torch.utils.data.distributed.DistributedSampler(
+            #         self.testset, shuffle=False)
+            # else:
+            test_sampler = None
+            # test_sampler.set_epoch(self.epoch)
             testloader = DataLoader(self.testset, batch_size=1, num_workers=1, shuffle=False, sampler=test_sampler,
                                     pin_memory=True)
             losses_video = AverageMeterDict()
@@ -304,44 +314,32 @@ class Trainer:
                     input = input_dict["images"]
                     target_dict = dict([(k, t.float().cuda())
                                         for k, t in input_dict['target'].items()])
-                    if 'masks_guidance' in input_dict:
-                        masks_guidance = input_dict["masks_guidance"]
-                        masks_guidance = masks_guidance.float().cuda()
-                    else:
-                        masks_guidance = None
+                    masks_guidance = None
                     info = input_dict["info"]
                     input_var = input.float().cuda()
                     # compute output
                     self.pred = self.net_G(input_var, masks_guidance)
-                    pred = format_pred(pred)
+                    pred = format_pred(self.pred)
                     in_dict = {"input": input_var, "guidance": masks_guidance}
-                    loss_dict = {}
                     # loss_dict = compute_loss( # TODO
                     #     in_dict, pred, target_dict, self.cfg)
-                    total_loss = loss_dict['total_loss']
 
                     self.iteration += 1
 
                     # Average loss and accuracy across processes for logging
                     if torch.cuda.device_count() > 1:
                         reduced_loss = dict(
-                            [(key, reduce_tensor(val, self.world_size).data.item()) for key, val in loss_dict.items()])
+                            [(key, reduce_tensor(val, self.world_size).data.item()) for key, val in self.loss_dict.items()])
                     else:
                         reduced_loss = dict([(key, val.data.item())
-                                             for key, val in loss_dict.items()])
-
+                                             for key, val in self.loss_dict.items()])
                     count = count + 1
 
-                    losses_video.update(reduced_loss, args.world_size)
                     losses.update(reduced_loss, args.world_size)
                     for k, v in losses.val.items():
                         self.writer.add_scalar(
                             "loss_{}".format(k), v, self.iteration)
-
-                    # if args.show_image_summary:
-                    #   masks_guidance = input_dict['masks_guidance'] if 'masks_guidance' in input_dict else None
-                    #   show_image_summary(count, self.writer, input_dict['images'], masks_guidance, input_dict['target'],
-                    #                      pred_mask)
+# if args.show_image_summary: masks_guidance = input_dict['masks_guidance'] if 'masks_guidance' in input_dict else None
 
                     torch.cuda.synchronize()
                     batch_time.update((time.time() - end) / args.print_freq)
@@ -367,22 +365,16 @@ class Trainer:
 
     def start(self):
         if args.task == "train":
-            # best_loss = best_loss_train
-            # best_iou = best_iou_train
-            # if args.freeze_bn:
-            #   encoders = [module for module in self.model.modules() if isinstance(module, Encoder)]
-            #   for encoder in encoders:
-            #     encoder.freeze_batchnorm()
 
-            start_epoch = self.epoch
+            start_epoch = self.start_epoch
             for epoch in range(start_epoch, self.cfg.TRAINING.NUM_EPOCHS):
                 self.epoch = epoch
                 if self.train_sampler is not None:
                     self.train_sampler.set_epoch(epoch)
                 loss_mean = self.train()
 
-                for lr_scheduler in self.lr_sched_netD:
-                    lr_scheduler.step()
+                # for lr_scheduler in self.lr_sched_netD:
+                #     lr_scheduler.step()
                 for lr_scheduler in self.lr_sched_netG:
                     lr_scheduler.step()
 
@@ -395,8 +387,10 @@ class Trainer:
                             'total_loss'] < self.best_loss_train else self.best_loss_train
                         save_name = '{}/{}.pth'.format(
                             self.model_dir, "model_best_train")
-                        save_checkpointV3(
-                            epoch, self.iteration, self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, save_name)
+                        # save_checkpointV3(
+                        #     epoch, self.iteration, self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, save_name)
+                        save_checkpointG(
+                            epoch, self.iteration, self.net_G, self.optimizer_G, save_name)
 
                 # val_loss = self.eval()
 
@@ -414,10 +408,12 @@ class Trainer:
                                               "checkpoint", self.iteration)
             print("Received signal {}. \nSaving model to {}".format(
                 signalNumber, save_name))
-            save_checkpointV2(self.epoch, self.iteration,
-                              self.net_G, self.optimizer_G, save_name)
-        synchronize()
-        cleanup_env()
+            # save_checkpointV2(self.epoch, self.iteration,
+            #                   self.net_G, self.optimizer_G, save_name)
+            save_checkpointV3(
+                self.epoch, self.iteration, self.net_G, self.net_D, self.optimizer_G, self.optimizer_D, save_name)
+        # synchronize()
+        # cleanup_env()
         exit(1)
 
 
@@ -441,5 +437,5 @@ if __name__ == '__main__':
     trainer.start()
     if args.local_rank == 0:
         trainer.backup_session(signal.SIGQUIT, None)
-    synchronize()
-    cleanup_env()
+    # synchronize()
+    # cleanup_env()

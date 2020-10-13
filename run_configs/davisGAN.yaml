@@ -1,5 +1,5 @@
 _BASE_: "Base_DF.yaml"
-NAME: "deepblender_gan"
+NAME: "deepblender_gan_inpaint"
 MODEL:
   BACKBONE:
     NAME: "FusionUNet"
@@ -11,9 +11,9 @@ MODEL:
     DEEPBLENDER: True
     # FREEZE_BN: True
 TRAINING:
-  BATCH_SIZE: 8
+  BATCH_SIZE: 12
   PRECISION: "mixed"
-  BASE_LR: 0.00005
+  BASE_LR: 0.0001
 INPUT:
   RESIZE_MODE_TRAIN: "resize_short_edge_and_crop"
   RESIZE_SHAPE_TRAIN: (480, 854)
@@ -21,7 +21,7 @@ INPUT:
   RESIZE_SHAPE_TEST: (480,)
   TW: 1 # image segmentation
 INFERENCE:
-  ENGINE: "SaliencyInferenceEngine"
+  ENGINE: "DeepBlenderInferenceEngine"
   EXHAUSTIVE: False
 SOLVER:
   LR_SCHEDULERS: ["exponential", "step"]
@@ -30,5 +30,5 @@ DATASETS:
   IMSET: "2016/val.txt"
 DATALOADER:
   NUM_SAMPLES: -1
-  NUM_WORKERS: 16
+  NUM_WORKERS: 8
 

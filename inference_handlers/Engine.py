@@ -1,17 +1,22 @@
 import logging
 import os
+import pdb
 import pickle
 
 import numpy as np
 from abc import abstractmethod
+from torch.utils.data import dataset
 from tqdm import trange, tqdm
+from pathlib import Path
 
 import torch
 from PIL import Image
 from scipy.misc import imresize
 from sklearn.metrics import precision_recall_curve
 from torch.utils.data import DataLoader
+from torchvision.utils import save_image
 from torch.nn import functional as F
+from imageio import imread, imwrite
 
 from util import color_map
 from utils.AverageMeter import AverageMeter
@@ -30,6 +35,71 @@ class BaseInferenceEngine():
 
     def infer(self, dataset, model):
         pass
+
+
+class DeepBlenderInferenceEngine(BaseInferenceEngine):
+    def __init__(self, cfg) -> None:
+        super(DeepBlenderInferenceEngine, self).__init__(cfg)  # ?
+
+    def infer(self, dataset, model):  # ?
+        fs = AverageMeter()
+        # switch to evaluate mode
+        model.eval()
+        pred_for_eval = []
+        gt_for_eval = []
+
+        with torch.no_grad():
+            for video in tqdm(dataset.get_video_ids()):
+                # logging.info('processing video_id: {}. Total sequence number: {}'.format(seq, dataset.get_video_ids()))
+                ious_per_video = AverageMeter()
+                dataset.set_video_id(video)
+                # test_sampler = torch.utils.data.distributed.DistributedSampler(dataset, shuffle=False) if distributed else None
+                test_sampler = None
+                dataloader = DataLoader(dataset, batch_size=1, num_workers=0, shuffle=False, sampler=test_sampler,
+                                        pin_memory=True)
+                for iter, input_dict in enumerate((dataloader)):
+                    if not self.cfg.INFERENCE.EXHAUSTIVE and (iter % (self.cfg.INPUT.TW - self.cfg.INFERENCE.CLIP_OVERLAP)) != 0:
+                        continue
+
+                    fg = input_dict["fg"].float().cuda()
+                    bg = input_dict["bg"].float().cuda()
+                    mask = input_dict['inpaint_mask'].cuda()
+                    # get_dict = dict([(k, t.float().cuda())
+
+                    target_dict = dict([(k, t.float().cuda())
+                                        for k, t in input_dict['target'].items()])
+
+                    model_pred = model(fg, bg)
+                    model_pred, fg, bg = map(
+                        convert_tensor_img, (model_pred, fg, bg))
+                    # reconstruction = model_pred + fg + bg  # G(A)
+                    reconstruction = model_pred * mask + fg+bg
+                    # reconstruction = reconstruction.squeeze(0)
+                    save_dir = Path(self.results_dir)
+                    # import pdb
+                    # pdb.set_trace()
+                    import pdb
+                    pdb.set_trace()
+                    if iter > 100:
+                        exit(0)
+
+
+def save_samples(input_dict, model_pred, iter, save_dir):
+    save_dir = Path(save_dir)
+    fg, bg, image, mask = (input_dict[key].cuda() for key in (
+        'fg', 'bg', 'images', 'inpaint_mask'))
+    mask = mask[:, None, :, :]
+    model_pred, fg, bg = map(convert_tensor_img, (model_pred, fg, bg))
+    save_image(fg, save_dir /
+               '{}_fg.png'.format(iter), normalize=True)
+    save_image(bg,  save_dir / '{}_bg.png'.format(iter), normalize=True)
+    save_image(image, save_dir / '{}_gt.png'.format(iter), normalize=True)
+    save_image(model_pred * mask + fg + bg, save_dir /
+               '{}.png'.format(iter), normalize=True)
+
+
+def convert_tensor_img(tensor_img):
+    return (tensor_img*0.5)+0.5
 
 
 class SaliencyInferenceEngine(BaseInferenceEngine):

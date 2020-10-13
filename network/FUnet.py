@@ -41,6 +41,7 @@ class FusionUNet(BaseNetwork):
         self.LReLU = nn.LeakyReLU(0.2, True)
         self.finalConv2 = nn.Conv2d(
             32, cfg.MODEL.BACKBONE.OUTPUT_C, kernel_size=3, stride=1, padding=1)
+        self.out_act = nn.Tanh() if self.deepBlender else nn.Identity()
 
         # * kaiming init
         for m in self.modules():
@@ -53,7 +54,7 @@ class FusionUNet(BaseNetwork):
 
     def forward(self, x_left, x_right):
         output = self.model(x_left, x_right)
-        return self.finalConv2(self.LReLU(self.finalConv1(output)))
+        return self.out_act(self.finalConv2(self.LReLU(self.finalConv1(output))))
 
 
 class UNetBlock(nn.Module):

@@ -248,7 +248,7 @@ class GANLoss(nn.Module):
         if gan_mode == 'lsgan':
             self.loss = nn.MSELoss()
         elif gan_mode == 'vanilla':
-            self.loss = nn.BCEWithLogitsLoss()
+            self.loss = nn.BCEWithLogitsLoss(reduction='none')
         elif gan_mode in ['wgangp']:
             self.loss = None
         else:
@@ -271,7 +271,7 @@ class GANLoss(nn.Module):
             target_tensor = self.fake_label
         return target_tensor.expand_as(prediction)
 
-    def __call__(self, prediction, target_is_real):
+    def __call__(self, prediction, target_is_real, mask=None):
         """Calculate loss given Discriminator's output and grount truth labels.
 
         Parameters:
@@ -283,7 +283,19 @@ class GANLoss(nn.Module):
         """
         if self.gan_mode in ['lsgan', 'vanilla']:
             target_tensor = self.get_target_tensor(prediction, target_is_real)
-            loss = self.loss(prediction, target_tensor)
+            if mask is not None:
+                # mask = mask[:, None, :, :]
+                # if mask.shape[-1] != prediction.shape[-1]:
+                #     import pdb
+                #     pdb.set_trace()
+                #     mask = torch.nn.functional.interpolate(
+                #         mask, prediction.shape[-2:]).long()
+                loss = self.loss(prediction, target_tensor)
+                loss *= mask
+                loss /= mask.sum()
+                loss = loss.sum()
+            else:
+                loss = self.loss(prediction, target_tensor).mean()
         elif self.gan_mode == 'wgangp':
             if target_is_real:
                 loss = -prediction.mean()

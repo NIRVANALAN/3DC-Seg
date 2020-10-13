@@ -1,5 +1,7 @@
 import glob
+import torch.nn.functional as tf
 import os
+import torch
 import random
 import numpy as np
 from PIL import Image
@@ -7,12 +9,12 @@ from torchvision import transforms
 
 from datasets.BaseDataset import VideoDataset, INFO, IMAGES_, TARGETS
 from utils.Resize import ResizeMode
-from .transform import AddSeams, AddSuperpixel, RemoveBoundary, GetFgBg
+from .transform import AddSeams, AddSuperpixel, RemoveBoundary, GetFgBg, GetMaskedParts
 
 
 class Davis(VideoDataset):
     def __init__(self, root, mode='train', resize_mode=None, resize_shape=None, tw=8, max_temporal_gap=8, num_classes=2,
-                 imset=None, transform=transforms.Compose([GetFgBg(), AddSuperpixel(), RemoveBoundary(), AddSeams()])):
+                 imset=None, transform=transforms.Compose([GetFgBg(), AddSuperpixel(), RemoveBoundary(), AddSeams(), GetMaskedParts()])):
         self.imset = imset
         self.videos = []
         self.num_frames = {}
@@ -20,6 +22,10 @@ class Davis(VideoDataset):
         self.shape = {}
         self.raw_samples = []
         self.transform = transform
+        self.normalize_transoform = transforms.Compose([
+            transforms.ToTensor(),  # 1. totensor 2. normalize
+            transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ])
         super(Davis, self).__init__(root, mode, resize_mode,
                                     resize_shape, tw, max_temporal_gap, num_classes)
 
@@ -35,21 +41,43 @@ class Davis(VideoDataset):
         sample = self.samples[idx]
         tensors_resized = self.read_sample(sample)
 
-        if self.transform:   # 3 augmentations
-            tensors_resized = self.transform(tensors_resized)
+        #! squeeze in my application
+        for i in tensors_resized.keys():
+            if type(tensors_resized[i]) is np.ndarray:
+                # return value
+                tensors_resized[i] = tensors_resized[i].squeeze()
 
-        padded_tensors = self.pad_tensors(tensors_resized)
-        padded_tensors = self.normalise(padded_tensors)
+        augmented_tensors = self.transform(tensors_resized)
+        augmented_tensors = self.pad_tensors(augmented_tensors)
 
-        return {"fg": np.transpose(padded_tensors['fg'].squeeze(), (2, 0, 1)).astype(np.float32),  # 8*480*864*3 in video. 8 frames in a batch
-                "bg": np.transpose(padded_tensors['bg'].squeeze(), (2, 0, 1)).astype(np.float32),
-                "target": {"images": np.transpose(padded_tensors['images'].squeeze(), (2, 0, 1)).astype(np.float32)},
-                'info': padded_tensors['info']}
+        normalized_tensors = self.norm_transform(augmented_tensors)
+        normalized_tensors['target'] = {"images": normalized_tensors['images']}
+
+        return normalized_tensors
+
+        # {"fg": normalized_tensors['fg'].squeeze(),  # 8*480*864*3 in video. 8 frames in a batch
+        #         "bg": normalized_tensors['bg'].squeeze(),
+        #         "target": {"images": normalized_tensors['images'].squeeze()},
+        #         'info': normalized_tensors['info']
+        #         }
 
     def filter_samples(self, video):
         filtered_samples = [
             s for s in self.raw_samples if s[INFO]['video'] == video]
         self.samples = filtered_samples
+
+    def norm_transform(self, tensors):
+        keys = ['images', 'fg', 'bg']
+
+        for key in keys:
+            if key not in tensors.keys():
+                continue
+            tensors[key] = self.normalize_transoform(tensors[key].squeeze())
+            # tensors[key] = tensors[key].astype(
+            #     np.float32) / 255.0  # TODO -0.5?
+        tensors['inpaint_mask'] = tensors['inpaint_mask'].transpose(2, 0, 1)[
+            0, :, :]
+        return tensors
 
     def set_video_id(self, video):
         self.current_video = video
@@ -128,7 +156,7 @@ class Davis(VideoDataset):
 
 
 if __name__ == '__main__':
-    davis = Davis(root="/globalwork/data/DAVIS-Unsupervised/DAVIS/",
+    davis = Davis(root="/mnt/lustre/yslan/Dataset/davis-2017/DAVIS",
                   resize_shape=(480, 854), resize_mode=ResizeMode.FIXED_SIZE, mode="train", max_temporal_gap=32)
 
     # davis.set_video_id('cat-girl')

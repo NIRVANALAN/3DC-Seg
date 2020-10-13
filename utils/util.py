@@ -139,7 +139,7 @@ def get_model(cfg):
     model = model_class(cfg)
     # if cfg.MODEL.PRETRAINED:
     #   model.load_pretrained(cfg.MODEL.WEIGHTS)
-    return model
+    return torch.nn.DataParallel(model)
 
 
 def get_model_from_args(args, network_models):
@@ -310,6 +310,7 @@ def cleanup_env():
 def reduce_tensor(tensor, world_size):
     from apex.parallel import ReduceOp
     rt = tensor.clone()
+    rt = tensor
     all_reduce(rt, op=ReduceOp.SUM)
     rt /= world_size
     return rt
